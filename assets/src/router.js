@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 import Users from "./components/views/users/Users";
+import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
 import Gravatar from 'vue-gravatar';
@@ -26,7 +27,8 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: "/", component: Users, name: "users", meta: { title: "Users"} },
-    { path: "/users", redirect: '/'}
+    { path: "/users", redirect: '/'},
+    { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ]
 });
 

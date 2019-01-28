@@ -11,7 +11,7 @@ config :evercam_admin, EvercamAdminWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [npm: ["run", "serve", cd: Path.expand("../assets", __DIR__)]]
 
 # ## SSL Support
 #

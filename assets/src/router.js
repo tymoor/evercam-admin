@@ -1,24 +1,39 @@
-// import Vue from 'vue'
-// import Router from 'vue-router'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
-// Vue.use(Router)
+Vue.use(VueRouter)
 
-// export default new Router({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes: [
-//     {
-//       path: '/',
-//       name: 'home',
-//       component: Home
-//     },
-//     {
-//       path: '/about',
-//       name: 'about',
-//       // route level code-splitting
-//       // this generates a separate chunk (about.[hash].js) for this route
-//       // which is lazy-loaded when the route is visited.
-//       component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
-//     }
-//   ]
-// })
+import Users from "./components/views/users/Users";
+import Login from "./components/Login"
+
+import Gravatar from 'vue-gravatar';
+Vue.component('v-gravatar', Gravatar);
+
+import Header from "./components/shared/_header";
+Vue.component("v-header", Header);
+
+import CurrentUser from "./components/shared/_current_user";
+Vue.component("v-current-user", CurrentUser);
+
+import Sidebar from "./components/shared/_sidebar";
+Vue.component("v-sidebar", Sidebar);
+
+import Layout from "./components/shared/Layout";
+Vue.component("v-layout", Layout);
+
+
+const router = new VueRouter({
+  mode: 'history',
+  routes: [
+    { path: "/users/sign_in", component: Login, name: "login", meta: { title: "Login"}},
+    { path: "/", component: Users, name: "users", meta: { title: "Users"} },
+    { path: "/users", redirect: '/'}
+  ]
+});
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
+  next()
+});
+
+export default router;

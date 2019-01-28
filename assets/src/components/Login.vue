@@ -44,7 +44,6 @@
 
 <script>
   export default {
-    name: "login",
     data: () => ({
       // csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
     })

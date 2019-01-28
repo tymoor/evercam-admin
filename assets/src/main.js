@@ -4,8 +4,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import adminRouter from './admin/router.js'
-import Login from "./admin/Login.vue"
 
 import "jquery/dist/jquery"
 import "popper.js"
@@ -14,19 +12,20 @@ import "@coreui/coreui/dist/js/coreui";
 
 Vue.config.productionTip = false
 
-// new Vue({
-//   adminRouter,
-//   store,
-//   render: h => h(Login)
-// }).$mount('#login')
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  if(document.getElementById("login")){
+
+  if(document.getElementById("app")){
+    // const node = document.getElementById('app');
+    // const current_user = JSON.parse(node.getAttribute('current_user'));
+    // const api_url = node.getAttribute('api_url');
+
     new Vue({
-      adminRouter,
+      router,
       store,
-      render: h => h(Login)
-    }).$mount('#login')
+      render: h => h(App),
+      data: {
+        loggedIn: false
+      }
+    }).$mount('#app')
   }
 });

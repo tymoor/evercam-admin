@@ -8,7 +8,7 @@
               <div class="card-body">
                 <h1>Login</h1>
                 <p class="text-muted">Sign In to your account</p>
-                <form class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
+                <form v-on:submit.prevent class="new_user" id="new_user" action="/users/sign_in" accept-charset="UTF-8" method="post">
                   <input name="utf8" type="hidden" value="✓">
                   <input type="hidden" name="authenticity_token">
                   <div class="input-group mb-3">

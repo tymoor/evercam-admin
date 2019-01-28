@@ -7,4 +7,8 @@ defmodule EvercamAdminWeb.PageController do
     |> Plug.Conn.send_file(200, "priv/static/index.html")
     |> halt()
   end
+
+  def login(conn, _) do
+    render(conn, "login.html")
+  end
 end

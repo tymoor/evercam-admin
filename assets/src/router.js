@@ -25,7 +25,6 @@ Vue.component("v-layout", Layout);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: "/users/sign_in", component: Login, name: "login", meta: { title: "Login"}},
     { path: "/", component: Users, name: "users", meta: { title: "Users"} },
     { path: "/users", redirect: '/'}
   ]

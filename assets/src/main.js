@@ -2,7 +2,9 @@ import "./assets/application.scss"
 
 import Vue from 'vue'
 import App from './App.vue'
+import Login from './components/Login.vue'
 import router from './router'
+import adminRouter from './components/adminRouter'
 import store from './store'
 
 import "jquery/dist/jquery"
@@ -13,6 +15,13 @@ import "@coreui/coreui/dist/js/coreui";
 Vue.config.productionTip = false
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  if(document.getElementById("login")){
+    new Vue({
+      adminRouter,
+      render: h => h(Login),
+    }).$mount('#login')
+  }
 
   if(document.getElementById("app")){
     // const node = document.getElementById('app');

@@ -16,7 +16,8 @@ defmodule EvercamAdminWeb.Router do
   scope "/", EvercamAdminWeb do
     pipe_through :browser
 
-    get "/*anything", PageController, :index
+    get "/", PageController, :index
+    get "/users/sign_in", PageController, :login
   end
 
   # Other scopes may use custom stacks.

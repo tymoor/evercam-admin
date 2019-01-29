@@ -88,4 +88,5 @@ config :evercam_models, Evercam.SnapshotRepo,
   lazy: false,
   ssl: true
 
-import_config "prod.secret.exs"
+config :evercam_admin, EvercamAdminWeb.Endpoint,
+  secret_key_base: "ThGt5FLiM+Kns1vt6XmFXJXNPV1lXz28OU3cWINOGvU2e/opC+qOyOOPuojVamPG"

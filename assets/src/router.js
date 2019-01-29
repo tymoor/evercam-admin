@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueResource from "vue-resource"
+import VueEvents from "vue-events"
+import Notifications from "vue-notification"
 
+Vue.use(Notifications)
+Vue.use(VueEvents)
+Vue.use(VueResource)
 Vue.use(VueRouter)
 
-import Users from "./components/views/users/Users";
+import Users from "./components/views/users/users";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -22,6 +28,11 @@ Vue.component("v-sidebar", Sidebar);
 import Layout from "./components/shared/Layout";
 Vue.component("v-layout", Layout);
 
+import UserFilters from "./components/views/users/user_filters";
+Vue.component("v-user-filters", UserFilters);
+
+import UserShowHide from "./components/views/users/users_show_hide";
+Vue.component("v-user-show-hide", UserShowHide);
 
 const router = new VueRouter({
   mode: 'history',

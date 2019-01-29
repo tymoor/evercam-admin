@@ -68,4 +68,24 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
+
+config :evercam_models, Evercam.Repo,
+  types: Evercam.PostgresTypes,
+  url: System.get_env("DATABASE_URL"),
+  socket_options: [keepalive: true],
+  timeout: 60_000,
+  pool_timeout: 60_000,
+  pool_size: 80,
+  lazy: false,
+  ssl: true
+
+config :evercam_models, Evercam.SnapshotRepo,
+  url: System.get_env("SNAPSHOT_DATABASE_URL"),
+  socket_options: [keepalive: true],
+  timeout: 60_000,
+  pool_timeout: 60_000,
+  pool_size: 100,
+  lazy: false,
+  ssl: true
+
 import_config "prod.secret.exs"

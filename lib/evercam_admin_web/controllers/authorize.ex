@@ -8,7 +8,7 @@ defmodule EvercamAdmin.Authorize do
   end
 
   def bypass_request(nil, conn), do: auth_error conn, "You need to log in to view this page", "/users/sign_in"
-  def bypass_request(_, conn), do: IO.inspect conn
+  def bypass_request(_, conn), do: conn
 
   def auth_error(conn, message, path) do
     conn

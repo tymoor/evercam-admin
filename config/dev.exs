@@ -57,3 +57,14 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :evercam_models, Evercam.Repo,
+  types: Evercam.PostgresTypes,
+  username: "postgres",
+  password: "postgres",
+  database: System.get_env["db"] || "evercam_dev"
+
+config :evercam_models, Evercam.SnapshotRepo,
+  username: "postgres",
+  password: "postgres",
+  database: System.get_env["db"] || "evercam_dev"

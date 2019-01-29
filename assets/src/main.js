@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if(document.getElementById("app")){
-    // const node = document.getElementById('app');
-    // const current_user = JSON.parse(node.getAttribute('current_user'));
+    const node = document.getElementById('app');
+    const current_user = JSON.parse(node.getAttribute('current_user'));
     // const api_url = node.getAttribute('api_url');
 
     new Vue({
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
       store,
       render: h => h(App),
       data: {
-        loggedIn: false
+        user: current_user
       }
     }).$mount('#app')
   }

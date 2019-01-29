@@ -1,1 +1,1 @@
-<div id="app"></div>
+<div id="app" current_user="<%= @current_user %>"></div>

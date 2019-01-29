@@ -74,17 +74,15 @@ config :evercam_models, Evercam.Repo,
   url: System.get_env("DATABASE_URL"),
   socket_options: [keepalive: true],
   timeout: 60_000,
-  pool_timeout: 60_000,
-  pool_size: 80,
+  pool_size: 20,
   lazy: false,
   ssl: true
 
 config :evercam_models, Evercam.SnapshotRepo,
   url: System.get_env("SNAPSHOT_DATABASE_URL"),
-  socket_options: [keepalive: true],
+  socket_options: [keepalive: false],
   timeout: 60_000,
-  pool_timeout: 60_000,
-  pool_size: 100,
+  pool_size: 5,
   lazy: false,
   ssl: true
 

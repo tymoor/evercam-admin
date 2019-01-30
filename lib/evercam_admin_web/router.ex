@@ -13,6 +13,15 @@ defmodule EvercamAdminWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Other scopes may use custom stacks.
+  scope "/v1", EvercamAdminWeb do
+    pipe_through :api
+
+    get "/users", UsersController, :index
+    get "/countries", UsersController, :countries
+    patch "/update_multiple_users", UsersController, :update_multiple_users
+  end
+
   scope "/", EvercamAdminWeb do
     pipe_through :browser
 
@@ -21,9 +30,4 @@ defmodule EvercamAdminWeb.Router do
     post "/users/sign_in", PageController, :create
     get "/*anything", PageController, :index
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", EvercamAdminWeb do
-  #   pipe_through :api
-  # end
 end

@@ -41,7 +41,8 @@ defmodule EvercamAdmin.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:evercam_models, github: "evercam/evercam_models"},
-      {:comeonin, "~> 3.0.2"}
+      {:comeonin, "~> 3.0.2"},
+      {:calendar, "~> 0.17.4"}
     ]
   end
 end

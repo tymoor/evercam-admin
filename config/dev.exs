@@ -68,3 +68,6 @@ config :evercam_models, Evercam.SnapshotRepo,
   username: "postgres",
   password: "postgres",
   database: System.get_env["db"] || "evercam_dev"
+
+config :evercam_admin,
+  evercam_server: "http://localhost:4000"

@@ -6,7 +6,7 @@ defmodule EvercamAdminWeb.PageController do
   plug :user_check when action in [:index]
 
   def index(conn, _) do
-    render(conn, "index.html", current_user: current_user_for_vue(conn))
+    render(conn, "index.html", current_user: current_user_for_vue(conn), api_url: Application.get_env(:evercam_admin, :evercam_server))
   end
 
   def login(conn, _) do

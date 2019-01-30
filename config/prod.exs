@@ -88,3 +88,6 @@ config :evercam_models, Evercam.SnapshotRepo,
 
 config :evercam_admin, EvercamAdminWeb.Endpoint,
   secret_key_base: "ThGt5FLiM+Kns1vt6XmFXJXNPV1lXz28OU3cWINOGvU2e/opC+qOyOOPuojVamPG"
+
+config :evercam_admin,
+  evercam_server: System.get_env("EVERCAM_SERVER")

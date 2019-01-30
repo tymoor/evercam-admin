@@ -33,14 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if(document.getElementById("app")){
     const node = document.getElementById('app');
     const current_user = JSON.parse(node.getAttribute('current_user'));
-    // const api_url = node.getAttribute('api_url');
+    const api_url = node.getAttribute('api_url');
 
     new Vue({
       router,
       store,
       render: h => h(App),
       data: {
-        user: current_user
+        user: current_user,
+        api_url: api_url
       }
     }).$mount('#app')
   }

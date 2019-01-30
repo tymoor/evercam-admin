@@ -89,7 +89,7 @@
       },
       fetchCountries () {
         this.$http.get("/v1/countries").then(response => {
-          this.countries = response.body;
+          this.countries = response.body.countries;
         }, error => {
           console.error(error);
         });

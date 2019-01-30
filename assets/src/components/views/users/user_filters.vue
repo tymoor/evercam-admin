@@ -392,19 +392,7 @@
                 console.log(response.body)
               }, error => {
                 console.log(error)
-                this.$notify({
-                  group: "admins",
-                  title: "Error",
-                  type: "error",
-                  text: `${error.body.message}`,
-                });
               });
-            });
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: "Users have been deleted.",
             });
             this.$router.go()
             // this.$events.fire("user-modify-refresh", true)

@@ -48,7 +48,10 @@ config :logger, level: :info
 #
 #     config :evercam_admin, EvercamAdminWeb.Endpoint,
 #       force_ssl: [hsts: true]
-#
+
+config :evercam_admin, EvercamAdminWeb.Endpoint,
+  force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true, host: nil]
+
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
 # ## Using releases (distillery)

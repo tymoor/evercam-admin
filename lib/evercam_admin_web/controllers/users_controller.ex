@@ -178,9 +178,9 @@ defmodule EvercamAdminWeb.UsersController do
   end
 
   defp not_empty_params(name, param, conn) do
-    case not_nil(param) do
-      true -> :ok
-      false -> json(conn, %{error: "params '#{name}' is required.", success: false})
+    case param do
+      nil -> json(conn, %{error: "params '#{name}' is required.", success: false})
+      _ -> :ok
     end
   end
 

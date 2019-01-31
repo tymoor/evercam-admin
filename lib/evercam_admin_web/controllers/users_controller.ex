@@ -184,9 +184,6 @@ defmodule EvercamAdminWeb.UsersController do
     end
   end
 
-  defp not_nil(nil), do: false
-  defp not_nil(_), do: true
-
   defp sorting("payment_method", order), do: "order by payment_method #{order}"
   defp sorting("username", order), do: "order by u.username #{order}"
   defp sorting("name", order), do: "order by u.firstname #{order}"

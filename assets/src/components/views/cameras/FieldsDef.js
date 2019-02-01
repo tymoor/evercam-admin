@@ -142,9 +142,9 @@ export default [
     togglable: true
   },
   {
-    name: 'last_poll_date',
+    name: 'last_polled_at',
     title: 'Last Polled At',
-    sortField: 'last_poll_date',
+    sortField: 'last_polled_at',
     togglable: true,
     visible: false
   }

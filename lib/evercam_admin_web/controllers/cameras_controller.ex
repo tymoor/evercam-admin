@@ -83,7 +83,7 @@ defmodule EvercamAdminWeb.CamerasController do
           password: camera[:config]["auth"]["basic"]["password"],
           camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:fullname]} <i class='fa fa-external-link'></i></a>",
           created_at: (if camera[:created_at], do: Calendar.Strftime.strftime!(camera[:created_at], "%A, %d %b %Y %l:%M %p"), else: ""),
-          last_poll_date: (if camera[:last_poll_date], do: Calendar.Strftime.strftime!(camera[:last_poll_date], "%A, %d %b %Y %l:%M %p"), else: ""),
+          last_polled_at: (if camera[:last_polled_at], do: Calendar.Strftime.strftime!(camera[:last_polled_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           last_online_at: (if camera[:last_online_at], do: Calendar.Strftime.strftime!(camera[:last_online_at], "%A, %d %b %Y %l:%M %p"), else: "")
         }
         acc ++ [c]
@@ -132,7 +132,7 @@ defmodule EvercamAdminWeb.CamerasController do
   defp sorting("is_online", order), do: "order by c.is_online #{order}"
   defp sorting("cloud_recording_storage_duration", order), do: "order by cloud_recording_storage_duration #{order}"
   defp sorting("is_recording", order), do: "order by is_recording #{order}"
-  defp sorting("last_poll_date", order), do: "order by c.last_poll_date #{order}"
+  defp sorting("last_polled_at", order), do: "order by c.last_polled_at #{order}"
   defp sorting("created_at", order), do: "order by c.created_at #{order}"
   defp sorting(_column, _order), do: "order by c.created_at desc"
 end

@@ -20,6 +20,7 @@ defmodule EvercamAdminWeb.Router do
     get "/users", UsersController, :index
     get "/countries", UsersController, :countries
     patch "/update_multiple_users", UsersController, :update_multiple_users
+    get "/cameras", CamerasController, :index
   end
 
   scope "/", EvercamAdminWeb do

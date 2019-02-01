@@ -13,9 +13,9 @@ export default [
     togglable: true
   },
   {
-    name: 'last_polled_at',
+    name: 'last_online_at',
     title: 'Last Online At',
-    sortField: 'last_polled_at',
+    sortField: 'last_online_at',
     togglable: true
   },
   {
@@ -25,22 +25,25 @@ export default [
     togglable: true
   },
   {
-    name: 'owner',
-    title: 'Owner',
-    sortField: 'owner',
+    name: 'camera_link',
+    title: 'Onwer',
+    sortField: 'fullname',
     togglable: true
   },
   {
-    name: 'email',
+    name: 'owner_email',
     title: 'Email',
-    sortField: 'email',
+    sortField: 'owner_email',
     togglable: true
   },
   {
-    name: 'type',
+    name: 'payment_method',
     title: 'Type',
-    sortField: 'type',
-    togglable: true
+    sortField: 'payment_method',
+    togglable: true,
+    formatter: (value) => {
+      return paymentMethod(value)
+    }
   },
   {
     name: 'name',
@@ -49,27 +52,27 @@ export default [
     togglable: true
   },
   {
-    name: 'shares',
+    name: 'total_share',
     title: 'Shares',
-    sortField: 'shares',
+    sortField: 'total_share',
     togglable: true
   },
   {
-    name: 'camera_ip',
+    name: 'external_host',
     title: 'Camera IP',
-    sortField: 'camera_ip',
+    sortField: 'external_host',
     togglable: true
   },
   {
-    name: 'http_port',
+    name: 'external_http_port',
     title: 'HTTP Port',
-    sortField: 'http_port',
+    sortField: 'external_http_port',
     togglable: true
   },
   {
-    name: 'rtsp_port',
+    name: 'external_rtsp_port',
     title: 'RTSP Port',
-    sortField: 'rtsp_port',
+    sortField: 'external_rtsp_port',
     togglable: true
   },
   {
@@ -91,15 +94,15 @@ export default [
     togglable: true
   },
   {
-    name: 'model',
+    name: 'vendor_model_name',
     title: 'Model',
-    sortField: 'model',
+    sortField: 'vendor_model_name',
     togglable: true
   },
   {
-    name: 'vendor',
+    name: 'vendor_name',
     title: 'Vendor',
-    sortField: 'vendor',
+    sortField: 'vendor_name',
     togglable: true
   },
   {
@@ -109,32 +112,56 @@ export default [
     togglable: true
   },
   {
-    name: 'public',
+    name: 'is_public',
     title: 'Public',
-    sortField: 'public',
-    togglable: true
+    sortField: 'is_public',
+    togglable: true,
+    formatter: (value) => {
+      return booleans(value)
+    }
   },
   {
-    name: 'online',
+    name: 'is_online',
     title: 'Online',
-    sortField: 'online',
-    togglable: true
+    sortField: 'is_online',
+    togglable: true,
+    formatter: (value) => {
+      return booleans(value)
+    }
   },
   {
-    name: 'duration',
+    name: 'cloud_recording_storage_duration',
     title: 'Duration',
-    sortField: 'duration',
+    sortField: 'cloud_recording_storage_duration',
     togglable: true
   },
   {
-    name: 'cr_status',
+    name: 'is_recording',
     title: 'CR Status',
-    sortField: 'cr_status',
+    sortField: 'is_recording',
     togglable: true
+  },
+  {
+    name: 'last_poll_date',
+    title: 'Last Polled At',
+    sortField: 'last_poll_date',
+    togglable: true,
+    visible: false
   }
 ]
 
-var paymentMethod;
+var paymentMethod, booleans;
+
+booleans = (name) => {
+  switch (name) {
+    case true:
+      return "<span class='text-success'> True </span>"
+    case false:
+      return "<span class='text-danger'> False </span>"
+    default:
+      return ""
+  }
+}
 
 paymentMethod = function(name) {
   switch (name) {

@@ -30,11 +30,17 @@ body {
 }
 
 .vuetable-body-wrapper .camera-report {
-  width: 3000px !important;
+  width: 3500px !important;
 }
 
 .user-report thead tr th,
 .user-report tbody tr td {
+  white-space: nowrap !important;
+  text-overflow: clip;
+}
+
+.camera-report thead tr th,
+.camera-report tbody tr td {
   white-space: nowrap !important;
   text-overflow: clip;
 }
@@ -85,6 +91,97 @@ body {
 .vuetable-body-wrapper .user-report .vuetable-td-cameras_owned,
 .vuetable-body-wrapper .user-report .vuetable-td-camera_shares,
 .vuetable-body-wrapper .user-report .vuetable-td-total_cameras,
-.vuetable-body-wrapper .user-report .vuetable-td-snapmail_count {
+.vuetable-body-wrapper .user-report .vuetable-td-snapmail_count,
+.vuetable-body-wrapper .camera-report .vuetable-td-total_share,
+.vuetable-body-wrapper .camera-report .vuetable-td-external_http_port,
+.vuetable-body-wrapper .camera-report .vuetable-td-external_rtsp_port,
+.vuetable-body-wrapper .camera-report .vuetable-td-is_public,
+.vuetable-body-wrapper .camera-report .vuetable-td-is_online,
+.vuetable-body-wrapper .camera-report .vuetable-td-cloud_recording_storage_duration,
+.vuetable-body-wrapper .camera-report .vuetable-td-is_recording {
   text-align: center;
+}
+
+
+.vuetable-body-wrapper .camera-report .camera-checkbox {
+  width: 35px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-exid {
+  width: 130px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-created_at,
+.vuetable-body-wrapper .camera-report .vuetable-th-last_poll_date,
+.vuetable-body-wrapper .camera-report .vuetable-th-last_online_at {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-camera_link {
+  width: 200px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-owner_email {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-payment_method {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-name {
+  width: 200px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-total_share {
+  width: 95px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-external_host {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-external_http_port {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-external_rtsp_port {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-username,
+.vuetable-body-wrapper .camera-report .vuetable-th-password {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-vendor_model_name {
+  width: 245px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-vendor_name {
+  width: 135px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-timezone {
+  width: 155px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-is_public {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-is_online {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-cloud_recording_storage_duration {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-is_recording {
+  width: 130px;
+}
+
+.vuetable-body-wrapper .camera-report .vuetable-th-mac_address {
+  width: 150px;
 }

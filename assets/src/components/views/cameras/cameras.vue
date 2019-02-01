@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-camera-filters />
+      <v-camera-filters :selectedCameras="selectedCameras" />
     </div>
     <div>
       <v-camera-show-hide :vuetable-fields="vuetableFields" />
@@ -102,18 +102,21 @@ export default {
   },
 
   mounted() {
-    // place vue events for search
+    this.$events.$on('camera-filter-set', eventData => this.onFilterSet(eventData))
   },
 
   methods: {
     onFilterSet (filters) {
-      // this.moreParams = {
-      // }
-      this.$nextTick( () => this.$refs.vuetable.refresh())
-    },
-
-    onFilterReset () {
-      this.moreParams = {}
+      this.moreParams = {
+        "username": filters.username,
+        "password": filters.password,
+        "camera_exid": filters.camera_exid,
+        "camera_name": filters.camera_name,
+        "camera_owner": filters.camera_owner,
+        "camera_ip": filters.camera_ip,
+        "model": filters.model,
+        "vendor": filters.vendor
+      }
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
@@ -139,14 +142,18 @@ export default {
     },
 
     onCheckBoxClick(event, data) {
-      const userAttributes = {
+      console.log(data)
+      const cameraAttributes = {
+        exid: data.exid,
+        api_key: data.api_key,
+        api_id: data.api_id
       }
 
       this.$nextTick(() => {
         if(event.target.checked) {
-          this.selectedCameras.push(userAttributes);
+          this.selectedCameras.push(cameraAttributes);
         } else {
-          this.selectedCameras = this.selectedCameras.filter(user => user.id !== data.id)
+          this.selectedCameras = this.selectedCameras.filter(camera => camera.exid !== data.exid)
         }      
       })
     }

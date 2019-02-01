@@ -110,7 +110,7 @@
       <div class="btn-div" style="width: 235px;margin-left: 10px;">
         <button v-on:click="onModifyClick" class="clear-btn-f" id="btn-modify">Modify</button>
         <modal :usersModify="usersModify" />
-        <button class="clear-btn-f" id="btn-delete" @click="deletUsers">Delete</button>
+        <button class="clear-btn-f" id="btn-delete" @click="deleteUsers">Delete</button>
         <button type="button" @click="resetUserFilter" class="clear-btn-f" id="filterClear">Clear Filter</button>
       </div>
     </div>
@@ -375,14 +375,14 @@
           this.usersModify = true
         });
       },
-      deletUsers () {
+      deleteUsers () {
         let self = this
         if (Object.keys(self.selectedUsers).length === 0) {
           this.$notify({
             group: "admins",
             title: "Error",
             type: "error",
-            text: "At least select one user!",
+            text: "At least select one User!",
           });
         } else {
           if (window.confirm("Are you sure you want to delete this event?")) {

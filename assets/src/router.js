@@ -48,7 +48,9 @@ const router = new VueRouter({
     { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
-  ]
+  ],
+  linkActiveClass: "exact-active",
+  linkExactActiveClass: "active"
 });
 
 router.beforeEach((to, from, next) => {

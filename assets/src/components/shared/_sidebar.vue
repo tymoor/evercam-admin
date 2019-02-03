@@ -14,6 +14,12 @@
             Cameras
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/camera_shares'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Camera Shares
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>

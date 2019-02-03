@@ -33,6 +33,10 @@ body {
   width: 3500px !important;
 }
 
+.vuetable-body-wrapper .camera-share-report {
+  width: 1058px !important;
+}
+
 .user-report thead tr th,
 .user-report tbody tr td {
   white-space: nowrap !important;
@@ -98,7 +102,8 @@ body {
 .vuetable-body-wrapper .camera-report .vuetable-td-is_public,
 .vuetable-body-wrapper .camera-report .vuetable-td-is_online,
 .vuetable-body-wrapper .camera-report .vuetable-td-cloud_recording_storage_duration,
-.vuetable-body-wrapper .camera-report .vuetable-td-is_recording {
+.vuetable-body-wrapper .camera-report .vuetable-td-is_recording,
+.vuetable-body-wrapper .camera-share-report .vuetable-td-kind {
   text-align: center;
 }
 
@@ -113,7 +118,8 @@ body {
 
 .vuetable-body-wrapper .camera-report .vuetable-th-created_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
-.vuetable-body-wrapper .camera-report .vuetable-th-last_online_at {
+.vuetable-body-wrapper .camera-report .vuetable-th-last_online_at,
+.vuetable-body-wrapper .camera-share-report .vuetable-th-created_at {
   width: 250px;
 }
 
@@ -184,4 +190,17 @@ body {
 
 .vuetable-body-wrapper .camera-report .vuetable-th-mac_address {
   width: 150px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-kind {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-camera_sharer_link,
+.vuetable-body-wrapper .camera-share-report .vuetable-th-camera_sharee_link {
+  width: 200px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-exid {
+  width: 130px;
 }

@@ -11,6 +11,7 @@ Vue.use(VueRouter)
 
 import Users from "./components/views/users/users";
 import Cameras from "./components/views/cameras/cameras";
+import CameraShares from "./components/views/camera_shares/camera_shares";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -41,11 +42,19 @@ Vue.component("v-camera-filters", CameraFilters);
 import CameraShowHide from "./components/views/cameras/cameras_show_hide";
 Vue.component("v-camera-show-hide", CameraShowHide);
 
+import CameraShareFilters from "./components/views/camera_shares/camera_share_filters";
+Vue.component("v-camera-share-filters", CameraShareFilters);
+
+import CameraShareShowHide from "./components/views/camera_shares/camera_shares_show_hide";
+Vue.component("v-camera-share-show-hide", CameraShareShowHide);
+
+
 const router = new VueRouter({
   mode: 'history',
   routes: [
     { path: "/", component: Users, name: "users", meta: { title: "Users"} },
     { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
+    { path: "/camera_shares", component: CameraShares, name: "camera_shares", meta: { title: "Camera Shares"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

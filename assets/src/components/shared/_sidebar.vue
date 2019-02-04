@@ -20,6 +20,12 @@
             Camera Shares
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/vendor_models'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Vendor Models
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>

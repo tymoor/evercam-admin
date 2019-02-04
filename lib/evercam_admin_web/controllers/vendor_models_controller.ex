@@ -8,8 +8,70 @@ defmodule EvercamAdminWeb.VendorModelsController do
     query = from vm in VendorModel,
               join: v in Vendor, on: vm.vendor_id == v.id,
               where: like(fragment("lower(?)", vm.name), ^("%#{search}%")),
-              where: like(fragment("lower(?)", v.name), ^("%#{search}%"))
+              or_where: like(fragment("lower(?)", v.name), ^("%#{search}%"))
     models = query |> add_sorting(column, order) |> preload(:vendor) |> Evercam.Repo.all()
+
+    total_records = models |> Enum.count
+    d_length = String.to_integer(params["per_page"])
+    display_length = if d_length < 0, do: total_records, else: d_length
+    display_start = if String.to_integer(params["page"]) <= 1, do: 0, else: (String.to_integer(params["page"]) - 1) * display_length + 1
+    index_e = ((String.to_integer(params["page"]) - 1) * display_length) + display_length
+    index_end = if index_e > total_records, do: total_records - 1, else: index_e
+    last_page = Float.round(total_records / (display_length / 1))
+
+    data =
+      case total_records <= 0 do
+        true -> []
+        _ ->
+          Enum.reduce(display_start..index_end, [], fn i, acc ->
+            model = Enum.at(models, i)
+            vm = %{
+              vendor_exid: model.vendor.exid,
+              exid: model.exid,
+              vendor_name: model.vendor.name,
+              name: model.name,
+              channel: model.channel,
+              jpg_url: model.jpg_url,
+              h264_url: model.h264_url,
+              mjpg_url: model.mjpg_url,
+
+              mpeg4_url: model.mpeg4_url,
+              mobile_url: model.mobile_url,
+              lowres_url: model.lowres_url,
+
+              username: model.username,
+              password: model.password,
+              audio_url: model.audio_url,
+              poe: model.poe,
+              wifi: model.wifi,
+              onvif: model.onvif,
+              psia: model.psia,
+              ptz: model.ptz,
+              infrared: model.infrared,
+              varifocal: model.varifocal,
+              sd_card: model.sd_card,
+              upnp: model.upnp,
+              audio_io: model.audio_io,
+              shape: model.shape,
+              resolution: model.resolution,
+              camera_count: Camera |> where(model_id: ^model.id) |> Evercam.Repo.all() |> Enum.count(),
+            }
+            acc ++ [vm]
+          end)
+      end
+
+    records = %{
+      data: (if total_records < 1, do: [], else: data),
+      total: total_records,
+      per_page: display_length,
+      from: display_start,
+      to: index_end,
+      current_page: String.to_integer(params["page"]),
+      last_page: last_page,
+      next_page_url: (if String.to_integer(params["page"]) == last_page, do: "", else: "/v1/vendor_models?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) + 1}"),
+      prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/vendor_models?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
+    }
+    json(conn, records)
   end
 
   defp sort_order("asc"), do: :asc

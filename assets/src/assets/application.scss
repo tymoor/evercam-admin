@@ -103,7 +103,19 @@ body {
 .vuetable-body-wrapper .camera-report .vuetable-td-is_online,
 .vuetable-body-wrapper .camera-report .vuetable-td-cloud_recording_storage_duration,
 .vuetable-body-wrapper .camera-report .vuetable-td-is_recording,
-.vuetable-body-wrapper .camera-share-report .vuetable-td-kind {
+.vuetable-body-wrapper .camera-share-report .vuetable-td-kind,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-poe,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-wifi,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-onvif,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-psia,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-ptz,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-infrared,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-varifocal,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-sd_card,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-upnp,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-audio_io,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-camera_count,
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-channel {
   text-align: center;
 }
 
@@ -203,4 +215,74 @@ body {
 
 .vuetable-body-wrapper .camera-share-report .vuetable-th-exid {
   width: 130px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-exid {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-vendor_name {
+  width: 158px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-name {
+  width: 258px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-channel {
+  width: 108px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-jpg_url {
+  width: 664px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-h264_url {
+  width: 320px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-mpeg4_url {
+  width: 320px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-camera_count {
+  width: 85px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-resolution {
+  width: 115px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-shape {
+  width: 90px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-poe,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-wifi,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-onvif,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-psia,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-ptz,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-infrared,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-varifocal,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-sd_card,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-upnp,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-audio_io {
+  width: 110px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-mobile_url {
+  width: 280px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-lowres_url {
+  width: 290px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-username,
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-password {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .vendor-model-report .vuetable-th-audio_url {
+  width: 150px;
 }

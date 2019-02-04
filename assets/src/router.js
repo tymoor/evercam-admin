@@ -12,6 +12,7 @@ Vue.use(VueRouter)
 import Users from "./components/views/users/users";
 import Cameras from "./components/views/cameras/cameras";
 import CameraShares from "./components/views/camera_shares/camera_shares";
+import VendorModels from "./components/views/vendor_models/vendor_models";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -48,6 +49,12 @@ Vue.component("v-camera-share-filters", CameraShareFilters);
 import CameraShareShowHide from "./components/views/camera_shares/camera_shares_show_hide";
 Vue.component("v-camera-share-show-hide", CameraShareShowHide);
 
+import VendorModelFilters from "./components/views/vendor_models/vendor_model_filters";
+Vue.component("v-vendor-model-filters", VendorModelFilters);
+
+import VendorModelShowHide from "./components/views/vendor_models/vendor_model_show_hide";
+Vue.component("v-vendor-model-show-hide", VendorModelShowHide);
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -55,6 +62,7 @@ const router = new VueRouter({
     { path: "/", component: Users, name: "users", meta: { title: "Users"} },
     { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
     { path: "/camera_shares", component: CameraShares, name: "camera_shares", meta: { title: "Camera Shares"} },
+    { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Vendor Models"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

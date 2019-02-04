@@ -30,7 +30,7 @@ export default [
   },
   {
     name: 'email',
-    title: 'Eamil',
+    title: 'Email',
     sortField: 'email',
     togglable: true
   },

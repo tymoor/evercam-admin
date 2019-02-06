@@ -34,6 +34,7 @@
   float: right;
   margin-top: -26px;
   margin-right: 13px;
+  position: relative;
 }
 
 .modal-dialog {

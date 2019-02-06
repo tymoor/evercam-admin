@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-user-filters :selectedUsers="selectedUsers" />
+      <user-filters-new :selectedUsers="selectedUsers" />
     </div>
     <div>
       <v-user-show-hide :vuetable-fields="vuetableFields" />
@@ -64,8 +64,12 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import UserFiltersNew from "./user_filters_new";
 
 export default {
+  components: {
+    UserFiltersNew
+  },
   data: () => {
     return {
       selectedUsers: [],

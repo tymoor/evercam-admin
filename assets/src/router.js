@@ -31,9 +31,6 @@ Vue.component("v-sidebar", Sidebar);
 import Layout from "./components/shared/Layout";
 Vue.component("v-layout", Layout);
 
-import UserFilters from "./components/views/users/user_filters";
-Vue.component("v-user-filters", UserFilters);
-
 import UserShowHide from "./components/views/users/users_show_hide";
 Vue.component("v-user-show-hide", UserShowHide);
 

@@ -21,6 +21,18 @@ Vue.component("vuetable-pagination-dropdown", VuetablePaginationDropDown);
 Vue.component("vuetable-pagination-info", VuetablePaginationInfo);
 Vue.component('vuetable-field-checkbox', VuetableFieldCheckbox);
 
+Vue.mixin({
+  methods: {
+    setScrollBar: () => {
+      let tableWidth = document.querySelector("table.vuetable").offsetWidth;
+      let tableWrapper = document.querySelector("div.vuetable-body-wrapper").offsetWidth;
+
+      document.querySelector("div.top-horizontal-scroll").style.width = tableWidth + "px";
+      document.querySelector("div.top-scrollbar").style.width = tableWrapper + "px"
+    }
+  }
+})
+
 document.addEventListener('DOMContentLoaded', () => {
 
   if(document.getElementById("login")){

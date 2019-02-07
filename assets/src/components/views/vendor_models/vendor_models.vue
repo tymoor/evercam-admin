@@ -6,6 +6,9 @@
     <div>
       <v-vendor-model-show-hide :vuetable-fields="vuetableFields" />
     </div>
+
+    <v-horizontal-scroll />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -55,7 +58,7 @@
 }
 
 #table-wrapper {
-  margin-top: -5px;
+  margin-top: -2px;
 }
 </style>
 
@@ -97,7 +100,15 @@ export default {
     }
   },
 
+  beforeUpdate() {
+    document.addEventListener("resize", this.setScrollBar());
+  },
+
   mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.setScrollBar);
+      this.setScrollBar()
+    });
     this.$events.$on('vendor-models-filter-set', eventData => this.onFilterSet(eventData))
   },
 

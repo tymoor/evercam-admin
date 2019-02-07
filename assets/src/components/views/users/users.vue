@@ -6,6 +6,9 @@
     <div>
       <v-user-show-hide :vuetable-fields="vuetableFields" />
     </div>
+
+    <v-horizontal-scroll />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -104,7 +107,15 @@ export default {
     }
   },
 
+  beforeUpdate() {
+    document.addEventListener("resize", this.setScrollBar());
+  },
+
   mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.setScrollBar);
+      this.setScrollBar()
+    });
     this.$events.$on('user-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('user-filter-reset', e => this.onFilterReset())
     this.$events.$on('user-modify-refresh', e => this.onUserModifyRefresh())

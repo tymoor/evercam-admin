@@ -53,6 +53,9 @@ import VendorModelShowHide from "./components/views/vendor_models/vendor_model_s
 Vue.component("v-vendor-model-show-hide", VendorModelShowHide);
 
 
+import HorizontalScroll from "./components/shared/horizontal_scroll";
+Vue.component("v-horizontal-scroll", HorizontalScroll);
+
 const router = new VueRouter({
   mode: 'history',
   routes: [

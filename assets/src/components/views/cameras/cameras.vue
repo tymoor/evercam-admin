@@ -6,6 +6,9 @@
     <div>
       <v-camera-show-hide :vuetable-fields="vuetableFields" />
     </div>
+
+    <v-horizontal-scroll />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -58,7 +61,7 @@
 }
 
 #table-wrapper {
-  margin-top: -5px;
+  margin-top: 1px;
 }
 </style>
 
@@ -101,7 +104,15 @@ export default {
     }
   },
 
+  beforeUpdate() {
+    document.addEventListener("resize", this.setScrollBar());
+  },
+
   mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.setScrollBar);
+      this.setScrollBar()
+    });
     this.$events.$on('camera-filter-set', eventData => this.onFilterSet(eventData))
   },
 

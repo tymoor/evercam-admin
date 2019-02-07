@@ -1,5 +1,11 @@
 export default [
   {
+    name: "custom-actions",
+    title: "Actions",
+    titleClass: "center aligned",
+    dataClass: "center aligned"
+  },
+  {
     name: 'exid',
     title: 'Model ID',
     sortField: 'exid',

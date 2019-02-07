@@ -74,6 +74,15 @@ defmodule EvercamAdminWeb.VendorModelsController do
     json(conn, records)
   end
 
+  def delete(conn, %{"exid" => model_exid} = _params) do
+    VendorModel
+    |> where(exid: ^model_exid)
+    |> Evercam.Repo.one
+    |> Evercam.Repo.delete
+
+    json(conn, %{success: true})
+  end
+
   defp sort_order("asc"), do: :asc
   defp sort_order("desc"), do: :desc
 

@@ -25,6 +25,14 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="custom-actions" slot-scope="props">
+            <button class="ui compact icon button edit" @click="onActionClicked('edit-item', props.rowData)">
+              <i class="edit icon"></i>
+            </button>
+            <button class="ui compact icon button delete" @click="onActionClicked('delete-item', props.rowData)">
+              <i class="trash alternate icon"></i>
+            </button>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -59,6 +67,11 @@
 
 #table-wrapper {
   margin-top: -2px;
+}
+
+.ui.compact.icon.button {
+  padding: 5px;
+  cursor: pointer;
 }
 </style>
 
@@ -139,7 +152,34 @@ export default {
 
     hideLoader() {
       this.loading = "";
-    }
+    },
+
+    onActionClicked(action, data) {
+      console.log(data);
+      switch (action) {
+        case "delete-item":
+          if (window.confirm("Are you sure you want to delete this model?")) {
+            this.$http.delete(`/v1/vendor_models/${data.exid}`).then(response => {
+              this.$notify({
+                group: "admins",
+                title: "Info",
+                type: "success",
+                text: "Model has been deleted.",
+              });
+            }, error => {
+              this.$notify({
+                group: "admins",
+                title: "Error",
+                type: "error",
+                text: "Something went wrong.",
+              });
+            });
+            this.$nextTick( () => this.$refs.vuetable.refresh())
+          }
+        default:
+          console.log(data);
+      }
+    },
   }
 }
 </script>

@@ -111,7 +111,13 @@ body {
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-upnp,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-audio_io,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-camera_count,
-.vuetable-body-wrapper .vendor-model-report .vuetable-td-channel {
+.vuetable-body-wrapper .vendor-model-report .vuetable-td-channel,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-storage_duration,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-status,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-interval,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-online,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-public,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences {
   text-align: center;
 }
 
@@ -307,4 +313,41 @@ body {
   .top-horizontal-scroll {
     height: 20px;
   }
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-camera_name {
+  width: 210px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-camera_link {
+  width: 200px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-status {
+  width: 110px
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-storage_duration {
+  width: 103px
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-interval {
+  width: 147px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-schedule {
+  width: 145px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-online,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-public {
+  width: 95px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-licences {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-payment_method {
+  width: 115px;
 }

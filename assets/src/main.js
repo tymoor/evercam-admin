@@ -26,6 +26,8 @@ Vue.mixin({
     setScrollBar: () => {
       let tableWidth = document.querySelector("table.vuetable").offsetWidth;
       let tableWrapper = document.querySelector("div.vuetable-body-wrapper").offsetWidth;
+      console.log(tableWidth)
+      console.log(tableWrapper)
 
       document.querySelector("div.top-horizontal-scroll").style.width = tableWidth + "px";
       document.querySelector("div.top-scrollbar").style.width = tableWrapper + "px"

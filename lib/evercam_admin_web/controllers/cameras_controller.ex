@@ -1,6 +1,5 @@
 defmodule EvercamAdminWeb.CamerasController do
   use EvercamAdminWeb, :controller
-  require IEx
 
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")

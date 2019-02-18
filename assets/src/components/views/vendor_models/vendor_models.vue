@@ -5,6 +5,7 @@
     </div>
     <div>
       <v-vendor-model-show-hide :vuetable-fields="vuetableFields" />
+      <add-vendor-model />
     </div>
 
     <v-horizontal-scroll />
@@ -25,6 +26,14 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="custom-actions" slot-scope="props">
+            <button class="ui compact icon button edit" @click="onActionClicked('edit-item', props.rowData)">
+              <i class="edit icon"></i>
+            </button>
+            <button class="ui compact icon button delete" @click="onActionClicked('delete-item', props.rowData)">
+              <i class="trash alternate icon"></i>
+            </button>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -60,13 +69,22 @@
 #table-wrapper {
   margin-top: -2px;
 }
+
+.ui.compact.icon.button {
+  padding: 5px;
+  cursor: pointer;
+}
 </style>
 
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import AddVendorModel from "./add_vendor_model";
 
 export default {
+  components: {
+    AddVendorModel
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",
@@ -110,6 +128,7 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('vendor-models-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('model-added', e => this.onModelAdded())
   },
 
   methods: {
@@ -117,6 +136,10 @@ export default {
       this.moreParams = {
         "search": filters.search
       }
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
+    onModelAdded () {
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
@@ -139,7 +162,33 @@ export default {
 
     hideLoader() {
       this.loading = "";
-    }
+    },
+
+    onActionClicked(action, data) {
+      switch (action) {
+        case "delete-item":
+          if (window.confirm("Are you sure you want to delete this model?")) {
+            this.$http.delete(`/v1/vendor_models/${data.exid}`).then(response => {
+              this.$notify({
+                group: "admins",
+                title: "Info",
+                type: "success",
+                text: "Model has been deleted.",
+              });
+            }, error => {
+              this.$notify({
+                group: "admins",
+                title: "Error",
+                type: "error",
+                text: "Something went wrong.",
+              });
+            });
+            this.$nextTick( () => this.$refs.vuetable.refresh())
+          }
+        default:
+          console.log(data);
+      }
+    },
   }
 }
 </script>

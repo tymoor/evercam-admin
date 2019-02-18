@@ -22,7 +22,10 @@ defmodule EvercamAdminWeb.Router do
     patch "/update_multiple_users", UsersController, :update_multiple_users
     get "/cameras", CamerasController, :index
     get "/camera_shares", CameraSharesController, :index
+    delete "/vendor_models/:exid", VendorModelsController, :delete
     get "/vendor_models", VendorModelsController, :index
+    post "/vendor_models", VendorModelsController, :create
+    get "/vendors", VendorsController, :vendors
   end
 
   scope "/", EvercamAdminWeb do

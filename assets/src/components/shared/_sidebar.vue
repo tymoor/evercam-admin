@@ -26,6 +26,12 @@
             Vendor Models
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/cloud_recordings'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Cloud Recordings
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>

@@ -26,6 +26,7 @@ defmodule EvercamAdminWeb.Router do
     get "/vendor_models", VendorModelsController, :index
     post "/vendor_models", VendorModelsController, :create
     get "/vendors", VendorsController, :vendors
+    get "/cloud_recordings", CloudRecordingsController, :index
   end
 
   scope "/", EvercamAdminWeb do

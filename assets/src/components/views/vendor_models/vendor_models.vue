@@ -5,6 +5,7 @@
     </div>
     <div>
       <v-vendor-model-show-hide :vuetable-fields="vuetableFields" />
+      <add-vendor-model />
     </div>
 
     <v-horizontal-scroll />
@@ -78,8 +79,12 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import AddVendorModel from "./add_vendor_model";
 
 export default {
+  components: {
+    AddVendorModel
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",
@@ -123,6 +128,7 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('vendor-models-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('model-added', e => this.onModelAdded())
   },
 
   methods: {
@@ -130,6 +136,10 @@ export default {
       this.moreParams = {
         "search": filters.search
       }
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
+    onModelAdded () {
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
@@ -155,7 +165,6 @@ export default {
     },
 
     onActionClicked(action, data) {
-      console.log(data);
       switch (action) {
         case "delete-item":
           if (window.confirm("Are you sure you want to delete this model?")) {

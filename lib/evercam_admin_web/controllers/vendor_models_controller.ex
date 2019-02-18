@@ -2,6 +2,40 @@ defmodule EvercamAdminWeb.VendorModelsController do
   use EvercamAdminWeb, :controller
   import Ecto.Query
 
+  def create(conn, params) do
+    VendorModel.changeset(%VendorModel{}, %{
+      exid: params["model_exid"],
+      vendor_id: params["vendor"],
+      channel: params["channel"],
+      name: params["name"],
+      jpg_url: params["jpg_url"],
+      mjpg_url: params["mjpg_ur"],
+      mpeg4_url: params["mpeg4_url"],
+      mobile_url: params["mobile_url"],
+      h264_url: params["h264_url"],
+      lowres_url: params["lowres_url"],
+      audio_url: params["audio_url"],
+      username: params["username"],
+      password: params["password"],
+      resolution: params["resolution"],
+      poe: params["poe"],
+      wifi: params["wifi"],
+      onvif: params["onvif"],
+      pisa: params["pisa"],
+      audio_io: params["audio_io"],
+      ptz: params["ptz"],
+      infrared: params["infrared"],
+      varifocal: params["varifocal"],
+      sd_card: params["sd_card"],
+      upnp: params["upnp"]
+    })
+    |> Evercam.Repo.insert
+    |> case do
+      {:ok, _vendor_model} -> json(conn, %{success: true})
+      {:error, _changeset} -> conn |> put_status(400) |> json(%{success: false})
+    end
+  end
+
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
     search = if params["search"] in ["", nil], do: "", else: params["search"]

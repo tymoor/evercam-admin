@@ -32,7 +32,7 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
           status: cloud_recording[:status],
           storage_duration: cloud_recording[:storage_duration],
           interval: cloud_recording[:frequency],
-          schedule: "",
+          schedule: get_hours(cloud_recording[:schedule]),
           online: cloud_recording[:is_online],
           public: cloud_recording[:is_public],
           licences: cloud_recording[:licences],
@@ -56,8 +56,24 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
     json(conn, records)
   end
 
+  defp get_hours(nil), do: ""
   defp get_hours(schedule) do
-    
+    Enum.reduce(schedule, 0, fn day, total_hours = _acc ->
+      {_name, hours} = day
+      calculated_hours =
+        Enum.reduce(hours, 0, fn hour, calc_hours = _acc ->
+          [from_time, to_time] = String.split(hour, "-")
+          with {:ok, from} <- parse_date_erl(from_time),
+               {:ok, to} <- parse_date_erl(to_time)
+          do (Time.diff(to, from) / 3600 |> Float.round) + calc_hours end
+        end)
+      total_hours + calculated_hours
+    end)
+  end
+
+  defp parse_date_erl(time) do
+    [start, ending] = String.split(time, ":")
+    Time.from_erl({String.to_integer(start), String.to_integer(ending), 0})
   end
 
   defp condition(params) do
@@ -85,52 +101,3 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
   defp sorting("payment_method", order), do: "order by u.payment_method #{order}"
   defp sorting(_column, _order), do: "order by u.username"
 end
-
-  # def get_hours(schedule)
-  #   total_hours = 0
-  #   Time.zone = "UTC"
-  #   if schedule
-  #     hours = schedule["Monday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Tuesday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Wednesday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Thursday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Friday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Saturday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #     hours = schedule["Sunday"].first.to_s.split("-")
-  #     if hours.present?
-  #       from = Time.zone.parse(hours.first)
-  #       to = Time.zone.parse(hours[1])
-  #       total_hours += ((to - from) / 1.hour).round
-  #     end
-  #   end
-  #   total_hours

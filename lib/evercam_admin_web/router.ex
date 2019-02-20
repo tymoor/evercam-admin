@@ -25,7 +25,10 @@ defmodule EvercamAdminWeb.Router do
     delete "/vendor_models/:exid", VendorModelsController, :delete
     get "/vendor_models", VendorModelsController, :index
     post "/vendor_models", VendorModelsController, :create
-    get "/vendors", VendorsController, :vendors
+    get "/all_vendors", VendorsController, :vendors
+    get "/vendors", VendorsController, :index
+    post "/vendors", VendorsController, :create
+    delete "/vendors/:exid", VendorsController, :delete
     get "/cloud_recordings", CloudRecordingsController, :index
   end
 

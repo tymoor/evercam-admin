@@ -304,7 +304,7 @@ import jQuery from 'jquery'
     },
     methods: {
       fetchVendors () {
-        this.$http.get("/v1/vendors").then(response => {
+        this.$http.get("/v1/all_vendors").then(response => {
           this.vendors = response.body.vendors;
         }, error => {
           console.error(error);
@@ -367,7 +367,7 @@ import jQuery from 'jquery'
               group: "admins",
               title: "Info",
               type: "success",
-              text: "Model has been updated!",
+              text: "Model has been added!",
             });
 
             this.$events.fire("model-added", {})

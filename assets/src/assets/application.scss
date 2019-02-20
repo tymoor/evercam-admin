@@ -88,6 +88,9 @@ body {
   width: 300px;
 }
 
+.vuetable-body-wrapper .user-report .vuetable-td-def,
+.vuetable-body-wrapper .user-report .vuetable-td-valid_licence,
+.vuetable-body-wrapper .user-report .vuetable-td-required_licence,
 .vuetable-body-wrapper .user-report .vuetable-td-cameras_owned,
 .vuetable-body-wrapper .user-report .vuetable-td-camera_shares,
 .vuetable-body-wrapper .user-report .vuetable-td-total_cameras,
@@ -290,6 +293,7 @@ body {
   width: 150px;
 }
 
+.vuetable-body-wrapper .vendor-report .vuetable-th-slot-custom-actions,
 .vuetable-body-wrapper .vendor-model-report .vuetable-th-slot-custom-actions {
   width: 97px;
 }
@@ -355,4 +359,16 @@ body {
 
 .vuetable-body-wrapper .cloud-recording-report .vuetable-th-payment_method {
   width: 115px;
+}
+
+.vuetable-body-wrapper .vendor-report .vuetable-th-exid {
+  width: 85px;
+}
+
+.vuetable-body-wrapper .vendor-report .vuetable-th-exid {
+  width: 85px;
+}
+
+.vuetable-body-wrapper .vendor-report .vuetable-th-name {
+  width: 165px;
 }

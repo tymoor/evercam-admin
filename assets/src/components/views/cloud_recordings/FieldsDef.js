@@ -35,7 +35,6 @@ export default [
   {
     name: 'schedule',
     title: 'Schedule HPW',
-    sortField: 'schedule',
     togglable: true
   },
   {

@@ -13,6 +13,7 @@ import Users from "./components/views/users/users";
 import Cameras from "./components/views/cameras/cameras";
 import CameraShares from "./components/views/camera_shares/camera_shares";
 import VendorModels from "./components/views/vendor_models/vendor_models";
+import Vendors from "./components/views/vendors/vendors";
 import CloudRecordings from "./components/views/cloud_recordings/cloud_recordings";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
@@ -53,6 +54,12 @@ Vue.component("v-vendor-model-filters", VendorModelFilters);
 import VendorModelShowHide from "./components/views/vendor_models/vendor_model_show_hide";
 Vue.component("v-vendor-model-show-hide", VendorModelShowHide);
 
+import VendorFilters from "./components/views/vendors/vendor_filters";
+Vue.component("v-vendor-filters", VendorFilters);
+
+import VendorShowHide from "./components/views/vendors/vendor_show_hide";
+Vue.component("v-vendor-show-hide", VendorShowHide);
+
 import CRFilters from "./components/views/cloud_recordings/cr_filters";
 Vue.component("v-cr-filters", CRFilters);
 
@@ -70,6 +77,7 @@ const router = new VueRouter({
     { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
     { path: "/camera_shares", component: CameraShares, name: "camera_shares", meta: { title: "Camera Shares"} },
     { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Vendor Models"} },
+    { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
     { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}

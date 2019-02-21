@@ -121,7 +121,9 @@ body {
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-online,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-public,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-schedule,
-.vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences {
+.vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences,
+.vuetable-body-wrapper .admin-report .vuetable-td-sign_in_count,
+.vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip {
   text-align: center;
 }
 
@@ -371,4 +373,31 @@ body {
 
 .vuetable-body-wrapper .vendor-report .vuetable-th-name {
   width: 165px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-slot-custom-actions {
+  width: 70px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-fullname {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-email {
+  width: 183px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-created_at,
+.vuetable-body-wrapper .admin-report .vuetable-th-updated_at,
+.vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_at,
+.vuetable-body-wrapper .admin-report .vuetable-th-current_sign_in_at {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-sign_in_count {
+  width: 130px;
+}
+
+.vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_ip {
+  width: 140px;
 }

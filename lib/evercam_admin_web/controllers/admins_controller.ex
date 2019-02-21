@@ -7,9 +7,7 @@ defmodule EvercamAdminWeb.AdminsController do
     search = if params["search"] in ["", nil], do: "", else: params["search"]
     query = from admin in User,
               where: admin.is_admin == true,
-              or_where: like(fragment("lower(?)", admin.firstname), ^("%#{search}%")),
-              or_where: like(fragment("lower(?)", admin.lastname), ^("%#{search}%")),
-              or_where: like(fragment("lower(?)", admin.email), ^("%#{search}%"))
+              where: like(fragment("lower(?)", admin.email), ^("%#{search}%"))
     admins = query |> add_sorting(column, order) |> Evercam.Repo.all()
 
     total_records = admins |> Enum.count
@@ -29,10 +27,10 @@ defmodule EvercamAdminWeb.AdminsController do
             a = %{
               fullname: admin.firstname <> admin.lastname,
               email: admin.email,
-              created_at: admin.created_at,
-              udpated_at: admin.updated_at,
-              last_sign_in_at: admin.last_login_at,
-              current_sign_in_at: admin.current_sign_in_at,
+              created_at: (if admin.created_at, do: Calendar.Strftime.strftime!(admin.created_at, "%A, %d %b %Y %l:%M %p"), else: ""),
+              updated_at: (if admin.updated_at, do: Calendar.Strftime.strftime!(admin.updated_at, "%A, %d %b %Y %l:%M %p"), else: ""),
+              last_sign_in_at: (if admin.last_login_at, do: Calendar.Strftime.strftime!(admin.last_login_at, "%A, %d %b %Y %l:%M %p"), else: ""),
+              current_sign_in_at: (if admin.current_sign_in_at, do: Calendar.Strftime.strftime!(admin.current_sign_in_at, "%A, %d %b %Y %l:%M %p"), else: ""),
               sign_in_count: admin.sign_in_count,
               last_sign_in_ip: get_ipv4(admin.last_sign_in_ip)
             }
@@ -52,6 +50,32 @@ defmodule EvercamAdminWeb.AdminsController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/vendor_models?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def update(conn, %{"email" => email} = _params) do
+    with %User{} = user <- User.by_username_or_email(email),
+         false <- user.is_admin
+    do
+      User.changeset(user, %{is_admin: true}) |> Evercam.Repo.update!
+      json(conn, %{success: true})
+    else
+      true -> conn |> put_status(400) |> json(%{success: false, message: "User is already an admin."})
+      nil -> conn |> put_status(404) |> json(%{success: false, message: "User not found."})
+      _ -> conn |> put_status(400) |> json(%{success: false, message: "Something went wrong."})
+    end
+  end
+
+  def delete(conn, %{"email" => email} = _params) do
+    with %User{} = user <- User.by_username_or_email(email),
+         true <- user.is_admin
+    do
+      User.changeset(user, %{is_admin: false}) |> Evercam.Repo.update!
+      json(conn, %{success: true})
+    else
+      false -> conn |> put_status(400) |> json(%{success: false, message: "User is not an admin."})
+      nil -> conn |> put_status(404) |> json(%{success: false, message: "User not found."})
+      _ -> conn |> put_status(400) |> json(%{success: false, message: "Something went wrong."})
+    end
   end
 
   defp get_ipv4(nil), do: ""

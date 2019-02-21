@@ -36,9 +36,9 @@ export default [
     togglable: true
   },
   {
-    name: 'current_sign_in',
+    name: 'current_sign_in_at',
     title: 'Current Sign In',
-    sortField: "current_sign_in",
+    sortField: "current_sign_in_at",
     togglable: true
   },
   {

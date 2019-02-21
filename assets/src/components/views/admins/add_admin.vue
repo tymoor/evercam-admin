@@ -13,11 +13,11 @@
           <div class="modal-body">
             <div class="form-group">
               <div class="row">
-                <div class="col-sm-8">
+                <div class="col">
                   <form>
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Email:</label>
-                      <div class="col-sm-8">
+                      <label class="col-sm-2 col-form-label">Email:</label>
+                      <div class="col">
                         <input type="text" class="form-control" placeholder="Email" v-model="email">
                       </div>
                     </div>
@@ -57,9 +57,16 @@
 }
 
 .modal-dialog {
-  width: 260px;
-  max-width: 260px;
+  width: 360px;
+  max-width: 360px;
   margin-top: 114.5px;
+}
+
+.modal-body {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 0px;
 }
 
 </style>
@@ -84,10 +91,7 @@ import jQuery from 'jquery'
 
         if (Object.keys(this.errors).length === 0) {
 
-          let params = {
-            email: this.email,
-          }
-          this.$http.patch("/v1/admins", {...params}).then(response => {
+          this.$http.patch(`/v1/admins/${this.email}`).then(response => {
 
             this.$notify({
               group: "admins",

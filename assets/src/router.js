@@ -15,6 +15,7 @@ import CameraShares from "./components/views/camera_shares/camera_shares";
 import VendorModels from "./components/views/vendor_models/vendor_models";
 import Vendors from "./components/views/vendors/vendors";
 import CloudRecordings from "./components/views/cloud_recordings/cloud_recordings";
+import Admins from "./components/views/admins/admins";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -66,6 +67,12 @@ Vue.component("v-cr-filters", CRFilters);
 import CRShowHide from "./components/views/cloud_recordings/cr_show_hide";
 Vue.component("v-cr-show-hide", CRShowHide);
 
+import AdminFilters from "./components/views/admins/admin_filters";
+Vue.component("v-admin-filters", AdminFilters);
+
+import AdminShowHide from "./components/views/admins/admin_show_hide";
+Vue.component("v-admin-show-hide", AdminShowHide);
+
 
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);
@@ -79,6 +86,7 @@ const router = new VueRouter({
     { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Vendor Models"} },
     { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
     { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },
+    { path: "/admins", component: Admins, name: "admins", meta: { title: "Admins"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

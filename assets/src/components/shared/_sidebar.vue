@@ -9,6 +9,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/admins'">
+            <i class="nav-icon icon-drop fa fa-users"></i>
+            Admins
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/cameras'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Cameras

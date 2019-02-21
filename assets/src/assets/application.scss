@@ -123,7 +123,10 @@ body {
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-schedule,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences,
 .vuetable-body-wrapper .admin-report .vuetable-td-sign_in_count,
-.vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip {
+.vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip,
+.vuetable-body-wrapper .snapmail-report .vuetable-td-notify_time,
+.vuetable-body-wrapper .snapmail-report .vuetable-td-timezone,
+.vuetable-body-wrapper .snapmail-report .vuetable-td-is_paused {
   text-align: center;
 }
 
@@ -388,6 +391,7 @@ body {
 }
 
 .vuetable-body-wrapper .admin-report .vuetable-th-created_at,
+.vuetable-body-wrapper .snapmail-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-updated_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-current_sign_in_at {
@@ -400,4 +404,32 @@ body {
 
 .vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_ip {
   width: 140px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-fullname {
+  width: 180px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-cameras {
+  width: 320px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-recipients {
+  width: 300px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-notify_days {
+  width: 410px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-notify_time {
+  width: 125px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-timezone {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .snapmail-report .vuetable-th-is_paused {
+  width: 100px;
 }

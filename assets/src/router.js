@@ -15,6 +15,7 @@ import CameraShares from "./components/views/camera_shares/camera_shares";
 import VendorModels from "./components/views/vendor_models/vendor_models";
 import Vendors from "./components/views/vendors/vendors";
 import CloudRecordings from "./components/views/cloud_recordings/cloud_recordings";
+import Snapmails from "./components/views/snapmails/snapmails";
 import Admins from "./components/views/admins/admins";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
@@ -73,6 +74,11 @@ Vue.component("v-admin-filters", AdminFilters);
 import AdminShowHide from "./components/views/admins/admin_show_hide";
 Vue.component("v-admin-show-hide", AdminShowHide);
 
+import SnapmailFilters from "./components/views/snapmails/snapmail_filters";
+Vue.component("v-snapmail-filters", SnapmailFilters);
+
+import SnapmailShowHide from "./components/views/snapmails/snapmail_show_hide";
+Vue.component("v-snapmail-show-hide", SnapmailShowHide);
 
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);
@@ -87,6 +93,7 @@ const router = new VueRouter({
     { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
     { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },
     { path: "/admins", component: Admins, name: "admins", meta: { title: "Admins"} },
+    { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Snapmails"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

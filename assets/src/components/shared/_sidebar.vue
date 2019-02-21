@@ -44,6 +44,12 @@
             Cloud Recordings
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/snapmails'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Snapmails
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>

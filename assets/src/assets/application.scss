@@ -126,7 +126,8 @@ body {
 .vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-notify_time,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-timezone,
-.vuetable-body-wrapper .snapmail-report .vuetable-td-is_paused {
+.vuetable-body-wrapper .snapmail-report .vuetable-td-is_paused,
+.vuetable-body-wrapper .csr-report .vuetable-td-status  {
   text-align: center;
 }
 
@@ -391,6 +392,7 @@ body {
 }
 
 .vuetable-body-wrapper .admin-report .vuetable-th-created_at,
+.vuetable-body-wrapper .csr-report .vuetable-th-created_at,
 .vuetable-body-wrapper .snapmail-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-updated_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_at,
@@ -431,5 +433,26 @@ body {
 }
 
 .vuetable-body-wrapper .snapmail-report .vuetable-th-is_paused {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .csr-report .vuetable-th-sharee_email {
+  width: 189px;
+}
+
+.vuetable-body-wrapper .csr-report .vuetable-th-camera {
+  width: 200px;
+}
+
+.vuetable-body-wrapper .csr-report .vuetable-th-sharer {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .csr-report .vuetable-th-message {
+  width: 400px;
+}
+
+.vuetable-body-wrapper .csr-report .vuetable-th-rights,
+.vuetable-body-wrapper .csr-report .vuetable-th-status {
   width: 100px;
 }

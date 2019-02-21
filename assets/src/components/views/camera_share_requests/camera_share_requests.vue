@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-snapmail-filters />
+      <v-csr-filters />
     </div>
     <div>
-      <v-snapmail-show-hide :vuetable-fields="vuetableFields" />
+      <v-csr-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <v-horizontal-scroll />
@@ -12,7 +12,7 @@
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
-          api-url="/v1/snapmails"
+          api-url="/v1/camera_share_requests"
           :fields="fields"
           pagination-path=""
           data-path="data"
@@ -79,7 +79,7 @@ export default {
       perPage: 60,
       sortOrder: [
         {
-          field: 'inserted_at',
+          field: 'created_at',
           direction: 'desc',
         }
       ],
@@ -113,18 +113,17 @@ export default {
       window.addEventListener('resize', this.setScrollBar);
       this.setScrollBar()
     });
-    this.$events.$on('snapmail-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('csr-filter-set', eventData => this.onFilterSet(eventData))
   },
 
   methods: {
     onFilterSet (filters) {
       this.moreParams = {
-        "fullname": filters.fullname,
-        "cameras": filters.cameras,
-        "recipients": filters.recipients,
-        "notify_time": filters.notify_time,
-        "timezone": filters.timezone,
-        "is_paused": filters.is_paused,
+        "sharer": filters.sharer,
+        "camera": filters.camera,
+        "sharee_email": filters.sharee_email,
+        "rights": filters.rights,
+        "status": filters.status
       }
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },

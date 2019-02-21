@@ -17,6 +17,7 @@ import Vendors from "./components/views/vendors/vendors";
 import CloudRecordings from "./components/views/cloud_recordings/cloud_recordings";
 import Snapmails from "./components/views/snapmails/snapmails";
 import Admins from "./components/views/admins/admins";
+import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -80,6 +81,12 @@ Vue.component("v-snapmail-filters", SnapmailFilters);
 import SnapmailShowHide from "./components/views/snapmails/snapmail_show_hide";
 Vue.component("v-snapmail-show-hide", SnapmailShowHide);
 
+import CSRFilters from "./components/views/camera_share_requests/csr_filters";
+Vue.component("v-csr-filters", CSRFilters);
+
+import CSRShowHide from "./components/views/camera_share_requests/csr_show_hide";
+Vue.component("v-csr-show-hide", CSRShowHide);
+
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);
 
@@ -89,6 +96,7 @@ const router = new VueRouter({
     { path: "/", component: Users, name: "users", meta: { title: "Users"} },
     { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
     { path: "/camera_shares", component: CameraShares, name: "camera_shares", meta: { title: "Camera Shares"} },
+    { path: "/camera_share_requests", component: CameraShareRequests, name: "camera_share_requests", meta: { title: "Camera Share Requests"} },
     { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Vendor Models"} },
     { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
     { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },

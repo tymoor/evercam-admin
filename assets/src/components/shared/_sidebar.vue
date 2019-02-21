@@ -27,6 +27,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/camera_share_requests'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Camera Share Requests
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/vendor_models'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Vendor Models

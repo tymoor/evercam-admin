@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-csr-filters />
+      <v-csr-filters :selectedCSR="selectedCSR"/>
     </div>
     <div>
       <v-csr-show-hide :vuetable-fields="vuetableFields" />
@@ -25,7 +25,7 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
-        <div slot="checkbox-slot" slot-scope="props">
+        <div slot="slot" slot-scope="props">
           <input type="checkbox" @click="onCheckBoxClick($event, props.rowData)" />
         </div>
         </vuetable>
@@ -72,7 +72,7 @@ import TableWrapper from "./TableWrapper.js";
 export default {
   data: () => {
     return {
-      selectedCameras: [],
+      selectedCSR: [],
       paginationComponent: "vuetable-pagination",
       loading: "",
       vuetableFields: false,
@@ -147,6 +147,16 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    onCheckBoxClick(event, data) {
+      this.$nextTick(() => {
+        if(event.target.checked) {
+          this.selectedCSR.push(data.id);
+        } else {
+          this.selectedCSR = this.selectedCSR.filter(csr => csr !== data.id)
+        }      
+      })
     }
   }
 }

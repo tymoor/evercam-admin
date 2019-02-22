@@ -29,6 +29,7 @@ defmodule EvercamAdminWeb.CameraShareRequestsController do
       Enum.reduce(display_start..index_end, [], fn i, acc ->
         camera_share_request = Enum.at(roles, i)
         csr = %{
+          id: camera_share_request[:id],
           sharee_email: camera_share_request[:email],
           camera: camera_share_request[:camera],
           sharer: camera_share_request[:fullname],
@@ -52,6 +53,12 @@ defmodule EvercamAdminWeb.CameraShareRequestsController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/camera_share_requests?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def delete(conn, %{"ids" => ids} = _params) do
+    query = "delete from camera_share_requests where id in (#{ids})"
+    Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+    json(conn, %{success: true})
   end
 
   defp translate_rights("list,snapshot"), do: "Read Only"

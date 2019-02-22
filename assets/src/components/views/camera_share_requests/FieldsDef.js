@@ -1,5 +1,9 @@
 export default [
   {
+    name: "slot",
+    titleClass: "csr-checkbox"
+  },
+  {
     name: 'created_at',
     title: 'Created At',
     sortField: 'created_at',

@@ -13,7 +13,7 @@ export default [
     togglable: true,
     formatter: (value) => {
       return paymentMethod(value)
-    },
+    }
   },
   {
     name: 'username',

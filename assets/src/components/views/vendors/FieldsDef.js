@@ -20,6 +20,23 @@ export default [
   {
     name: 'known_macs',
     title: 'Known Macs',
-    togglable: true
+    togglable: true,
+    formatter: (value) => {
+      return displayMacs(value)
+    }
   }
 ]
+
+var displayMacs;
+
+displayMacs = (macs) => {
+  let all_macs = ""
+  macs.map((mac) => {
+    if (all_macs === "") {
+      all_macs += "" + mac +""
+    } else {
+      all_macs += "," + mac +""
+    }
+  });
+  return all_macs;
+}

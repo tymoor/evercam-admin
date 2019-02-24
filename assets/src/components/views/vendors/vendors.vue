@@ -5,7 +5,7 @@
     </div>
     <div>
       <v-vendor-show-hide :vuetable-fields="vuetableFields" />
-      <add-vendor />
+      <add-vendor :vendorData="vendorData" />
     </div>
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -25,7 +25,7 @@
           :css="css.table"
         >
           <div slot="custom-actions" slot-scope="props">
-            <button class="ui compact icon button edit" @click="onActionClicked('edit-item', props.rowData)">
+            <button class="ui compact icon button edit" @click="onActionClicked('edit-item', props.rowData)" data-toggle="modal" data-target="#addModel">
               <i class="edit icon"></i>
             </button>
             <button class="ui compact icon button delete" @click="onActionClicked('delete-item', props.rowData)">
@@ -97,7 +97,8 @@ export default {
       ],
       css: TableWrapper,
       moreParams: {},
-      fields: FieldsDef
+      fields: FieldsDef,
+      vendorData: {}
     }
   },
   watch: {
@@ -155,28 +156,29 @@ export default {
     },
 
     onActionClicked(action, data) {
-      switch (action) {
-        case "delete-item":
-          if (window.confirm("Are you sure you want to delete this vendor?")) {
-            this.$http.delete(`/v1/vendors/${data.exid}`).then(response => {
-              this.$notify({
-                group: "admins",
-                title: "Info",
-                type: "success",
-                text: "Vendor has been deleted.",
-              });
-            }, error => {
-              this.$notify({
-                group: "admins",
-                title: "Error",
-                type: "error",
-                text: "Something went wrong.",
-              });
+      if (action == "delete-item") {
+        if (window.confirm("Are you sure you want to delete this vendor?")) {
+          this.$http.delete(`/v1/vendors/${data.exid}`).then(response => {
+            this.$notify({
+              group: "admins",
+              title: "Info",
+              type: "success",
+              text: "Vendor has been deleted.",
             });
-            this.$nextTick( () => this.$refs.vuetable.refresh())
-          }
-        default:
-          console.log(data);
+          }, error => {
+            this.$notify({
+              group: "admins",
+              title: "Error",
+              type: "error",
+              text: "Something went wrong.",
+            });
+          });
+          this.$nextTick( () => this.$refs.vuetable.refresh())
+        } 
+      }
+
+      if (action == "edit-item") {
+        this.vendorData = data
       }
     },
   }

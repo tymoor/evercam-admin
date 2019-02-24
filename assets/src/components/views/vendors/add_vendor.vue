@@ -5,10 +5,9 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Add Vendor</h4>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+            <h4 class="modal-title">
+              Vendor
+            </h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -105,6 +104,7 @@ thumbnail-img {
 <script>
 import jQuery from 'jquery'
   export default {
+    props: ["vendorData"],
     data: () => {
       return {
         errors: [],
@@ -113,7 +113,37 @@ import jQuery from 'jquery'
         known_macs: ""
       }
     },
+
+    watch: {
+      vendorData() {
+        this.updatePropsValue(this.vendorData)
+        console.log("data updated")
+      }
+    },
+
     methods: {
+      updatePropsValue(vendor) {
+        this.exid =  vendor.exid,
+        this.name = vendor.name,
+        this.known_macs = this.getMacs(vendor.known_macs)
+      },
+
+      getMacs(macs) {
+        if (macs == null) {
+          return ""
+        } else {
+          let all_macs = ""
+          macs.map((mac) => {
+            if (all_macs === "") {
+              all_macs += "" + mac +""
+            } else {
+              all_macs += "," + mac +""
+            }
+          });
+          return all_macs;
+        }
+      },
+
       validateFormAndSave (e) {
         e.preventDefault()
         this.errors = []
@@ -148,7 +178,7 @@ import jQuery from 'jquery'
               text: "Vendor has been added!",
             });
 
-            this.$events.fire("vendor-added", {})
+            this.clearForm()
             jQuery('#addModel').modal('hide')
           }, error => {
             console.log(error)
@@ -165,7 +195,8 @@ import jQuery from 'jquery'
         this.errors = [],
         this.exid = "",
         this.name = "",
-        this.known_macs = ""
+        this.known_macs = "",
+        this.$events.fire("vendor-added", {})
       }
     }
   }

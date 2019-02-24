@@ -4,12 +4,13 @@ defmodule EvercamAdminWeb.VendorsController do
 
   def create(conn, params) do
     with :ok <- known_macs(params["known_macs"]) do
-      Vendor.changeset(%Vendor{}, %{
+      vendor = Vendor.by_exid(params["exid"]) || %Vendor{}
+      Vendor.changeset(vendor, %{
         exid: params["exid"],
         name: params["name"],
         known_macs: (if params["known_macs"] in ["", nil], do: [], else: String.split(params["known_macs"], ","))
       })
-      |> Evercam.Repo.insert
+      |> Evercam.Repo.insert_or_update
       |> case do
         {:ok, _vendor} -> json(conn, %{success: true})
         {:error, _changeset} -> conn |> put_status(400) |> json(%{success: false, message: "Something went wrong."})

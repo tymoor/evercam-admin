@@ -3,7 +3,8 @@ defmodule EvercamAdminWeb.VendorModelsController do
   import Ecto.Query
 
   def create(conn, params) do
-    VendorModel.changeset(%VendorModel{}, %{
+    vendor_model = VendorModel.by_exid(params["model_exid"]) || %VendorModel{}
+    VendorModel.changeset(vendor_model, %{
       exid: params["model_exid"],
       vendor_id: params["vendor"],
       channel: params["channel"],
@@ -29,7 +30,7 @@ defmodule EvercamAdminWeb.VendorModelsController do
       sd_card: params["sd_card"],
       upnp: params["upnp"]
     })
-    |> Evercam.Repo.insert
+    |> Evercam.Repo.insert_or_update
     |> case do
       {:ok, _vendor_model} -> json(conn, %{success: true})
       {:error, _changeset} -> conn |> put_status(400) |> json(%{success: false})
@@ -39,13 +40,22 @@ defmodule EvercamAdminWeb.VendorModelsController do
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
     search = if params["search"] in ["", nil], do: "", else: params["search"]
-    query = from vm in VendorModel,
-              join: v in Vendor, on: vm.vendor_id == v.id,
-              where: like(fragment("lower(?)", vm.name), ^("%#{search}%")),
-              or_where: like(fragment("lower(?)", v.name), ^("%#{search}%"))
-    models = query |> add_sorting(column, order) |> preload(:vendor) |> Evercam.Repo.all()
 
-    total_records = models |> Enum.count
+    query = "SELECT vm.*, v.name as vendor_name, v.exid as vendor_exid, v.id as vendor_id, count(cameras.id) as count
+             FROM vendor_models as vm
+             INNER JOIN vendors as v ON vm.vendor_id = v.id
+             INNER JOIN cameras ON vm.id = cameras.model_id
+             WHERE lower(vm.name) like lower('%#{search}%') OR lower(v.name) like lower('%#{search}%')
+             GROUP BY vm.id, v.id
+             #{add_sorting(column, order)}"
+
+    models = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+    cols = Enum.map models.columns, &(String.to_atom(&1))
+    roles = Enum.map models.rows, fn(row) ->
+      Enum.zip(cols, row)
+    end
+
+    total_records = models.num_rows
     d_length = String.to_integer(params["per_page"])
     display_length = if d_length < 0, do: total_records, else: d_length
     display_start = if String.to_integer(params["page"]) <= 1, do: 0, else: (String.to_integer(params["page"]) - 1) * display_length + 1
@@ -58,37 +68,38 @@ defmodule EvercamAdminWeb.VendorModelsController do
         true -> []
         _ ->
           Enum.reduce(display_start..index_end, [], fn i, acc ->
-            model = Enum.at(models, i)
+            model = Enum.at(roles, i)
             vm = %{
-              vendor_exid: model.vendor.exid,
-              exid: model.exid,
-              vendor_name: model.vendor.name,
-              name: model.name,
-              channel: model.channel,
-              jpg_url: model.jpg_url,
-              h264_url: model.h264_url,
-              mjpg_url: model.mjpg_url,
+              vendor_exid: model[:vendor_exid],
+              exid: model[:exid],
+              vendor_id: model[:vendor_id],
+              vendor_name: model[:vendor_name],
+              name: model[:name],
+              channel: model[:channe],
+              jpg_url: model[:jpg_url],
+              h264_url: model[:h264_url],
+              mjpg_url: model[:mjpg_url],
 
-              mpeg4_url: model.mpeg4_url,
-              mobile_url: model.mobile_url,
-              lowres_url: model.lowres_url,
+              mpeg4_url: model[:mpeg4_ur],
+              mobile_url: model[:mobile_url],
+              lowres_url: model[:lowres_url],
 
-              username: model.username,
-              password: model.password,
-              audio_url: model.audio_url,
-              poe: model.poe,
-              wifi: model.wifi,
-              onvif: model.onvif,
-              psia: model.psia,
-              ptz: model.ptz,
-              infrared: model.infrared,
-              varifocal: model.varifocal,
-              sd_card: model.sd_card,
-              upnp: model.upnp,
-              audio_io: model.audio_io,
-              shape: model.shape,
-              resolution: model.resolution,
-              camera_count: Camera |> where(model_id: ^model.id) |> Evercam.Repo.all() |> Enum.count(),
+              username: model[:username],
+              password: model[:password],
+              audio_url: model[:audio_url],
+              poe: model[:poe],
+              wifi: model[:wifi],
+              onvif: model[:onvif],
+              psia: model[:psia],
+              ptz: model[:ptz],
+              infrared: model[:infrared],
+              varifocal: model[:varifocal],
+              sd_card: model[:sd_card],
+              upnp: model[:upnp],
+              audio_io: model[:audio_io],
+              shape: model[:shape],
+              resolution: model[:resolution],
+              camera_count: model[:count]
             }
             acc ++ [vm]
           end)
@@ -117,103 +128,29 @@ defmodule EvercamAdminWeb.VendorModelsController do
     json(conn, %{success: true})
   end
 
-  defp sort_order("asc"), do: :asc
-  defp sort_order("desc"), do: :desc
-
-  defp add_sorting(query, "exid", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.exid}]
-  end
-  defp add_sorting(query, "vname", order) do
-    from [_vm, v] in query,
-      order_by: [{^sort_order(order), v.name}]
-  end
-  defp add_sorting(query, "vmname", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.name}]
-  end
-  defp add_sorting(query, "jpg_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.jpg_url}]
-  end
-  defp add_sorting(query, "h264_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.h264_url}]
-  end
-  defp add_sorting(query, "mjpg_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.mjpg_url}]
-  end
-  defp add_sorting(query, "mpeg4_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.mpeg4_url}]
-  end
-  defp add_sorting(query, "mobile_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.mobile_url}]
-  end
-  defp add_sorting(query, "lowres_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.lowres_url}]
-  end
-  defp add_sorting(query, "username", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.username}]
-  end
-  defp add_sorting(query, "password", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.password}]
-  end
-  defp add_sorting(query, "audio_url", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.audio_url}]
-  end
-  defp add_sorting(query, "poe", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.poe}]
-  end
-  defp add_sorting(query, "wifi", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.wifi}]
-  end
-  defp add_sorting(query, "onvif", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.onvif}]
-  end
-  defp add_sorting(query, "psia", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.psia}]
-  end
-  defp add_sorting(query, "ptz", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.ptz}]
-  end
-  defp add_sorting(query, "infrared", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.infrared}]
-  end
-  defp add_sorting(query, "varifocal", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.varifocal}]
-  end
-  defp add_sorting(query, "sd_card", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.sd_card}]
-  end
-  defp add_sorting(query, "upnp", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.upnp}]
-  end
-  defp add_sorting(query, "audio_io", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.audio_io}]
-  end
-  defp add_sorting(query, "shape", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.shape}]
-  end
-  defp add_sorting(query, "resolution", order) do
-    from [vm, _v] in query,
-      order_by: [{^sort_order(order), vm.resolution}]
-  end
+  defp add_sorting("exid", order), do: "ORDER BY exid #{order}"
+  defp add_sorting("vname", order), do: "ORDER BY vendor_name #{order}"
+  defp add_sorting("vmname", order), do: "ORDER BY name #{order}"
+  defp add_sorting("jpg_url", order), do: "ORDER BY jpg_url #{order}"
+  defp add_sorting("h264_url", order), do: "ORDER BY h264_url #{order}"
+  defp add_sorting("mjpg_url", order), do: "ORDER BY mjpg_url #{order}"
+  defp add_sorting("mpeg4_url", order), do: "ORDER BY mpeg4_url #{order}"
+  defp add_sorting("mobile_url", order), do: "ORDER BY mobile_url #{order}"
+  defp add_sorting("lowres_url", order), do: "ORDER BY lowres_url #{order}"
+  defp add_sorting("username", order), do: "ORDER BY username #{order}"
+  defp add_sorting("password", order), do: "ORDER BY password #{order}"
+  defp add_sorting("audio_url", order), do: "ORDER BY audio_url #{order}"
+  defp add_sorting("poe", order), do: "ORDER BY poe #{order}"
+  defp add_sorting("wifi", order), do: "ORDER BY wifi #{order}"
+  defp add_sorting("onvif", order), do: "ORDER BY onvif #{order}"
+  defp add_sorting("psia", order), do: "ORDER BY psia #{order}"
+  defp add_sorting("ptz", order), do: "ORDER BY ptz #{order}"
+  defp add_sorting("infrared", order), do: "ORDER BY infrared #{order}"
+  defp add_sorting("varifocal", order), do: "ORDER BY varifocal #{order}"
+  defp add_sorting("sd_card", order), do: "ORDER BY sd_card #{order}"
+  defp add_sorting("upnp", order), do: "ORDER BY upnp #{order}"
+  defp add_sorting("audio_io", order), do: "ORDER BY audio_io #{order}"
+  defp add_sorting("shape", order), do: "ORDER BY shape #{order}"
+  defp add_sorting("resolution", order), do: "ORDER BY resolution #{order}"
+  defp add_sorting("camera_count", order), do: "ORDER BY count #{order}"
 end

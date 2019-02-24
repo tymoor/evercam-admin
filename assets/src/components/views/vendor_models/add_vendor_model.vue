@@ -5,10 +5,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Add Model</h4>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
+            <h4 class="modal-title">Model</h4>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -269,6 +266,7 @@ thumbnail-img {
 <script>
 import jQuery from 'jquery'
   export default {
+    props: ["vendorModelData"],
     data: () => {
       return {
         vendors: [],
@@ -299,10 +297,46 @@ import jQuery from 'jquery'
         upnp: false
       }
     },
+
+    watch: {
+      vendorModelData() {
+        this.updatePropsValue(this.vendorModelData)
+        console.log("data updated")
+      }
+    },
+
     mounted() {
       this.fetchVendors()
     },
     methods: {
+
+      updatePropsValue(vendorModel) {
+        this.model_exid = vendorModel.exid,
+        this.vendor = vendorModel.vendor_id,
+        this.channel = vendorModel.channel,
+        this.name = vendorModel.name,
+        this.jpg_url = vendorModel.jpg_url,
+        this.mjpg_url = vendorModel.mjpg_url,
+        this.mpeg4_url = vendorModel.mpeg4_url,
+        this.mobile_url = vendorModel.mobile_url,
+        this.h264_url = vendorModel.h264_url,
+        this.lowres_url = vendorModel.lowres_url,
+        this.audio_url = vendorModel.audio_url,
+        this.username = vendorModel.username,
+        this.password = vendorModel.password,
+        this.resolution = vendorModel.resolution,
+        this.poe = vendorModel.poe,
+        this.wifi = vendorModel.wifi,
+        this.onvif = vendorModel.onvif,
+        this.pisa = vendorModel.pisa,
+        this.audio_io = vendorModel.audio_io,
+        this.ptz = vendorModel.ptz,
+        this.infrared = vendorModel.infrared,
+        this.varifocal = vendorModel.varifocal,
+        this.sd_card = vendorModel.sd_card,
+        this.upnp = vendorModel.upnp
+      },
+
       fetchVendors () {
         this.$http.get("/v1/all_vendors").then(response => {
           this.vendors = response.body.vendors;
@@ -370,8 +404,8 @@ import jQuery from 'jquery'
               text: "Model has been added!",
             });
 
-            this.$events.fire("model-added", {})
             jQuery('#addModel').modal('hide')
+            this.clearForm()
           }, error => {
             this.$notify({
               group: "admins",
@@ -407,7 +441,8 @@ import jQuery from 'jquery'
         this.infrared = false,
         this.varifocal = false,
         this.sd_card = false,
-        this.upnp = false
+        this.upnp = false,
+        this.$events.fire("model-added", {})
       }
     }
   }

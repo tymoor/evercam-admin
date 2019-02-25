@@ -57,6 +57,28 @@ defmodule EvercamAdminWeb.SnapmailsController do
     json(conn, records)
   end
 
+  def history(conn, params) do
+    snapmail_logs = SnapmailLogs |> Evercam.Repo.all
+    length = Enum.count(snapmail_logs)
+    data =
+      case length <= 0 do
+        true -> []
+        _ ->
+          Enum.reduce(0..length - 1, [], fn i, acc ->
+            snapmail_log = Enum.at(snapmail_logs, i)
+            smh = %{
+              inserted_at: (if snapmail_log.inserted_at, do: Calendar.Strftime.strftime!(snapmail_log.inserted_at, "%A, %d %b %Y %l:%M %p"), else: ""),
+              recipients: snapmail_log.recipients,
+              camera_ids: "all",
+              camera_ids_failed: "failed",
+              subject: snapmail_log.subject
+            }
+            acc ++ [smh]
+          end)
+      end
+    json(conn, %{data: data})
+  end
+
   defp condition(params) do
     Enum.reduce(params, "where 1=1", fn param, condition = _acc ->
       {name, value} = param

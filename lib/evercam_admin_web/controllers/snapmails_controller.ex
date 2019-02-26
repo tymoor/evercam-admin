@@ -61,7 +61,7 @@ defmodule EvercamAdminWeb.SnapmailsController do
     from = params["fromDate"]
     to = params["toDate"]
     query = "SELECT * FROM snapmail_logs WHERE (DATE(inserted_at) >= '#{from}' and DATE(inserted_at) <= '#{to}') ORDER BY inserted_at desc"
-    snapmail_logs = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+    snapmail_logs = Ecto.Adapters.SQL.query!(Evercam.SnapshotRepo, query, [])
     cols = Enum.map snapmail_logs.columns, &(String.to_atom(&1))
     roles = Enum.map snapmail_logs.rows, fn(row) ->
       Enum.zip(cols, row)

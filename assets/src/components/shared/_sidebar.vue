@@ -56,6 +56,12 @@
             Snapmails
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/snapmail_history'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Snapmail History
+          </router-link>
+        </li>
       </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>

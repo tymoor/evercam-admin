@@ -8,6 +8,9 @@
         <div class="col">
           <input class="form-control" type="text" placeholder="Search" autocomplete="off" v-model="search" @keyup="snapmailHistoryFilterGlobal">
         </div>
+        <div class="col">
+           <date-picker v-model="dateTime" ref="datepicker" @change="handleChange" lang="en" range :format="dateFormat" value-type="format"></date-picker>
+        </div>
       </div>
     </form>
   </div>
@@ -27,14 +30,42 @@
 </style>
 
 <script>
+import DatePicker from 'vue2-datepicker'
+import moment from "moment";
+
 export default {
+  components: { DatePicker },
   data () {
     return {
       search: "",
-      allParams: {}
+      dateTime: "",
+      allParams: {},
+      dateParams: {},
+      lang: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        placeholder: {
+          dateRange: 'Select Date Range'
+        }
+      },
+      dateFormat: {
+        stringify: (date) => {
+          return date ? moment(date).format("YYYY/MM/DD") : null
+        },
+        parse: (value) => {
+          return value ? moment(value, 'YYYY/MM/DD').toDate() : null
+        }
+      }
     }
   },
   methods: {
+    handleChange(val) {
+      console.log(val)
+      this.dateParams.fromDate = val[0]
+      this.dateParams.toDate = val[1]
+      this.$events.fire('snapmail-history-date-filter-set', this.dateParams)
+    },
+
     snapmailHistoryFilterGlobal () {
       this.allParams.search = this.search
       this.$events.fire('snapmail-history-filter-set', this.allParams)

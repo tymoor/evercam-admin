@@ -22,7 +22,7 @@
           :css="css.table"
         >
         <div slot="template-slot" slot-scope="props">
-          <a @click="onCheckBoxClick($event, props.rowData)"> Template </a>
+          <a @click="onTemplateClick($event, props.rowData)" href="#"> Template </a>
         </div>
         </vuetable>
       </div>
@@ -65,6 +65,7 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 
+import moment from "moment";
 import axios from "axios";
 import _ from "lodash";
 
@@ -77,12 +78,22 @@ export default {
       moreParams: {},
       paginationComponent: "vuetable-pagination",
       fields: FieldsDef,
-      data: []
+      data: [],
+      filtered: [],
+      fromDate: moment().subtract(7, "days").format("YYYY/MM/DD"),
+      toDate: moment().format("YYYY/MM/DD")
     }
   },
   watch: {
     data(newVal, oldVal) {
-      this.$refs.vuetable.refresh();
+      this.$nextTick(() => {
+        this.$refs.vuetable.setData(this.data);
+      });
+    },
+    filtered(newVal, oldVal) {
+      this.$nextTick(() => {
+        this.$refs.vuetable.setData(this.filtered);
+      });
     },
     paginationComponent(newVal, oldVal) {
       this.$nextTick(() => {
@@ -92,15 +103,40 @@ export default {
   },
 
   mounted() {
-    axios.get("/v1/snapmail_history").then(response => {
+    axios.get("/v1/snapmail_history", {
+      params: {
+        fromDate: this.fromDate,
+        toDate: this.toDate
+      }
+    }).then(response => {
       this.data = response.data.data;
+      this.filtered = response.data.data;
     });
     this.$events.$on('snapmail-history-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('snapmail-history-date-filter-set', eventData => this.onDateFilter(eventData))
   },
 
   methods: {
     onFilterSet (filters) {
-      this.$nextTick( () => this.$refs.vuetable.refresh())
+      this.filtered = this.data.filter(d => {
+        for (let name in d) {
+          if (d[name].toLowerCase().indexOf(filters.search.toLowerCase()) > -1) {
+            return d;
+          }
+        }
+      })
+    },
+
+    onDateFilter(filters) {
+      axios.get("/v1/snapmail_history", {
+        params: {
+          fromDate: filters.fromDate,
+          toDate: filters.toDate
+        }
+      }).then(response => {
+        this.data = response.data.data;
+        console.log(this.data)
+      });
     },
 
     onPaginationData(paginationData) {
@@ -150,6 +186,10 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    onTemplateClick(e, data) {
+      console.log(data)
     }
   }
 }

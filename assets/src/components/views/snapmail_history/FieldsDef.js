@@ -31,6 +31,7 @@ export default [
   },
   {
     name: "template-slot",
+    title: '',
     titleClass: "template"
   },
 ]

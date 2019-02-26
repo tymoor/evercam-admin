@@ -392,6 +392,7 @@ body {
 }
 
 .vuetable-body-wrapper .admin-report .vuetable-th-created_at,
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .csr-report .vuetable-th-created_at,
 .vuetable-body-wrapper .snapmail-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-updated_at,
@@ -459,4 +460,24 @@ body {
 
 .vuetable-body-wrapper .csr-report .csr-checkbox {
   width: 30px;
+}
+
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-recipients {
+  width: 200px
+}
+
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-camera_ids {
+  width: 350px;
+}
+
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-camera_ids_failed {
+  width: 350px;
+}
+
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-subject {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .snapmail-history-report .vuetable-th-slot-template-slot {
+  width: 150px;
 }

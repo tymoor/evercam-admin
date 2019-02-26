@@ -34,6 +34,7 @@ defmodule EvercamAdminWeb.Router do
     get "/cloud_recordings", CloudRecordingsController, :index
     get "/admins", AdminsController, :index
     get "/snapmails", SnapmailsController, :index
+    get "/snapmail_history", SnapmailsController, :history
     patch "/admins/:email", AdminsController, :update
     delete "/admins/:email", AdminsController, :delete
   end

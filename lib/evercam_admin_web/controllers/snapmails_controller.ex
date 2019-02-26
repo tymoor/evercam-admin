@@ -57,6 +57,59 @@ defmodule EvercamAdminWeb.SnapmailsController do
     json(conn, records)
   end
 
+  def history(conn, params) do
+    from = params["fromDate"]
+    to = params["toDate"]
+    query = "SELECT * FROM snapmail_logs WHERE (DATE(inserted_at) >= '#{from}' and DATE(inserted_at) <= '#{to}') ORDER BY inserted_at desc"
+    snapmail_logs = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+    cols = Enum.map snapmail_logs.columns, &(String.to_atom(&1))
+    roles = Enum.map snapmail_logs.rows, fn(row) ->
+      Enum.zip(cols, row)
+    end
+
+    length = snapmail_logs.num_rows
+    data =
+      case length <= 0 do
+        true -> []
+        _ ->
+          Enum.reduce(0..length - 1, [], fn i, acc ->
+            snapmail_log = Enum.at(roles, i)
+            smh = %{
+              inserted_at: (if snapmail_log[:inserted_at], do: Calendar.Strftime.strftime!(snapmail_log[:inserted_at], "%A, %d %b %Y %l:%M %p"), else: ""),
+              recipients: snapmail_log[:recipients],
+              camera_ids: all_camera_ids(snapmail_log[:body]),
+              camera_ids_failed: camera_ids_failed(snapmail_log[:body]),
+              subject: snapmail_log[:subject],
+              id: "{snapmail_log[:id]}"
+            }
+            acc ++ [smh]
+          end)
+      end
+    json(conn, %{data: data})
+  end
+
+  defp all_camera_ids(body) do
+    Floki.attribute(body, ".last-snapmail-snapshot", "id") ++ Floki.attribute(body, ".failed-camera", "id")
+    |> case do
+      [] -> ""
+      cameras ->
+        Enum.reduce(cameras, "", fn camera, acc ->
+          acc <> camera
+        end)
+    end
+  end
+
+  defp camera_ids_failed(body) do
+    Floki.attribute(body, ".failed-camera", "id")
+    |> case do
+      [] -> ""
+      cameras ->
+        Enum.reduce(cameras, "", fn camera, acc ->
+          acc <> camera
+        end)
+    end
+  end
+
   defp condition(params) do
     Enum.reduce(params, "where 1=1", fn param, condition = _acc ->
       {name, value} = param

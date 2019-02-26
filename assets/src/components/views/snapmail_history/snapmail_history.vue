@@ -117,10 +117,10 @@ export default {
   },
 
   methods: {
-    onFilterSet (filters) {
+    onFilterSet (filter) {
       this.filtered = this.data.filter(d => {
         for (let name in d) {
-          if (d[name].toLowerCase().indexOf(filters.search.toLowerCase()) > -1) {
+          if (d[name].toLowerCase().indexOf(filter.search.toLowerCase()) > -1) {
             return d;
           }
         }

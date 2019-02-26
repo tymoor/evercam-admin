@@ -80,7 +80,7 @@ defmodule EvercamAdminWeb.SnapmailsController do
               camera_ids: all_camera_ids(snapmail_log[:body]),
               camera_ids_failed: camera_ids_failed(snapmail_log[:body]),
               subject: snapmail_log[:subject],
-              id: snapmail_log[:id]
+              id: "{snapmail_log[:id]}"
             }
             acc ++ [smh]
           end)

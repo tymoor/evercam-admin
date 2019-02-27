@@ -6,7 +6,7 @@ export default [
     togglable: true
   },
   {
-    name: 'fullname',
+    name: 'name_link',
     title: 'Requested By',
     sortField: 'fullname',
     togglable: true

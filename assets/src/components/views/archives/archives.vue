@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-archvies-filters />
+      <v-archives-filters />
     </div>
     <div>
       <v-archives-show-hide :vuetable-fields="vuetableFields" />

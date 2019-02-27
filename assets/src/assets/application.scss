@@ -129,10 +129,10 @@ body {
 .vuetable-body-wrapper .snapmail-report .vuetable-td-is_paused,
 .vuetable-body-wrapper .csr-report .vuetable-td-status,
 .vuetable-body-wrapper .archives-report .vuetable-td-public,
+.vuetable-body-wrapper .archives-report .vuetable-td-status,
 .vuetable-body-wrapper .archives-report .vuetable-td-duration {
   text-align: center;
 }
-
 
 .vuetable-body-wrapper .camera-report .camera-checkbox {
   width: 35px;
@@ -488,6 +488,22 @@ body {
   width: 150px;
 }
 
-.vuetable-body-wrapper .archives-report .vuetable-td-duration {
-  
+.vuetable-body-wrapper .archives-report .vuetable-th-duration {
+  width: 115px;
+}
+
+.vuetable-body-wrapper .archives-report .vuetable-th-title {
+  width: 290px;
+}
+
+.vuetable-body-wrapper .archives-report .vuetable-th-exid {
+  width: 175px;
+}
+
+.vuetable-body-wrapper .archives-report .vuetable-th-name_link {
+  width: 235px;
+}
+
+.vuetable-body-wrapper .archives-report .vuetable-th-status {
+  width: 110px;
 }

@@ -98,8 +98,8 @@ Vue.component("v-csr-show-hide", CSRShowHide);
 import ArchivesFilters from "./components/views/archives/archives_filters";
 Vue.component("v-archives-filters", ArchivesFilters);
 
-import ArchviesShowHide from "./components/views/archives/archives_show_hide";
-Vue.component("v-archvies-show-hide", ArchviesShowHide);
+import ArchivesShowHide from "./components/views/archives/archives_show_hide";
+Vue.component("v-archives-show-hide", ArchivesShowHide);
 
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);

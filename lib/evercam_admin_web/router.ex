@@ -39,6 +39,7 @@ defmodule EvercamAdminWeb.Router do
     get "/snapmail_history", SnapmailsController, :history
     patch "/admins/:email", AdminsController, :update
     delete "/admins/:email", AdminsController, :delete
+    get "/maps", MapsController, :index
   end
 
   scope "/", EvercamAdminWeb do

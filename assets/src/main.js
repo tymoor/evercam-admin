@@ -15,7 +15,14 @@ import "@coreui/coreui/dist/js/coreui";
 Vue.config.productionTip = false
 
 import VueClipboard from 'vue-clipboard2'
-Vue.use(VueClipboard)
+Vue.use(VueClipboard);
+
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyAc07PtOpgHSalSppvkxLXbVs30ZvWL6P4'
+  },
+});
 
 import {Vuetable, VuetablePagination, VuetablePaginationDropDown, VuetablePaginationInfo, VuetableFieldCheckbox} from "vuetable-2";
 Vue.component("vuetable", Vuetable);

@@ -19,6 +19,7 @@ import Snapmails from "./components/views/snapmails/snapmails";
 import SnapmailHistory from "./components/views/snapmail_history/snapmail_history";
 import Admins from "./components/views/admins/admins";
 import Archives from "./components/views/archives/archives";
+import Map from "./components/views/maps/map";
 import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import Page404 from "./components/Page404";
@@ -127,6 +128,7 @@ const router = new VueRouter({
     { path: "/compares", component: Compares, name: "compares", meta: { title: "Compares"} },
     { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Snapmails"} },
     { path: "/snapmail_history", component: SnapmailHistory, name: "snapmail_history", meta: { title: "Snapmail History"} },
+    { path: "/map", component: Map, name: "map", meta: { title: "Map"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

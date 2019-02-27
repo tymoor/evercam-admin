@@ -36,6 +36,7 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1",
     "vue2-datepicker": "^2.10.0",
+    "vue2-google-maps": "^0.10.6",
     "vuetable-2": "next",
     "vuex": "^3.0.1"
   },

@@ -15,6 +15,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/archives'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Archives
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/cameras'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Cameras

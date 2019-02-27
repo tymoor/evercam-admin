@@ -33,6 +33,7 @@ defmodule EvercamAdminWeb.Router do
     delete "/vendors/:exid", VendorsController, :delete
     get "/cloud_recordings", CloudRecordingsController, :index
     get "/admins", AdminsController, :index
+    get "/archives", ArchivesController, :index
     get "/snapmails", SnapmailsController, :index
     get "/snapmail_history", SnapmailsController, :history
     patch "/admins/:email", AdminsController, :update

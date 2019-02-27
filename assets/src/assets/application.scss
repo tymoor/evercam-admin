@@ -131,6 +131,7 @@ body {
 .vuetable-body-wrapper .archives-report .vuetable-td-public,
 .vuetable-body-wrapper .archives-report .vuetable-td-status,
 .vuetable-body-wrapper .archives-report .vuetable-td-duration {
+.vuetable-body-wrapper .snapmail-history-report .vuetable-slot  {
   text-align: center;
 }
 
@@ -485,7 +486,7 @@ body {
 }
 
 .vuetable-body-wrapper .snapmail-history-report .vuetable-th-slot-template-slot {
-  width: 150px;
+  width: 50px;
 }
 
 .vuetable-body-wrapper .archives-report .vuetable-th-duration {

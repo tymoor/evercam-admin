@@ -92,10 +92,11 @@ statusCheck = (status) => {
   }
 }
 
-secondsTimeSpanToHMS = (s) => {
-  let h = Math.floor(s / 3600)
-  s -= h * 3600
-  let m = Math.floor(s / 60)
-  s -= m * 60
-  return h + ':' + (if m < 10 then '0' + m else m) + ':' + (if s < 10 then '0' + s else s)
-}
+secondsTimeSpanToHMS = function(s) {
+  var h, m;
+  h = Math.floor(s / 3600);
+  s -= h * 3600;
+  m = Math.floor(s / 60);
+  s -= m * 60;
+  return h + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+};

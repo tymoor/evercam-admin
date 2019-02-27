@@ -127,7 +127,9 @@ body {
 .vuetable-body-wrapper .snapmail-report .vuetable-td-notify_time,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-timezone,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-is_paused,
-.vuetable-body-wrapper .csr-report .vuetable-td-status  {
+.vuetable-body-wrapper .csr-report .vuetable-td-status,
+.vuetable-body-wrapper .archives-report .vuetable-td-public,
+.vuetable-body-wrapper .archives-report .vuetable-td-duration {
   text-align: center;
 }
 
@@ -436,7 +438,8 @@ body {
   width: 150px;
 }
 
-.vuetable-body-wrapper .snapmail-report .vuetable-th-is_paused {
+.vuetable-body-wrapper .snapmail-report .vuetable-th-is_paused,
+.vuetable-body-wrapper .archives-report .vuetable-th-paused {
   width: 100px;
 }
 
@@ -483,4 +486,8 @@ body {
 
 .vuetable-body-wrapper .snapmail-history-report .vuetable-th-slot-template-slot {
   width: 150px;
+}
+
+.vuetable-body-wrapper .archives-report .vuetable-td-duration {
+  
 }

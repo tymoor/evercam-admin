@@ -115,6 +115,7 @@ const router = new VueRouter({
     { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
     { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },
     { path: "/admins", component: Admins, name: "admins", meta: { title: "Admins"} },
+    { path: "/archives", component: Archives, name: "archives", meta: { title: "Archives"} },
     { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Snapmails"} },
     { path: "/snapmail_history", component: SnapmailHistory, name: "snapmail_history", meta: { title: "Snapmail History"} },
     { path: "/users", redirect: '/'},

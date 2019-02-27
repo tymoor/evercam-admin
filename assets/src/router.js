@@ -18,6 +18,7 @@ import CloudRecordings from "./components/views/cloud_recordings/cloud_recording
 import Snapmails from "./components/views/snapmails/snapmails";
 import SnapmailHistory from "./components/views/snapmail_history/snapmail_history";
 import Admins from "./components/views/admins/admins";
+import Archives from "./components/views/archives/archives";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
@@ -93,6 +94,12 @@ Vue.component("v-csr-filters", CSRFilters);
 
 import CSRShowHide from "./components/views/camera_share_requests/csr_show_hide";
 Vue.component("v-csr-show-hide", CSRShowHide);
+
+import ArchivesFilters from "./components/views/archives/archives_filters";
+Vue.component("v-archives-filters", ArchivesFilters);
+
+import ArchviesShowHide from "./components/views/archives/archives_show_hide";
+Vue.component("v-archvies-show-hide", ArchviesShowHide);
 
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);

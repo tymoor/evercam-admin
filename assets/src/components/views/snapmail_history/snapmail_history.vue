@@ -7,6 +7,8 @@
       <v-snapmail-history-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -22,7 +24,7 @@
           :css="css.table"
         >
         <div slot="template-slot" slot-scope="props">
-          <a @click="onTemplateClick($event, props.rowData)" href="#"> Template </a>
+          <span @click="onTemplateClick($event, props.rowData)" class="fa fa-eye email-template"></span>
         </div>
         </vuetable>
       </div>
@@ -52,13 +54,24 @@
 }
 
 .overflow-forms {
-  overflow: hidden;
   width: 85%;
 }
 
 #table-wrapper {
   margin-top: 1px;
 }
+
+#api-wait {
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  z-index: 99999;
+}
+
+.email-template {
+  cursor: pointer;
+}
+
 </style>
 
 <script>
@@ -70,6 +83,9 @@ import axios from "axios";
 import _ from "lodash";
 
 export default {
+  components: {
+    SnapmailTemplate
+  },
   data: () => {
     return {
       loading: "",
@@ -80,6 +96,7 @@ export default {
       fields: FieldsDef,
       data: [],
       filtered: [],
+      ajaxWait: true,
       fromDate: moment().subtract(7, "days").format("YYYY/MM/DD"),
       toDate: moment().format("YYYY/MM/DD")
     }
@@ -103,6 +120,7 @@ export default {
   },
 
   mounted() {
+    this.ajaxWait = true,
     axios.get("/v1/snapmail_history", {
       params: {
         fromDate: this.fromDate,
@@ -110,6 +128,7 @@ export default {
       }
     }).then(response => {
       this.data = response.data.data;
+      this.ajaxWait = false
       this.filtered = response.data.data;
     });
     this.$events.$on('snapmail-history-filter-set', eventData => this.onFilterSet(eventData))
@@ -128,13 +147,15 @@ export default {
     },
 
     onDateFilter(filters) {
+      this.ajaxWait = true,
       axios.get("/v1/snapmail_history", {
         params: {
-          fromDate: filters.fromDate,
-          toDate: filters.toDate
+          fromDate: filters.fromDate || this.fromDate,
+          toDate: filters.toDate || this.toDate
         }
       }).then(response => {
         this.data = response.data.data;
+        this.ajaxWait = false
         console.log(this.data)
       });
     },

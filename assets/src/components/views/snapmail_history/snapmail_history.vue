@@ -83,9 +83,6 @@ import axios from "axios";
 import _ from "lodash";
 
 export default {
-  components: {
-    SnapmailTemplate
-  },
   data: () => {
     return {
       loading: "",

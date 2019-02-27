@@ -130,8 +130,11 @@ body {
 .vuetable-body-wrapper .csr-report .vuetable-td-status,
 .vuetable-body-wrapper .archives-report .vuetable-td-public,
 .vuetable-body-wrapper .archives-report .vuetable-td-status,
+.vuetable-body-wrapper .compares-report .vuetable-td-status,
 .vuetable-body-wrapper .archives-report .vuetable-td-duration,
-.vuetable-body-wrapper .snapmail-history-report .vuetable-slot  {
+.vuetable-body-wrapper .compares-report .vuetable-slot,
+.vuetable-body-wrapper .snapmail-history-report .vuetable-slot,
+.vuetable-body-wrapper .compares-report .vuetable-td-download {
   text-align: center;
 }
 
@@ -144,12 +147,14 @@ body {
 }
 
 .vuetable-body-wrapper .camera-report .vuetable-th-created_at,
+.vuetable-body-wrapper .compares-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_online_at,
 .vuetable-body-wrapper .camera-share-report .vuetable-th-created_at {
   width: 250px;
 }
 
+.vuetable-body-wrapper .compares-report .vuetable-th-camera_link,
 .vuetable-body-wrapper .camera-report .vuetable-th-camera_link {
   width: 200px;
 }
@@ -501,10 +506,24 @@ body {
   width: 175px;
 }
 
+.vuetable-body-wrapper .compares-report .vuetable-th-name_link,
 .vuetable-body-wrapper .archives-report .vuetable-th-name_link {
   width: 235px;
 }
 
+.vuetable-body-wrapper .compares-report .vuetable-th-status,
 .vuetable-body-wrapper .archives-report .vuetable-th-status {
   width: 110px;
+}
+
+.vuetable-body-wrapper .compares-report .vuetable-th-name {
+  width: 250px;
+}
+
+.vuetable-body-wrapper .compares-report .vuetable-th-slot-embed_code_slot {
+  width: 105px;
+}
+
+.vuetable-body-wrapper .compares-report .vuetable-th-download {
+  width: 135px;
 }

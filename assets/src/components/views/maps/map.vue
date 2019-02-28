@@ -1,11 +1,11 @@
 <template>
   <div>
-    <gmap-map :center="center" :zoom="15" style="width: 100%; height: 500px">
+    <gmap-map :center="center" :zoom="15" style="width: 100%; height: 700px">
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         {{infoContent}}
       </gmap-info-window>
 
-      <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :clickable="true" @click="toggleInfoWindow(m,i)"></gmap-marker>
+      <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :clickable="true" @click="toggleInfoWindow(m,i)" :icon="{ url: require('./chart.png') }"></gmap-marker>
     </gmap-map>
   </div>
 </template>
@@ -41,12 +41,14 @@ table td {
 </style>
 
 <script>
+import axios from "axios";
+
 export default {
   data: () => {
     return {
       center: {
-        lat: 47.376332,
-        lng: 8.547511
+        lat: 53.1424,
+        lng: 7.6921
       },
       infoContent: '',
       infoWindowPos: null,
@@ -59,28 +61,25 @@ export default {
           height: -35
         }
       },
-      markers: [{
-        position: {
-          lat: 47.376332,
-          lng: 8.547511
-        },
-        infoText: 'Marker 1'
-      }, {
-        position: {
-          lat: 47.374592,
-          lng: 8.548867
-        },
-        infoText: 'Marker 2'
-      }, {
-        position: {
-          lat: 47.379592,
-          lng: 8.549867
-        },
-        infoText: 'Marker 3'
-      }]
+      markers: []
     }
   },
+
+  created() {
+    this.fetchMarkers()
+  },
+
   methods: {
+    fetchMarkers () {
+      axios.get("/v1/maps", {
+        params: {
+          map_for: "all",
+        }
+      }).then(response => {
+        console.log(response)
+        this.markers = response.data.markers;
+      });
+    },
     toggleInfoWindow: function(marker, idx) {
       this.infoWindowPos = marker.position;
       this.infoContent = marker.infoText;

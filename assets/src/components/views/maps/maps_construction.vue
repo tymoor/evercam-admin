@@ -73,7 +73,7 @@ export default {
     fetchMarkers () {
       axios.get("/v1/maps", {
         params: {
-          map_for: "all",
+          map_for: "construction",
         }
       }).then(response => {
         this.markers = response.data.markers;

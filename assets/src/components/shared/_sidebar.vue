@@ -53,7 +53,7 @@
         <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/vendors'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Vendor
+            Vendors
           </router-link>
         </li>
         <li class="nav-item">
@@ -72,6 +72,24 @@
           <router-link class="nav-link" v-bind:to="'/snapmail_history'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Snapmail History
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/map'">
+            <i class="nav-icon icon-drop fa fa-map"></i>
+            Map
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/maps_garda'">
+            <i class="nav-icon icon-drop fa fa-map"></i>
+            Maps Garda
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/maps_construction'">
+            <i class="nav-icon icon-drop fa fa-map"></i>
+            Maps Construction
           </router-link>
         </li>
       </ul>

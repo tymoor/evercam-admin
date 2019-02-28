@@ -27,6 +27,10 @@
   margin-top: 4px;
   margin-left: 15px;
 }
+
+.mx-shortcuts-wrapper {
+  display: none;
+}
 </style>
 
 <script>
@@ -44,6 +48,7 @@ export default {
       lang: {
         days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        pickers: [],
         placeholder: {
           dateRange: 'Select Date Range'
         }

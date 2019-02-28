@@ -20,6 +20,8 @@ import SnapmailHistory from "./components/views/snapmail_history/snapmail_histor
 import Admins from "./components/views/admins/admins";
 import Archives from "./components/views/archives/archives";
 import Map from "./components/views/maps/map";
+import MapGarda from "./components/views/maps/maps_garda";
+import MapConstruction from "./components/views/maps/maps_construction";
 import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import Page404 from "./components/Page404";
@@ -129,6 +131,8 @@ const router = new VueRouter({
     { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Snapmails"} },
     { path: "/snapmail_history", component: SnapmailHistory, name: "snapmail_history", meta: { title: "Snapmail History"} },
     { path: "/map", component: Map, name: "map", meta: { title: "Map"} },
+    { path: "/maps_garda", component: MapGarda, name: "map_garda", meta: { title: "Maps Garda"} },
+    { path: "/maps_construction", component: MapConstruction, name: "maps_construction", meta: { title: "Maps Construction"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

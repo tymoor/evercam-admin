@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
     <gmap-map :center="center" :zoom="7" style="width: 100%; height: 800px">
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
         <span v-html="infoContent"></span>
@@ -61,7 +62,8 @@ export default {
           height: -35
         }
       },
-      markers: []
+      markers: [],
+      ajaxWait: true
     }
   },
 
@@ -76,6 +78,7 @@ export default {
           map_for: "garda",
         }
       }).then(response => {
+        this.ajaxWait = false;
         this.markers = response.data.markers;
       });
     },

@@ -531,3 +531,10 @@ body {
 .mx-datepicker .mx-shortcuts-wrapper {
   display: none;
 }
+
+#api-wait {
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  z-index: 99999;
+}

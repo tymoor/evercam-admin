@@ -1,6 +1,5 @@
 defmodule EvercamAdminWeb.SnapshotExtractorsController do
   use EvercamAdminWeb, :controller
-  import Ecto.Query
 
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")

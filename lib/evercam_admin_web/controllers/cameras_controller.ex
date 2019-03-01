@@ -1,5 +1,6 @@
 defmodule EvercamAdminWeb.CamerasController do
   use EvercamAdminWeb, :controller
+  import Ecto.Query
 
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
@@ -100,6 +101,22 @@ defmodule EvercamAdminWeb.CamerasController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/cameras?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def construction_cameras(conn, _params) do
+    construction_cameras =
+      Camera
+      |> where([cam], cam.owner_id in [13959, 109148])
+      |> preload(:owner)
+      |> Evercam.Repo.all
+      |> Enum.reduce([], fn camera, acc ->
+        cam = %{
+          label: camera.name,
+          value: "#{camera.exid}~#{camera.owner.api_key}~#{camera.owner.api_id}"
+        }
+        acc ++ [cam]
+      end)
+    json(conn, %{construction_cameras: construction_cameras})
   end
 
   defp cast_mac(nil), do: ""

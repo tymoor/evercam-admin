@@ -5,6 +5,7 @@
     </div>
     <div>
       <v-se-show-hide :vuetable-fields="vuetableFields" />
+      <add-extractor />
     </div>
 
     <v-horizontal-scroll />
@@ -66,8 +67,12 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import AddExtractor from "./add_extractor";
 
 export default {
+  components: {
+    AddExtractor
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",

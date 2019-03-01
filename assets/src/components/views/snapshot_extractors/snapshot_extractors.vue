@@ -7,6 +7,8 @@
       <v-se-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
+    <v-horizontal-scroll />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -100,7 +102,15 @@ export default {
     }
   },
 
+  beforeUpdate() {
+    document.addEventListener("resize", this.setScrollBar());
+  },
+
   mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.setScrollBar);
+      this.setScrollBar()
+    });
     this.$events.$on('se-filter-set', eventData => this.onFilterSet(eventData))
   },
 

@@ -75,6 +75,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/snapshot_extractors'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Snapshot Extractors
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/map'">
             <i class="nav-icon icon-drop fa fa-map"></i>
             Map

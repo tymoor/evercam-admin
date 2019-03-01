@@ -24,6 +24,7 @@ import MapGarda from "./components/views/maps/maps_garda";
 import MapConstruction from "./components/views/maps/maps_construction";
 import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
+import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -111,6 +112,11 @@ Vue.component("v-compares-filters", ComparesFilters);
 import ComparesShowHide from "./components/views/compares/compares_show_hide";
 Vue.component("v-compares-show-hide", ComparesShowHide);
 
+import SEFilters from "./components/views/snapshot_extractors/se_filters";
+Vue.component("v-se-filters", SEFilters);
+
+import SEShowHide from "./components/views/snapshot_extractors/se_show_hide";
+Vue.component("v-se-show-hide", SEShowHide);
 
 import HorizontalScroll from "./components/shared/horizontal_scroll";
 Vue.component("v-horizontal-scroll", HorizontalScroll);
@@ -133,6 +139,7 @@ const router = new VueRouter({
     { path: "/map", component: Map, name: "map", meta: { title: "Map"} },
     { path: "/maps_garda", component: MapGarda, name: "map_garda", meta: { title: "Maps Garda"} },
     { path: "/maps_construction", component: MapConstruction, name: "maps_construction", meta: { title: "Maps Construction"} },
+    { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Snapshot Extractors"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

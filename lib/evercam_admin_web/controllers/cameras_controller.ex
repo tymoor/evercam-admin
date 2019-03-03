@@ -103,20 +103,25 @@ defmodule EvercamAdminWeb.CamerasController do
     json(conn, records)
   end
 
-  def construction_cameras(conn, _params) do
+  def construction_cameras(conn, params) do
+    search = if params["search"] in ["", nil], do: "", else: params["search"]
     construction_cameras =
       Camera
       |> where([cam], cam.owner_id in [13959, 109148])
+      |> where([cam], like(fragment("lower(?)", cam.name), ^("%#{String.downcase(search)}%")))
       |> preload(:owner)
       |> Evercam.Repo.all
       |> Enum.reduce([], fn camera, acc ->
         cam = %{
-          label: camera.name,
-          value: "#{camera.exid}~#{camera.owner.api_key}~#{camera.owner.api_id}"
+          name: camera.name,
+          thumbnail: "https://media.evercam.io/v2/cameras/#{camera.exid}/thumbnail?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}",
+          exid: camera.exid,
+          api_key: camera.owner.api_key,
+          api_id: camera.owner.api_id
         }
         acc ++ [cam]
       end)
-    json(conn, %{construction_cameras: construction_cameras})
+    json(conn, construction_cameras)
   end
 
   defp cast_mac(nil), do: ""

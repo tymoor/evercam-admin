@@ -25,6 +25,7 @@ import MapConstruction from "./components/views/maps/maps_construction";
 import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
+import NewExtractor from "./components/views/snapshot_extractors/new_extractor";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -140,6 +141,7 @@ const router = new VueRouter({
     { path: "/maps_garda", component: MapGarda, name: "map_garda", meta: { title: "Maps Garda"} },
     { path: "/maps_construction", component: MapConstruction, name: "maps_construction", meta: { title: "Maps Construction"} },
     { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Snapshot Extractors"} },
+    { path: "/new_extractor", component: NewExtractor, name: "new_extractor", meta: { title: "New Extractors"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

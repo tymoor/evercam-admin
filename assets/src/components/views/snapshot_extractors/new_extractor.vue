@@ -1,121 +1,105 @@
 <template>
   <div>
-    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" data-toggle="modal" data-target="#addExtractor"><i class="fa fa-plus"></i> Add Extractor</button></div>
-    <div class="modal fade" id="addExtractor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static" data-keyboard="false" ref="vuemodal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Extractor</h4>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Construction Camera</label>
-                <div class="col-sm-8">
-                  <cool-select
-                    v-model="selected"
-                    :items="items"
-                    :loading="loading"
-                    item-text="name"
-                    placeholder="Enter Camera name"
-                    disable-filtering-by-search
-                    @search="onSearch"
-                  >
-                    <template slot="no-data">
-                      {{
-                        noData
-                          ? "No information found by request."
-                          : "We need at least 2 letters to search."
-                      }}
-                    </template>
-                    <template slot="item" slot-scope="{ item }">
-                      <div class="item">
-                        <img :src="item.thumbnail" class="logo" />
-                        <div>
-                          <span class="item-name"> {{ item.name }} </span> <br />
-                        </div>
-                      </div>
-                    </template>
-                  </cool-select>
+    <form>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Construction Camera</label>
+        <div class="col-sm-8">
+          <cool-select
+            v-model="selected"
+            :items="items"
+            :loading="loading"
+            item-text="name"
+            placeholder="Enter Camera name"
+            disable-filtering-by-search
+            @search="onSearch"
+          >
+            <template slot="no-data">
+              {{
+                noData
+                  ? "No information found by request."
+                  : "We need at least 2 letters to search."
+              }}
+            </template>
+            <template slot="item" slot-scope="{ item }">
+              <div class="item">
+                <img :src="item.thumbnail" class="logo" />
+                <div>
+                  <span class="item-name"> {{ item.name }} </span> <br />
                 </div>
               </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">From DateTime</label>
-                <div class="col-sm-8">
-                  <date-picker v-model="fromDateTime" ref="datepicker1" type="datetime" lang="en" :format="dateFormat" confirm value-type="format" @confirm="setFromDate"></date-picker>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">To DateTime</label>
-                <div class="col-sm-8">
-                  <date-picker v-model="toDateTime" ref="datepicker2" type="datetime" lang="en" :format="dateFormat" confirm value-type="format" @confirm="setToDate"></date-picker>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Interval</label>
-                <div class="col-sm-8">
-                  <select name="Interval" v-model="interval" class="form-control">
-                    <option value="">Select Interval</option>
-                    <option value="0">All</option>
-                    <option value="5">1 Frame Every 5 seconds</option>
-                    <option value="10">1 Frame Every 10 seconds</option>
-                    <option value="15">1 Frame Every 15 seconds</option>
-                    <option value="20">1 Frame Every 20 seconds</option>
-                    <option value="30">1 Frame Every 30 seconds</option>
-                    <option value="60">1 Frame Every 1 min</option>
-                    <option value="300">1 Frame Every 5 min</option>
-                    <option value="600">1 Frame Every 10 min</option>
-                    <option value="900">1 Frame Every 15 min</option>
-                    <option value="1200">1 Frame Every 20 min</option>
-                    <option value="1800">1 Frame Every 30 min</option>
-                    <option value="3600">1 Frame Every hour</option>
-                    <option value="7200">1 Frame Every 2 hours</option>
-                    <option value="21600">1 Frame Every 6 hours</option>
-                    <option value="43200">1 Frame Every 12 hours</option>
-                    <option value="86400">1 Frame Every 24 hours</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Schedule</label>
-                <div class="col-sm-8">
-                  <select v-model="schedule_type" class="form-control" v-on:change="handleChange">
-                    <option value="continuous">Continuous</option>
-                    <option value="working_hours">Working Hours</option>
-                    <option value="on_schedule">On Schedule</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row" v-show="showSchedule">
-                <div class="col-sm-12">
-                  <full-calendar
-                    style="padding-left: 0px;"
-                    ref="calendar"
-                    :config="config"
-                    :events="config.events"
-                    :key="componentKey"
-                    id="calendar"
-                  ></full-calendar>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-4 col-form-label">Extraction</label>
-                <div class="col-sm-8">
-                  <select name="Interval" v-model="extraction" class="form-control">
-                    <option value="cloud">Cloud</option>
-                    <option value="local">Local</option>
-                  </select>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" @click="validateFormAndSave($event)">Save</button>
-            <button class="btn btn-secondary" type="button" data-dismiss="modal" @click="clearForm()">Close</button>
-          </div>
+            </template>
+          </cool-select>
         </div>
       </div>
-    </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">From DateTime</label>
+        <div class="col-sm-8">
+          <date-picker v-model="fromDateTime" ref="datepicker1" type="datetime" lang="en" :format="dateFormat" confirm value-type="format" @confirm="setFromDate"></date-picker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">To DateTime</label>
+        <div class="col-sm-8">
+          <date-picker v-model="toDateTime" ref="datepicker2" type="datetime" lang="en" :format="dateFormat" confirm value-type="format" @confirm="setToDate"></date-picker>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Interval</label>
+        <div class="col-sm-8">
+          <select name="Interval" v-model="interval" class="form-control">
+            <option value="">Select Interval</option>
+            <option value="0">All</option>
+            <option value="5">1 Frame Every 5 seconds</option>
+            <option value="10">1 Frame Every 10 seconds</option>
+            <option value="15">1 Frame Every 15 seconds</option>
+            <option value="20">1 Frame Every 20 seconds</option>
+            <option value="30">1 Frame Every 30 seconds</option>
+            <option value="60">1 Frame Every 1 min</option>
+            <option value="300">1 Frame Every 5 min</option>
+            <option value="600">1 Frame Every 10 min</option>
+            <option value="900">1 Frame Every 15 min</option>
+            <option value="1200">1 Frame Every 20 min</option>
+            <option value="1800">1 Frame Every 30 min</option>
+            <option value="3600">1 Frame Every hour</option>
+            <option value="7200">1 Frame Every 2 hours</option>
+            <option value="21600">1 Frame Every 6 hours</option>
+            <option value="43200">1 Frame Every 12 hours</option>
+            <option value="86400">1 Frame Every 24 hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Schedule</label>
+        <div class="col-sm-8">
+          <select v-model="schedule_type" class="form-control" v-on:change="handleChange">
+            <option value="continuous">Continuous</option>
+            <option value="working_hours">Working Hours</option>
+            <option value="on_schedule">On Schedule</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-12">
+          <full-calendar
+            style="padding-left: 0px;"
+            ref="calendar"
+            :config="config"
+            :events="config.events"
+            :key="componentKey"
+            id="calendar"
+          ></full-calendar>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-4 col-form-label">Extraction</label>
+        <div class="col-sm-8">
+          <select name="Interval" v-model="extraction" class="form-control">
+            <option value="cloud">Cloud</option>
+            <option value="local">Local</option>
+          </select>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -163,7 +147,6 @@
 import { FullCalendar } from 'vue-full-calendar';
 import { CoolSelect } from "vue-cool-select";
 import DatePicker from 'vue2-datepicker';
-import jQuery from 'jquery';
 import moment from "moment";
 
   export default {
@@ -171,7 +154,6 @@ import moment from "moment";
       CoolSelect, DatePicker, FullCalendar
     },
     data: () => {
-      var self = this
       return {
         events: null,
         componentKey: 0,
@@ -229,12 +211,8 @@ import moment from "moment";
               end: end
             }
             console.log(eventData)
-
-            self.$nextTick(() => {
-              console.log(this.$refs)
-              this.$refs.calendar.fireMethod('renderEvent', eventData, true);
-              this.$refs.calendar.fireMethod('unselect');
-            });
+            this.$refs.calendar.fireMethod('renderEvent', eventData, true);
+            this.$refs.calendar.fireMethod('unselect');
             var schedule = JSON.stringify(this.parseCalendar());
             this.myschedule = schedule
           },
@@ -273,15 +251,11 @@ import moment from "moment";
       }
     },
 
+    beforeUpdate() {
+      console.log("called")
+    },
+
     methods: {
-
-      eventCreated(...test) {
-        console.log(test);
-      },
-
-      eventSelected(event) {
-        console.log(event);
-      },
 
       renderEventunSelect(eventData) {
         this.$refs.calendar.fireMethod('renderEvent', eventData, true);
@@ -423,7 +397,6 @@ import moment from "moment";
               text: "Snapshot Extractor has been added!",
             });
 
-            jQuery('#addExtractor').modal('hide')
             this.clearForm()
           }, error => {
             this.$notify({

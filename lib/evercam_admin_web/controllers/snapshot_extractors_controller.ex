@@ -1,6 +1,23 @@
 defmodule EvercamAdminWeb.SnapshotExtractorsController do
   use EvercamAdminWeb, :controller
 
+  def create(conn, params) do
+    SnapshotExtractor.changeset(%SnapshotExtractor{}, %{
+      camera_id: params["camera_id"],
+      from_date: params["from_date"] |> NaiveDateTime.from_iso8601! |> Calendar.DateTime.from_naive("Etc/UTC") |> elem(1),
+      to_date: params["to_date"] |> NaiveDateTime.from_iso8601! |> Calendar.DateTime.from_naive("Etc/UTC") |> elem(1),
+      interval: params["interval"],
+      schedule: Jason.decode!(params["schedule"]),
+      requestor: params["requestor"],
+      status: 1
+    })
+    |> Evercam.Repo.insert
+    |> case do
+      {:ok, _extraction} -> json(conn, %{success: true})
+      {:error, _error} -> conn |> put_status(400) |> json(%{success: false})
+    end
+  end
+
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
     search = if params["search"] in ["", nil], do: "", else: params["search"]

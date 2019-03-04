@@ -117,7 +117,8 @@ defmodule EvercamAdminWeb.CamerasController do
           thumbnail: "https://media.evercam.io/v2/cameras/#{camera.exid}/thumbnail?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}",
           exid: camera.exid,
           api_key: camera.owner.api_key,
-          api_id: camera.owner.api_id
+          api_id: camera.owner.api_id,
+          camera_id: camera.id
         }
         acc ++ [cam]
       end)

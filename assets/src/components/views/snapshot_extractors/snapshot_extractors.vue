@@ -81,7 +81,7 @@ export default {
       perPage: 60,
       sortOrder: [
         {
-          field: 'created_at',
+          field: 'id',
           direction: 'desc',
         }
       ],
@@ -117,9 +117,15 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('se-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('se-added', e => this.onSEAdded(e))
   },
 
   methods: {
+
+    onSEAdded(e) {
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
     onFilterSet (filters) {
       this.moreParams = {
         "search": filters.search

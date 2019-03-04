@@ -43,7 +43,6 @@ export default [
   {
     name: 'notes',
     title: 'Notes',
-    sortField: 'notes',
     togglable: true
   },
   {

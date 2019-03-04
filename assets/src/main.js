@@ -21,7 +21,7 @@ Vue.use(VueClipboard);
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyAc07PtOpgHSalSppvkxLXbVs30ZvWL6P4'
+    key: 'AIzaSyADpGFHyrWnacLX76mVGcTKQ-HflkLHZm8'
   },
 });
 

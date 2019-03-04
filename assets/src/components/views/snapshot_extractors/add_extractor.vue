@@ -19,6 +19,7 @@
                     item-text="name"
                     placeholder="Enter Camera name"
                     disable-filtering-by-search
+                    :search-text.sync="search"
                     @search="onSearch"
                   >
                     <template slot="no-data">
@@ -211,6 +212,7 @@ import moment from "moment";
         inject_to_cr: false,
         cameras: [],
         errors: [],
+        search: "",
         camera: "",
         selected: null,
         showSchedule: false,
@@ -511,6 +513,7 @@ import moment from "moment";
         this.jpegs_to_dropbox = true,
         this.showLocalOptions = false,
         this.create_mp4 = false,
+        this.search = "",
         this.inject_to_cr = false,
         this.schedule = JSON.stringify({
           "Monday": ["08:00-18:00"],

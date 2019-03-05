@@ -21,6 +21,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/meta_datas'">
+            <i class="nav-icon icon-drop fa fa-file-video-o"></i>
+            Active Video Sessions
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/compares'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Compares

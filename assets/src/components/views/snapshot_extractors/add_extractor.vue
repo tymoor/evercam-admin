@@ -258,10 +258,10 @@ import moment from "moment";
         },
         dateFormat: {
           stringify: (date) => {
-            return date ? moment(date).format("YYYY-MM-DD hh:mm:ss") : null
+            return date ? moment(date).format("YYYY-MM-DD HH:mm:ss") : null
           },
           parse: (value) => {
-            return value ? moment(value, 'YYYY-MM-DD hh:mm:ss').toDate() : null
+            return value ? moment(value, 'YYYY-MM-DD HH:mm:ss').toDate() : null
           }
         }
       }

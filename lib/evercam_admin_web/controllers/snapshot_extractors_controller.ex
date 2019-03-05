@@ -9,7 +9,7 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
       interval: params["interval"],
       schedule: Jason.decode!(params["schedule"]),
       requestor: params["requestor"],
-      status: 1
+      status: 0
     })
     |> Evercam.Repo.insert
     |> case do

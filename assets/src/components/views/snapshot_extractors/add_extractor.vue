@@ -409,7 +409,7 @@ import moment from "moment";
 
       validateFormAndSave (e) {
         e.preventDefault()
-        if (this.schedule_type == "continuous") {
+        if (this.schedule_type == "on_schedule") {
           this.schedule = JSON.stringify(this.parseCalendar())
         }
         this.errors = []

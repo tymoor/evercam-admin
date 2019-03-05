@@ -158,7 +158,6 @@ export default {
 
     syncStatMetaData() {
       this.$http.get(`/v1/sync_stat_metadata`).then(response => {
-        console.log("i am here")
         this.$nextTick(() => {
           this.$refs.vuetable.refresh();
         });

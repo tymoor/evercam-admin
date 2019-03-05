@@ -466,7 +466,7 @@ import moment from "moment";
               create_mp4: this.create_mp4,
               inject_to_cr: this.inject_to_cr,
               jpegs_to_dropbox: this.jpegs_to_dropbox,
-              requestor: this.$root.user.email,
+              requester: this.$root.user.email,
               api_key: this.selected.api_key,
               api_id: this.selected.api_id
             }

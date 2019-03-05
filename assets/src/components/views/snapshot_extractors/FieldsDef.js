@@ -88,7 +88,7 @@ statusCheck = (status) => {
     case 3:
       return "Failed"
     case 11:
-      return "Failed"
+      return "Processing"
     case 12:
       return "Completed"
     default:

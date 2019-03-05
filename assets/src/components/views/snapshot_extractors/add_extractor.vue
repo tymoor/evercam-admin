@@ -204,7 +204,6 @@ import moment from "moment";
       CoolSelect, DatePicker, FullCalendar
     },
     data: () => {
-      var self = this
       return {
         events: null,
         jpegs_to_dropbox: true,
@@ -513,7 +512,7 @@ import moment from "moment";
         this.jpegs_to_dropbox = true,
         this.showLocalOptions = false,
         this.create_mp4 = false,
-        this.search = "",
+        this.search = ' ',
         this.inject_to_cr = false,
         this.schedule = JSON.stringify({
           "Monday": ["08:00-18:00"],

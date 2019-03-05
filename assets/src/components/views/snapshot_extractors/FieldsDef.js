@@ -27,7 +27,10 @@ export default [
     name: 'interval',
     title: 'Interval',
     sortField: 'interval',
-    togglable: true
+    togglable: true,
+    formatter: (value) => {
+      return secondsTimeSpanToHMS(value)
+    }
   },
   {
     name: 'status',
@@ -40,7 +43,6 @@ export default [
   {
     name: 'notes',
     title: 'Notes',
-    sortField: 'notes',
     togglable: true
   },
   {
@@ -65,7 +67,7 @@ export default [
   }
 ]
 
-var checkNature, statusCheck;
+var checkNature, statusCheck, secondsTimeSpanToHMS;
 
 checkNature = (name) => {
   if (parseInt(name) < 9) {
@@ -93,3 +95,12 @@ statusCheck = (status) => {
       return ""
   }
 }
+
+secondsTimeSpanToHMS = function(s) {
+  var h, m;
+  h = Math.floor(s / 3600);
+  s -= h * 3600;
+  m = Math.floor(s / 60);
+  s -= m * 60;
+  return h + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+};

@@ -21,6 +21,7 @@ defmodule EvercamAdminWeb.Router do
     get "/countries", UsersController, :countries
     patch "/update_multiple_users", UsersController, :update_multiple_users
     get "/cameras", CamerasController, :index
+    get "/construction_cameras", CamerasController, :construction_cameras
     get "/camera_shares", CameraSharesController, :index
     get "/camera_share_requests", CameraShareRequestsController, :index
     delete "/camera_share_requests", CameraShareRequestsController, :delete
@@ -40,6 +41,7 @@ defmodule EvercamAdminWeb.Router do
     patch "/admins/:email", AdminsController, :update
     delete "/admins/:email", AdminsController, :delete
     get "/maps", MapsController, :index
+    post "/snapshot_extractors", SnapshotExtractorsController, :create
     get "/snapshot_extractors", SnapshotExtractorsController, :index
   end
 

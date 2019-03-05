@@ -1,5 +1,6 @@
-import "./assets/application.scss"
+import "./assets/application.scss";
 import "semantic-ui-css/semantic.css";
+import 'fullcalendar/dist/fullcalendar.css';
 
 import Vue from 'vue'
 import App from './App.vue'
@@ -20,8 +21,13 @@ Vue.use(VueClipboard);
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyAc07PtOpgHSalSppvkxLXbVs30ZvWL6P4'
+    key: 'AIzaSyADpGFHyrWnacLX76mVGcTKQ-HflkLHZm8'
   },
+});
+
+import VueSelect from "vue-cool-select";
+Vue.use(VueSelect, {
+  theme: "bootstrap"
 });
 
 import {Vuetable, VuetablePagination, VuetablePaginationDropDown, VuetablePaginationInfo, VuetableFieldCheckbox} from "vuetable-2";

@@ -43,7 +43,9 @@ defmodule EvercamAdmin.MixProject do
       {:evercam_models, github: "evercam/evercam_models"},
       {:comeonin, "~> 3.0.2"},
       {:calendar, "~> 0.17.4"},
-      {:floki, "~> 0.20.4"}
+      {:floki, "~> 0.20.4"},
+      {:httpoison, "~> 1.5"},
+      {:sweet_xml, "~> 0.6.6"}
     ]
   end
 end

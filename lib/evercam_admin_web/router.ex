@@ -43,6 +43,8 @@ defmodule EvercamAdminWeb.Router do
     get "/maps", MapsController, :index
     post "/snapshot_extractors", SnapshotExtractorsController, :create
     get "/snapshot_extractors", SnapshotExtractorsController, :index
+    get "/meta_datas", MetaDatasController, :index
+    get "/sync_stat_metadata", MetaDatasController, :sync_stat_metadata
   end
 
   scope "/", EvercamAdminWeb do

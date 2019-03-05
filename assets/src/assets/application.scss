@@ -158,6 +158,7 @@ body {
 }
 
 .vuetable-body-wrapper .compares-report .vuetable-th-camera_link,
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-camera_link,
 .vuetable-body-wrapper .camera-report .vuetable-th-camera_link {
   width: 200px;
 }
@@ -413,6 +414,7 @@ body {
 .vuetable-body-wrapper .snapmail-history-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .csr-report .vuetable-th-created_at,
 .vuetable-body-wrapper .snapmail-report .vuetable-th-inserted_at,
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-updated_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-last_sign_in_at,
 .vuetable-body-wrapper .admin-report .vuetable-th-current_sign_in_at {
@@ -565,3 +567,40 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-th-requestor {
   width: 200px;
 }
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-camera_exid {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-requester {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-action {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-rtsp_url {
+  width: 640px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-resolution {
+  width: 120px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-frame_rate {
+  width: 125px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-bit_rate {
+  width: 85px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-codec {
+  width: 75px;
+}
+
+.vuetable-body-wrapper .meta-datas-report .vuetable-th-ip {
+  width: 130px;
+}
+

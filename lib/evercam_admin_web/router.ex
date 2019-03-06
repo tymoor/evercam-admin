@@ -22,6 +22,7 @@ defmodule EvercamAdminWeb.Router do
     patch "/update_multiple_users", UsersController, :update_multiple_users
     get "/cameras", CamerasController, :index
     get "/construction_cameras", CamerasController, :construction_cameras
+    get "/onvif_cameras", CamerasController, :onvif_cameras
     get "/camera_shares", CameraSharesController, :index
     get "/camera_share_requests", CameraShareRequestsController, :index
     delete "/camera_share_requests", CameraShareRequestsController, :delete

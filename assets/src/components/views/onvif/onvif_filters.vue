@@ -1,45 +1,27 @@
 <template>
   <div class="row cameras-filter_css">
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
     <form>
       <div class="form-row">
         <div class="col">
-          <select v-model="service" class="form-control margin-left-10">
-            <option v-for="(item, index) in list">{{ index }}</option>
+          <select v-model="service" class="form-control margin-left-10 width-200">
+            <option v-for="(item, index) in list" v-bind:value="index">{{ index }}</option>
           </select>
         </div>
         <div class="col">
-          <select v-model="operations" class="form-control margin-left-10">
+          <select v-model="operations" class="form-control margin-left-10 width-200">
             <option v-for="option in list[service]" v-bind:value="option">{{option}}</option>
           </select>
         </div>
         <div class="col">
-          <cool-select
-            class="margin-left-10"
-            v-model="selected"
-            :items="items"
-            :loading="loading"
-            item-text="name"
-            placeholder="Enter Camera name"
-            disable-filtering-by-search
-            :reset-search-on-blur="true"
-            @search="onSearch"
-          >
-            <template slot="no-data">
-              {{
-                noData
-                  ? "No information found by request."
-                  : "We need at least 2 letters to search."
-              }}
-            </template>
-            <template slot="item" slot-scope="{ item }">
-              <div class="item">
-                <img :src="item.thumbnail" class="logo" />
-                <div>
-                  <span class="item-name"> {{ item.name }} </span> <br />
-                </div>
-              </div>
-            </template>
-          </cool-select>
+          <select class="form-control is-required" autocomplete="off" v-model="onvifCamera">
+            <option v-for="camera in cameras" v-bind:value="camera.onvif_url">
+              {{ camera.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col">
+          <button @click="onvifSearch" type="button" class="btn btn-primary">Search</button>
         </div>
       </div>
     </form>
@@ -57,42 +39,26 @@
   margin-left: 10px;
 }
 
-.item {
-  display: flex;
-  align-items: center;
+.menu-width-select {
+  width: 300px;
 }
 
-.item-name {
-  font-size: 18px;
-}
-.item-domain {
-  color: grey;
-}
-
-.logo {
-  max-width: 60px;
-  margin-right: 10px;
-  border: 1px solid #eaecf0;
+.width-200 {
+  width: 200px;
 }
 
 
 </style>
 
 <script>
-import { CoolSelect } from "vue-cool-select";
+import axios from "axios";
 
 export default {
-  components: {
-    CoolSelect
-  },
   data () {
     return {
+      ajaxWait: false,
       cameras: [],
-      items: [],
-      loading: false,
-      timeoutId: null,
-      noData: false,
-      selected: null,
+      onvifCamera: "",
       service: "device_service",
       operations: "GetAccessPolicy",
       list: {
@@ -179,32 +145,33 @@ export default {
     };
   },
 
+  mounted(){
+    this.fetchCameras()
+  },
+
   methods: {
-    async onSearch(search) {
-      const lettersLimit = 2;
 
-      this.noData = false;
-      if (search.length < lettersLimit) {
-        this.items = [];
-        this.loading = false;
-        return;
-      }
-      this.loading = true;
-
-      clearTimeout(this.timeoutId);
-      this.timeoutId = setTimeout(async () => {
-        const response = await fetch(
-          `/v1/construction_cameras?search=${search}`
-        );
-
-        console.log(response)
-        this.items = await response.json();
-        this.loading = false;
-
-        if (!this.items.length) this.noData = true;
-
-      }, 500);
+    fetchCameras () {
+      this.$http.get("/v1/onvif_cameras").then(response => {
+        this.cameras = response.body.onvif_cameras;
+      }, error => {
+        console.error(error);
+      });
     },
+
+    onvifSearch() {
+      console.log(this.service)
+      console.log(this.operations)
+      this.ajaxWait = true
+
+      axios.get(`https://media.evercam.io/v2/onvif/v20/${this.service}/${this.operations}?${this.onvifCamera}`).then(response => {
+        this.ajaxWait = false
+        this.$events.fire('json-set', response.data)
+      }).catch(error => {
+        this.$events.fire('json-set', JSON.parse(error.response.request.responseText))
+        this.ajaxWait = false
+      });
+    }
   }
 }
 </script>

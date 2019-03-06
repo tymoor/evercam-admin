@@ -112,17 +112,42 @@ defmodule EvercamAdminWeb.CamerasController do
       |> preload(:owner)
       |> Evercam.Repo.all
       |> Enum.reduce([], fn camera, acc ->
+        external_host = Util.deep_get(camera.config, ["external_host"], "")
+        http_port = Util.deep_get(camera.config, ["external_http_port"], "")
+        username = Util.deep_get(camera.config, ["auth", "basic", "password"], "")
+        password = Util.deep_get(camera.config, ["auth", "basic", "password"], "")
         cam = %{
           name: camera.name,
           thumbnail: "https://media.evercam.io/v2/cameras/#{camera.exid}/thumbnail?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}",
           exid: camera.exid,
           api_key: camera.owner.api_key,
           api_id: camera.owner.api_id,
-          camera_id: camera.id
+          camera_id: camera.id,
+          onvif_url: "url=http://#{external_host}:#{http_port}&auth=#{username}:#{password}&api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}"
         }
         acc ++ [cam]
       end)
     json(conn, construction_cameras)
+  end
+
+  def onvif_cameras(conn, _params) do
+    onvif_cameras =
+      Camera
+      |> where([cam], cam.owner_id == 13959)
+      |> preload(:owner)
+      |> order_by(asc: :name)
+      |> Evercam.Repo.all
+      |> Enum.map(fn(camera) ->
+        external_host = Util.deep_get(camera.config, ["external_host"], "")
+        http_port = Util.deep_get(camera.config, ["external_http_port"], "")
+        username = Util.deep_get(camera.config, ["auth", "basic", "username"], "")
+        password = Util.deep_get(camera.config, ["auth", "basic", "password"], "")
+        %{
+          name: camera.name,
+          onvif_url: "url=http://#{external_host}:#{http_port}&auth=#{username}:#{password}&api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}"
+        }
+      end)
+    json(conn, %{onvif_cameras: onvif_cameras})
   end
 
   defp cast_mac(nil), do: ""

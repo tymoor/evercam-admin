@@ -26,6 +26,7 @@ import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
 import MetaDatas from "./components/views/meta_datas/meta_datas";
+import Onvif from "./components/views/onvif/onvif";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -142,6 +143,7 @@ const router = new VueRouter({
     { path: "/maps_construction", component: MapConstruction, name: "maps_construction", meta: { title: "Maps Construction"} },
     { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Snapshot Extractors"} },
     { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Meta Datas"} },
+    { path: "/onvif", component: Onvif, name: "onvif", meta: { title: "Onvif"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

@@ -18,6 +18,8 @@
                     :loading="loading"
                     item-text="name"
                     placeholder="Enter Camera name"
+                    :event-emitter="selectEventEmitter"
+                    :reset-search-on-blur="true"
                     disable-filtering-by-search
                     @search="onSearch"
                   >
@@ -143,7 +145,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" @click="validateFormAndSave($event)">Save</button>
-            <button class="btn btn-secondary" type="button" data-dismiss="modal" @click="clearForm()">Close</button>
+            <button class="btn btn-secondary" type="button" @click="clearForm()">Close</button>
           </div>
         </div>
       </div>
@@ -193,7 +195,7 @@
 
 <script>
 import { FullCalendar } from 'vue-full-calendar';
-import { CoolSelect } from "vue-cool-select";
+import { CoolSelect, EventEmitter } from "vue-cool-select";
 import DatePicker from 'vue2-datepicker';
 import jQuery from 'jquery';
 import moment from "moment";
@@ -204,6 +206,7 @@ import moment from "moment";
     },
     data: () => {
       return {
+        selectEventEmitter: new EventEmitter(),
         events: null,
         jpegs_to_dropbox: true,
         create_mp4: false,
@@ -446,9 +449,8 @@ import moment from "moment";
                 text: "Snapshot Extractor has been added (Cloud)!",
               });
 
-              jQuery('#addExtractor').modal('hide')
-              this.clearForm()
               this.$events.fire('se-added', {})
+              this.clearForm()
             }, error => {
               this.$notify({
                 group: "admins",
@@ -479,9 +481,8 @@ import moment from "moment";
                 text: "Snapshot Extractor has been added (Local)!",
               });
 
-              jQuery('#addExtractor').modal('hide')
-              this.clearForm()
               this.$events.fire('se-added', {})
+              this.clearForm()
             }, error => {
               this.$notify({
                 group: "admins",
@@ -494,24 +495,24 @@ import moment from "moment";
         }
       },
       clearForm () {
-        this.errors = [],
-        this.cameras = [],
-        this.selected = null,
-        this.clearAllEvents(),
-        this.showSchedule = false,
-        this.items = [],
-        this.loading = false,
-        this.timeoutId = null,
-        this.noData = false,
-        this.fromDateTime = "",
-        this.toDateTime = "",
-        this.interval = "600",
-        this.extraction = "cloud",
-        this.schedule_type = "working_hours",
-        this.jpegs_to_dropbox = true,
-        this.showLocalOptions = false,
-        this.create_mp4 = false,
-        this.inject_to_cr = false,
+        this.errors = [];
+        this.cameras = [];
+        this.selected = null;
+        this.clearAllEvents();
+        this.showSchedule = false;
+        this.items = [];
+        this.loading = false;
+        this.timeoutId = null;
+        this.noData = false;
+        this.fromDateTime = "";
+        this.toDateTime = "";
+        this.interval = "600";
+        this.extraction = "cloud";
+        this.schedule_type = "working_hours";
+        this.jpegs_to_dropbox = true;
+        this.showLocalOptions = false;
+        this.create_mp4 = false;
+        this.inject_to_cr = false;
         this.schedule = JSON.stringify({
           "Monday": ["08:00-18:00"],
           "Tuesday": ["08:00-18:00"],
@@ -520,7 +521,9 @@ import moment from "moment";
           "Friday": ["08:00-18:00"],
           "Saturday": [],
           "Sunday": []
-        })
+        });
+        this.selectEventEmitter.emit("set-search", "");
+        jQuery('#addExtractor').modal('hide');
       },
 
       parseCalendar: function() {

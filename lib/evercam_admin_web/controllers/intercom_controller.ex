@@ -4,6 +4,15 @@ defmodule EvercamAdminWeb.IntercomController do
   @intercom_url "https://api.intercom.io" #System.get_env["INTERCOM_URL"]
   @intercom_token "dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA=" #System.get_env["INTERCOM_ACCESS_TOKEN"]
 
+  def create(conn, params) do
+    with {:ok, %HTTPoison.Response{status_code: 200}} <- create_company(params) do
+      json(conn, %{success: true})
+    else
+      _->
+        json(conn |> put_status(400), %{success: false})
+    end
+  end
+
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
     per_page = String.to_integer(params["per_page"])
@@ -48,6 +57,18 @@ defmodule EvercamAdminWeb.IntercomController do
     end
   end
 
+  defp create_company(params) do
+    company = %{
+      company_id: params["company_id"],
+      name:  params["company_name"],
+      created_at: Calendar.DateTime.now_utc |> Calendar.DateTime.Format.unix
+    }
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json", "Content-Type": "application/json"]
+    url = "#{@intercom_url}/companies"
+    json = Jason.encode!(company)
+    HTTPoison.post(url, json, headers)
+  end
+
   defp companies(per_page, page) do
     url = "#{@intercom_url}/companies?per_page=#{per_page}&page=#{page}"
     headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
@@ -64,27 +85,15 @@ defmodule EvercamAdminWeb.IntercomController do
 
   defp sorting(data, "name", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
   defp sorting(data, "name", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
+  # defp sorting(data, "company_id", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
+  # defp sorting(data, "company_id", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
 
-  defp sorting(data, "company_id", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
-  defp sorting(data, "company_id", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
+  # defp sorting(data, "user_count", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
+  # defp sorting(data, "user_count", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
 
-  defp sorting(data, "user_count", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
-  defp sorting(data, "user_count", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
+  # defp sorting(data, "session_count", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
+  # defp sorting(data, "session_count", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
 
-  defp sorting(data, "session_count", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
-  defp sorting(data, "session_count", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
-
-  defp sorting(data, "created_at", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
-  defp sorting(data, "created_at", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
+  # defp sorting(data, "created_at", "asc"), do: Enum.sort_by(data, &(&1.name), &Kernel.<=/2)
+  # defp sorting(data, "created_at", "desc"), do: Enum.sort_by(data, &(&1.name), &Kernel.>=/2)
 end
-
-
-  # "pages" => %{
-  #   "next" => "https://api.intercom.io/companies?per_page=15&page=2",
-  #   "page" => 1,
-  #   "per_page" => 15,
-  #   "total_pages" => 16,
-  #   "type" => "pages"
-  # },
-  # "total_count" => 229,
-  # "type" => "company.list"

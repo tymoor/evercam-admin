@@ -1,7 +1,7 @@
 <template>
   <div class="row cameras-filter_css">
     <form>
-      <div class="form-row">
+      <div class="form-row" style="display: none;">
         <div class="col-0.5 search-label">
           <label class="control-label">Search :</label>
         </div>

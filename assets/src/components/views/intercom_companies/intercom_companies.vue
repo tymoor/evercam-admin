@@ -3,7 +3,7 @@
     <div class="overflow-forms">
       <v-ic-filters />
     </div>
-    <div>
+    <div style="margin-top: 23px;">
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
       <add-ic />
     </div>

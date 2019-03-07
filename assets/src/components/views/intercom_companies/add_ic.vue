@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" data-toggle="modal" data-target="#addModel"><i class="fa fa-plus"></i> Make New Admin</button></div>
+    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" data-toggle="modal" data-target="#addModel"><i class="fa fa-plus"></i> Add Company</button></div>
     <div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static" data-keyboard="false" ref="vuemodal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title">Add Admin</h4>
+            <h4 class="modal-title">Add Company</h4>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -16,9 +16,15 @@
                 <div class="col">
                   <form>
                     <div class="form-group row">
-                      <label class="col-sm-2 col-form-label">Email:</label>
+                      <label class="col-sm-5 col-form-label">Company ID:</label>
                       <div class="col">
-                        <input type="text" class="form-control" placeholder="Email" v-model="email">
+                        <input type="text" class="form-control" placeholder="Company ID" v-model="company_id">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-5 col-form-label">Company Name:</label>
+                      <div class="col">
+                        <input type="text" class="form-control" placeholder="Company Name" v-model="company_name">
                       </div>
                     </div>
                   </form>
@@ -77,7 +83,8 @@ import jQuery from 'jquery'
     data: () => {
       return {
         errors: [],
-        email: ""
+        company_name: "",
+        company_id: ""
       }
     },
     methods: {
@@ -85,25 +92,28 @@ import jQuery from 'jquery'
         e.preventDefault()
         this.errors = []
 
-        if (this.email == "") {
-          this.errors.push("Email cannot be empty.")
+        if (this.company_name == "") {
+          this.errors.push("Company Name cannot be empty.")
+        }
+
+        if (this.company_id == "") {
+          this.errors.push("Company ID cannot be empty.")
         }
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.patch(`/v1/admins/${this.email}`).then(response => {
+          this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name}}).then(response => {
 
             this.$notify({
               group: "admins",
               title: "Info",
               type: "success",
-              text: `${this.email} has been added as Admin.`,
+              text: `${this.company_name} has been added as a Company.`,
             });
 
-            this.$events.fire("admin-added", {})
+            this.$events.fire("ic-added", {})
             jQuery('#addModel').modal('hide')
           }, error => {
-            console.log(error)
             this.$notify({
               group: "admins",
               title: "Error",
@@ -115,7 +125,8 @@ import jQuery from 'jquery'
       },
       clearForm () {
         this.errors = [],
-        this.email = ""
+        this.company_name = "",
+        this.company_id = ""
       }
     }
   }

@@ -42,6 +42,7 @@ defmodule EvercamAdminWeb.Router do
     patch "/admins/:email", AdminsController, :update
     delete "/admins/:email", AdminsController, :delete
     get "/maps", MapsController, :index
+    get "/intercom_companies", IntercomController, :index
     post "/snapshot_extractors", SnapshotExtractorsController, :create
     get "/snapshot_extractors", SnapshotExtractorsController, :index
     get "/meta_datas", MetaDatasController, :index

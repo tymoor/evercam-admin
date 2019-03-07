@@ -69,6 +69,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/intercom_companies'">
+            <i class="nav-icon icon-drop fa fa-building"></i>
+            Intercom Companies
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/cloud_recordings'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Cloud Recordings

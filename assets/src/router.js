@@ -27,6 +27,7 @@ import CameraShareRequests from "./components/views/camera_share_requests/camera
 import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
 import MetaDatas from "./components/views/meta_datas/meta_datas";
 import Onvif from "./components/views/onvif/onvif";
+import IntercomCompanies from "./components/views/intercom_companies/intercom_companies";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -144,6 +145,7 @@ const router = new VueRouter({
     { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Snapshot Extractors"} },
     { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Meta Datas"} },
     { path: "/onvif", component: Onvif, name: "onvif", meta: { title: "Onvif"} },
+    { path: "/intercom_companies", component: IntercomCompanies, name: "intercom_companies", meta: { title: "Intercom Companies"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

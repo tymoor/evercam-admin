@@ -6,7 +6,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title">Add Company</h4>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close" @click="clearForm()">
             <span aria-hidden="true">×</span>
           </button>
           </div>
@@ -112,6 +112,7 @@ import jQuery from 'jquery'
             });
 
             this.$events.fire("ic-added", {})
+            this.clearForm()
             jQuery('#addModel').modal('hide')
           }, error => {
             this.$notify({

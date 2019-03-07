@@ -1,8 +1,8 @@
 defmodule EvercamAdminWeb.IntercomController do
   use EvercamAdminWeb, :controller
 
-  @intercom_url "https://api.intercom.io" #System.get_env["INTERCOM_URL"]
-  @intercom_token "dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA=" #System.get_env["INTERCOM_ACCESS_TOKEN"]
+  @intercom_url System.get_env["INTERCOM_URL"]
+  @intercom_token System.get_env["INTERCOM_ACCESS_TOKEN"]
 
   def create(conn, params) do
     with {:ok, %HTTPoison.Response{status_code: 200}} <- create_company(params) do

@@ -1,12 +1,12 @@
 <template>
   <div class="row cameras-filter_css">
     <form>
-      <div class="form-row" style="display: none;">
+      <div class="form-row">
         <div class="col-0.5 search-label">
           <label class="control-label">Search :</label>
         </div>
         <div class="col">
-          <input class="form-control" type="text" placeholder="Name/Email" autocomplete="off" v-model="search" @keyup="adminFilterGlobal">
+          <input class="form-control" type="text" placeholder="Search" autocomplete="off" v-model="search" @keyup="ICFilterGlobal">
         </div>
       </div>
     </form>
@@ -35,9 +35,9 @@ export default {
     }
   },
   methods: {
-    adminFilterGlobal () {
+    ICFilterGlobal () {
       this.allParams.search = this.search.toLowerCase()
-      this.$events.fire('admin-filter-set', this.allParams)
+      this.$events.fire('ic-filter-set', this.allParams)
     }
   }
 }

@@ -137,6 +137,8 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-td-id,
 .vuetable-body-wrapper .se-report .vuetable-td-interval,
 .vuetable-body-wrapper .se-report .vuetable-td-status,
+.vuetable-body-wrapper .ic-report .vuetable-td-user_count,
+.vuetable-body-wrapper .ic-report .vuetable-td-session_count,
 .vuetable-body-wrapper .compares-report .vuetable-td-download {
   text-align: center;
 }
@@ -150,6 +152,7 @@ body {
 }
 
 .vuetable-body-wrapper .camera-report .vuetable-th-created_at,
+.vuetable-body-wrapper .ic-report .vuetable-th-created_at,
 .vuetable-body-wrapper .compares-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_online_at,
@@ -604,3 +607,18 @@ body {
   width: 130px;
 }
 
+.vuetable-body-wrapper .ic-report .vuetable-th-session_count {
+  width: 150px;
+}
+
+.vuetable-body-wrapper .ic-report .vuetable-th-user_count {
+  width: 130px;
+}
+
+.vuetable-body-wrapper .ic-report .vuetable-th-company_id {
+  width: 260px;
+}
+
+.vuetable-body-wrapper .ic-report .vuetable-th-name {
+  width: 260px;
+}

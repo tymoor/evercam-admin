@@ -23,6 +23,7 @@ defmodule EvercamAdminWeb.Router do
     get "/cameras", CamerasController, :index
     get "/construction_cameras", CamerasController, :construction_cameras
     get "/onvif_cameras", CamerasController, :onvif_cameras
+    get "/duplicate_cameras", CamerasController, :duplicate_cameras
     get "/camera_shares", CameraSharesController, :index
     get "/camera_share_requests", CameraShareRequestsController, :index
     delete "/camera_share_requests", CameraShareRequestsController, :delete

@@ -139,6 +139,10 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-td-status,
 .vuetable-body-wrapper .ic-report .vuetable-td-user_count,
 .vuetable-body-wrapper .ic-report .vuetable-td-session_count,
+.vuetable-body-wrapper .dc-report .vuetable-td-is_recording,
+.vuetable-body-wrapper .dc-report .vuetable-td-online,
+.vuetable-body-wrapper .dc-report .vuetable-td-count,
+.vuetable-body-wrapper .dc-report .vuetable-slot,
 .vuetable-body-wrapper .compares-report .vuetable-td-download {
   text-align: center;
 }
@@ -621,4 +625,14 @@ body {
 
 .vuetable-body-wrapper .ic-report .vuetable-th-name {
   width: 260px;
+}
+
+.vuetable-body-wrapper .dc-report .vuetable-th-is_recording,
+.vuetable-body-wrapper .dc-report .vuetable-th-online,
+.vuetable-body-wrapper .dc-report .vuetable-th-count {
+  width: 130px;
+}
+
+.vuetable-body-wrapper .dc-report .vuetable-th-slot-action-slot {
+  width: 50px;
 }

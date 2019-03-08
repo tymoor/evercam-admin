@@ -150,6 +150,42 @@ defmodule EvercamAdminWeb.CamerasController do
     json(conn, %{onvif_cameras: onvif_cameras})
   end
 
+  def duplicate_cameras(conn, params) do
+    with %{} <- params do
+      query = "select count(nullif(c.is_online = false, true)) as online, c.config->>'external_http_port' as
+              external_http_port, c.config->>'external_host' as external_host, LOWER(config->'snapshots'->>'jpg')   as jpg, count(*) as
+              count, count(nullif(cr.status like 'off','on')) as is_recording from cameras c left join cloud_recordings cr on c.id=cr.camera_id
+              group by c.config->>'external_http_port', c.config->>'external_host', LOWER(c.config->'snapshots'->>'jpg') HAVING (
+              COUNT(*)>1)"
+
+      cameras = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+      length = cameras.num_rows
+      cols = Enum.map cameras.columns, &(String.to_atom(&1))
+      roles = Enum.map cameras.rows, fn(row) ->
+        Enum.zip(cols, row)
+      end
+
+      data =
+        case length <= 0 do
+          true -> []
+          _ ->
+            Enum.reduce(0..length - 1, [], fn i, acc ->
+              camera = Enum.at(roles, i)
+              cam = %{
+                external_host: camera[:external_host],
+                external_http_port: camera[:external_http_port],
+                jpg: camera[:jpg],
+                online: camera[:online],
+                count: camera[:count],
+                is_recording: camera[:is_recording]
+              }
+              acc ++ [cam]
+            end)
+        end
+      json(conn, %{data: data})
+    end
+  end
+
   defp cast_mac(nil), do: ""
   defp cast_mac(""), do: ""
   defp cast_mac(%Postgrex.MACADDR{address: {a, b, c, d, e, f}}) do

@@ -3,21 +3,21 @@
     <div class="overflow-forms">
       <v-ic-filters />
     </div>
-    <div style="margin-top: 23px;">
+    <div>
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
       <add-ic />
     </div>
 
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
-          api-url="/v1/intercom_companies"
+          :api-mode="false"
           :fields="fields"
-          pagination-path=""
-          data-path="data"
+          pagination-path="pagination"
           :per-page="perPage"
-          :sort-order="sortOrder"
-          :append-params="moreParams"
+          :data-manager="dataManager"
           @vuetable:pagination-data="onPaginationData"
           @vuetable:initialized="onInitialized"
           @vuetable:loading="showLoader"
@@ -30,10 +30,10 @@
         <div class="field perPage-margin">
           <label>Per Page:</label>
           <select class="ui simple dropdown" v-model="perPage">
-            <option :value="10">10</option>
-            <option :value="20">20</option>
-            <option :value="40">40</option>
             <option :value="60">60</option>
+            <option :value="100">100</option>
+            <option :value="500">500</option>
+            <option :value="1000">1000</option>
           </select>
         </div>
         <vuetable-pagination-info ref="paginationInfo"
@@ -72,6 +72,9 @@ import TableWrapper from "./TableWrapper.js";
 import AddIC from "./add_ic";
 import ICFilters from "./ic_filters";
 import ICShowHide from "./ic_show_hide";
+import moment from "moment";
+import axios from "axios";
+import _ from "lodash";
 
 export default {
   components: {
@@ -81,61 +84,96 @@ export default {
   },
   data: () => {
     return {
-      paginationComponent: "vuetable-pagination",
       loading: "",
-      vuetableFields: false,
       perPage: 60,
-      sortOrder: [
-        {
-          field: 'name',
-          direction: 'asc',
-        }
-      ],
       css: TableWrapper,
       moreParams: {},
-      fields: FieldsDef
+      paginationComponent: "vuetable-pagination",
+      fields: FieldsDef,
+      data: [],
+      filtered: [],
+      ajaxWait: true,
     }
   },
   watch: {
-    perPage(newVal, oldVal) {
+    data(newVal, oldVal) {
       this.$nextTick(() => {
-        this.$refs.vuetable.refresh();
+        this.$refs.vuetable.setData(this.data);
       });
     },
-
+    filtered(newVal, oldVal) {
+      this.$nextTick(() => {
+        this.$refs.vuetable.setData(this.filtered);
+      });
+    },
     paginationComponent(newVal, oldVal) {
       this.$nextTick(() => {
-        this.$refs.pagination.setPaginationData(
-          this.$refs.vuetable.tablePagination
-        );
+        this.$refs.pagination.setPaginationData(paginationData);
       });
     }
   },
 
   mounted() {
+    this.ajaxWait = true,
+    axios.get("/v1/intercom_companies").then(response => {
+      this.data = response.data.data;
+      this.ajaxWait = false
+      this.filtered = response.data.data;
+    });
     this.$events.$on('ic-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('ic-added', e => this.onICAdded())
   },
 
   methods: {
-    onFilterSet (filters) {
-      this.moreParams = {
-        "search": filters.search
-      }
-      this.$nextTick( () => this.$refs.vuetable.refresh())
+    onFilterSet (filter) {
+      this.filtered = this.data.filter(d => {
+        for (let name in d) {
+          if ((d[name] + '').toLowerCase().indexOf(filter.search.toLowerCase()) > -1){
+            return d;
+          }
+        }
+      })
     },
 
     onICAdded () {
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
-    onPaginationData(tablePagination) {
-      this.$refs.paginationInfo.setPaginationData(tablePagination);
-      this.$refs.pagination.setPaginationData(tablePagination);
+    onPaginationData(paginationData) {
+      this.$refs.pagination.setPaginationData(paginationData);
     },
 
     onChangePage(page) {
       this.$refs.vuetable.changePage(page);
+    },
+
+    dataManager(sortOrder, pagination) {
+      if (this.data.length < 1) return;
+
+      let local = this.data;
+
+      // sortOrder can be empty, so we have to check for that as well
+      if (sortOrder.length > 0) {
+        console.log("orderBy:", sortOrder[0].sortField, sortOrder[0].direction);
+        local = _.orderBy(
+          local,
+          sortOrder[0].sortField,
+          sortOrder[0].direction
+        );
+      }
+
+      pagination = this.$refs.vuetable.makePagination(
+        local.length,
+        this.perPage
+      );
+      console.log('pagination:', pagination)
+      let from = pagination.from - 1;
+      let to = from + this.perPage;
+
+      return {
+        pagination: pagination,
+        data: _.slice(local, from, to)
+      };
     },
 
     onInitialized(fields) {

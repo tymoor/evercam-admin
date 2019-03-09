@@ -151,7 +151,8 @@ defmodule EvercamAdminWeb.CamerasController do
   end
 
   def duplicate_cameras(conn, params) do
-    with %{} <- params do
+    host_port_jpg = if params["host_port_jpg"], do: true, else: false
+    with false <- host_port_jpg do
       query = "select count(nullif(c.is_online = false, true)) as online, c.config->>'external_http_port' as
               external_http_port, c.config->>'external_host' as external_host, LOWER(config->'snapshots'->>'jpg')   as jpg, count(*) as
               count, count(nullif(cr.status like 'off','on')) as is_recording from cameras c left join cloud_recordings cr on c.id=cr.camera_id
@@ -183,7 +184,148 @@ defmodule EvercamAdminWeb.CamerasController do
             end)
         end
       json(conn, %{data: data})
+    else
+      true ->
+        host = if params["host"] == "" || params["host"] == nil, do: "", else: String.downcase(params["host"])
+        port = if params["port"] == "" || params["port"] == nil, do: "", else: String.downcase(params["port"])
+        jpg = if params["jpg"] == "" || params["jpg"] == nil, do: "", else: String.downcase(params["jpg"])
+        cameras = filter_camera(port, host, jpg)
+
+        data =
+          case Enum.count(cameras) <= 0 do
+            true -> []
+            false ->
+              Enum.map(cameras, fn camera ->
+                %{
+                  camera_name: camera.name,
+                  exid: camera.exid,
+                  is_online: camera.is_online,
+                  api_id: camera.owner.api_id,
+                  api_key: camera.owner.api_key,
+                  camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera.exid}?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}' target='_blank'>#{camera.owner.firstname} #{camera.owner.lastname} <i class='fa fa-external-link'></i></a>",
+                  is_public: camera.is_public,
+                  cr_status: (if camera.cloud_recordings, do: camera.cloud_recordings.status, else: ""),
+                  share_count: Enum.count(camera.shares),
+                  created_at: (if camera.created_at, do: Calendar.Strftime.strftime!(camera.created_at, "%A, %d %b %Y %l:%M %p"), else: "")
+                }
+              end)
+          end
+        json(conn, data)
     end
+  end
+
+  defp filter_camera(port, host, jpg) do
+    Camera
+    |> parse_through_fragment(port, host, jpg)
+    |> preload(:owner)
+    |> preload(:cloud_recordings)
+    |> preload(:shares)
+    |> Evercam.Repo.all
+  end
+
+  defp parse_through_fragment(query, "", "", "") do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' IS NULL) AND
+      (config->> 'external_host' IS NULL) AND
+      (config->'snapshots'->>'jpg' IS NULL)
+      """
+    ))
+  end
+  defp parse_through_fragment(query, port, host, "") do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' LIKE ?) AND
+      (config->> 'external_host' LIKE ?) AND
+      (config->'snapshots'->>'jpg' IS NULL)
+      """,
+      ^"%#{port}%",
+      ^"%#{host}%"
+    ))
+  end
+  defp parse_through_fragment(query, port, "", "") do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' LIKE ?) AND
+      (config->> 'external_host' IS NULL) AND
+      (config->'snapshots'->>'jpg' IS NULL)
+      """,
+      ^"%#{port}%"
+    ))
+  end
+  defp parse_through_fragment(query, "", host, "") do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' IS NULL) AND
+      (config->> 'external_host' LIKE ?) AND
+      (config->'snapshots'->>'jpg' IS NULL)
+      """,
+      ^"%#{host}%"
+    ))
+  end
+  defp parse_through_fragment(query, "", "", jpg) do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' IS NULL) AND
+      (config->> 'external_host' IS NULL) AND
+      (config->'snapshots'->>'jpg' LIKE ?)
+      """,
+      ^"%#{jpg}%"
+    ))
+  end
+  defp parse_through_fragment(query, port, "", jpg) do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' LIKE ?) AND
+      (config->> 'external_host' IS NULL) AND
+      (config->'snapshots'->>'jpg' LIKE ?)
+      """,
+      ^"%#{port}%",
+      ^"%#{jpg}%"
+    ))
+  end
+  defp parse_through_fragment(query, "", host, jpg) do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' IS NULL) AND
+      (config->> 'external_host' LIKE ?) AND
+      (config->'snapshots'->>'jpg' LIKE ?)
+      """,
+      ^"%#{host}%",
+      ^"%#{jpg}%"
+    ))
+  end
+  defp parse_through_fragment(query, port, host, "") do
+    query
+    |> where([_cam], fragment(
+      """
+      (config->> 'external_http_port' LILKE ?) AND
+      (config->> 'external_host' LIKE ?) AND
+      (config->'snapshots'->>'jpg' IS NULL)
+      """,
+      ^"%#{port}%",
+      ^"%#{host}%"
+    ))
+  end
+  defp parse_through_fragment(query, port, host, jpg) do
+    query
+    |> where([_cam], fragment(
+      """
+      (lower(config->> 'external_http_port') LIKE ?) AND
+      (lower(config->> 'external_host') LIKE ?) AND
+      (lower(config->'snapshots'->>'jpg') LIKE ?)
+      """,
+      ^"%#{port}%",
+      ^"%#{host}%",
+      ^"%#{jpg}%"
+    ))
   end
 
   defp cast_mac(nil), do: ""

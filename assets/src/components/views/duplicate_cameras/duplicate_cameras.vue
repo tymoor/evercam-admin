@@ -9,6 +9,8 @@
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
 
+    <dup-modal :duplicateCameras="dup_cameras" :showModal="merge_modal" />
+
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
@@ -79,6 +81,7 @@ import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import DCFilters from "./dc_filters";
 import DCShowAndHide from "./dc_show_hide";
+import DupCameraModal from "./dup_cameras"
 
 import axios from "axios";
 import _ from "lodash";
@@ -86,7 +89,8 @@ import _ from "lodash";
 export default {
   components: {
     "v-dc-filters": DCFilters,
-    "v-dc-show-hide": DCShowAndHide
+    "v-dc-show-hide": DCShowAndHide,
+    "dup-modal": DupCameraModal
   },
   data: () => {
     return {
@@ -98,7 +102,9 @@ export default {
       fields: FieldsDef,
       data: [],
       filtered: [],
-      ajaxWait: true
+      ajaxWait: true,
+      dup_cameras: [],
+      merge_modal: false
     }
   },
   watch: {
@@ -127,6 +133,7 @@ export default {
       this.filtered = response.data.data;
     });
     this.$events.$on('dc-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('close-dup-cameras', eventData => this.onCloseModal(eventData))
   },
 
   methods: {
@@ -138,6 +145,11 @@ export default {
           }
         }
       })
+    },
+
+    onCloseModal(modal) {
+      this.dup_cameras = [],
+      this.merge_modal = false
     },
 
     onPaginationData(paginationData) {
@@ -190,7 +202,29 @@ export default {
     },
 
     onActionClick(e, data) {
-      console.log(data)
+      this.ajaxWait = true;
+      axios.get("/v1/duplicate_cameras", {
+        params: {
+          host: data.external_host,
+          port: data.external_http_port,
+          jpg: data.jpg,
+          host_port_jpg: "check"
+        }
+      }).then(response => {
+        this.ajaxWait = false;
+        if (Object.keys(response.data).length === 0) {
+          this.$notify({
+            group: "admins",
+            title: "Error",
+            type: "error",
+            text: "At least select one User!",
+          });
+        } else {
+          this.dup_cameras = response.data,
+          this.merge_modal = true,
+          console.log(this.dup_cameras)
+        }
+      });
     }
   }
 }

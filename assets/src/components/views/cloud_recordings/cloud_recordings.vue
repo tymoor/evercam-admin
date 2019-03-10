@@ -7,6 +7,8 @@
       <v-cr-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
+    <cr-edit-modal :showCRModal="showCRModal" :crSettings="crSettings"/>
+  
     <v-horizontal-scroll />
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -25,9 +27,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
-        <div slot="checkbox-slot" slot-scope="props">
-          <input type="checkbox" @click="onCheckBoxClick($event, props.rowData)" />
-        </div>
+          <div slot="cr-edit-slot" slot-scope="props">
+            <span @click="onEditClick($event, props.rowData)" class="fa fa-edit email-template"></span>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -62,13 +64,22 @@
 #table-wrapper {
   margin-top: 1px;
 }
+
+.email-template {
+  cursor: pointer;
+}
+
 </style>
 
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import CRModal from "./cr_edit";
 
 export default {
+  components: {
+    "cr-edit-modal": CRModal
+  },
   data: () => {
     return {
       selectedCameras: [],
@@ -84,7 +95,9 @@ export default {
       ],
       css: TableWrapper,
       moreParams: {},
-      fields: FieldsDef
+      fields: FieldsDef,
+      crSettings: {},
+      showCRModal: false
     }
   },
   watch: {
@@ -113,6 +126,7 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('cr-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('close-cr-modal', eventData => this.onCloseCRModal(eventData))
   },
 
   methods: {
@@ -146,6 +160,16 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    onEditClick(e, data) {
+      this.crSettings = data;
+      this.showCRModal = true;
+    },
+
+    onCloseCRModal(modal) {
+      this.crSettings = {};
+      this.showCRModal = modal;
     }
   }
 }

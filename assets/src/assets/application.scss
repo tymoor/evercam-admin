@@ -122,6 +122,7 @@ body {
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-public,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-schedule,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences,
+.vuetable-body-wrapper .cloud-recording-report .vuetable-slot,
 .vuetable-body-wrapper .admin-report .vuetable-td-sign_in_count,
 .vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-notify_time,
@@ -377,6 +378,10 @@ body {
 .vuetable-body-wrapper .cloud-recording-report .vuetable-th-online,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-th-public {
   width: 95px;
+}
+
+.vuetable-body-wrapper .cloud-recording-report .vuetable-th-slot-cr-edit-slot {
+  width: 45px;
 }
 
 .vuetable-body-wrapper .cloud-recording-report .vuetable-th-licences {

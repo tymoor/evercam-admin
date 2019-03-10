@@ -69,6 +69,11 @@ export default [
     formatter: (value) => {
       return paymentMethod(value)
     }
+  },
+  {
+    name: "cr-edit-slot",
+    title: "",
+    titleClass: "edit-CR"
   }
 ]
 

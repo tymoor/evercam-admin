@@ -182,11 +182,12 @@ import axios from "axios";
 
           this.$events.fire("close-cr-modal", false)
         }).catch(error => {
+          console.log(error.response)
           this.ajaxWait = false
           this.$notify({
             group: "admins",
             title: "Info",
-            type: "success",
+            type: "error",
             text: `${error.response.request.responseText}`
           });
 
@@ -262,7 +263,7 @@ import axios from "axios";
 
       hideCRModal () {
         this.showCalendar = false;
-        clearAllEvents()
+        this.clearAllEvents()
         this.$events.fire("close-cr-modal", false);
       },
 

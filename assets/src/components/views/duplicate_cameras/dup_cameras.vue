@@ -96,13 +96,15 @@
         if (window.confirm("Are you sure you want to delete this event?")) {
           this.ajaxWait = true;
           this.forCameras.forEach((camera) => {
-            this.$http.delete(`${this.$root.api_url}/v1/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
+            this.$http.delete(`${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
               console.log(response.body)
             }, error => {
               console.log(error)
             });
           });
-          this.$router.go()
+          this.$events.fire("close-dup-cameras", false)
+          
+          // this.$router.go()
         }
       }
     }

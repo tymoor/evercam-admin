@@ -10,6 +10,7 @@
             </h3>
           </div>
           <div class="modal-body">
+            <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
             <table v-if="duplicateCameras" class="table table-striped">
               <thead>
                 <tr>
@@ -34,12 +35,13 @@
                   <td>{{ field.cr_status }}</td>
                   <td>{{ field.share_count }}</td>
                   <td>{{ field.created_at }}</td>
-                  <td><input type="checkbox" v-bind:camera="field"/></td>
+                  <td><input type="checkbox" :value="field" v-bind:camera="field.exid" v-bind:camera-api-id="field.api_id" v-bind:camera-api-key="field.api_key" v-model="forCameras"/></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-danger" @click="deleteCameras()"> Delete </button>
             <button type="button" class="btn btn-primary" @click="hideDupCameraModal()"> Close </button>
           </div>
         </div>
@@ -78,12 +80,30 @@
     props: ["duplicateCameras", "showModal"],
     data: () => {
       return {
+        forCameras: [],
+        ajaxWait: false,
+        errors: []
       }
     },
 
     methods: {
       hideDupCameraModal () {
         this.$events.fire("close-dup-cameras", false)
+      },
+
+      deleteCameras() {
+
+        if (window.confirm("Are you sure you want to delete this event?")) {
+          this.ajaxWait = true;
+          this.forCameras.forEach((camera) => {
+            this.$http.delete(`${this.$root.api_url}/v1/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
+              console.log(response.body)
+            }, error => {
+              console.log(error)
+            });
+          });
+          this.$router.go()
+        }
       }
     }
   }

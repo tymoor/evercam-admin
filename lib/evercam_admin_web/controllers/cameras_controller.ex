@@ -227,9 +227,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' IS NULL) AND
-      (config->> 'external_host' IS NULL) AND
-      (config->'snapshots'->>'jpg' IS NULL)
+      ((config->> 'external_http_port')::text = '') AND
+      ((config->> 'external_host')::text = '') AND
+      ((config->'snapshots'->>'jpg')::text = '')
       """
     ))
   end
@@ -237,9 +237,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' LIKE ?) AND
-      (config->> 'external_host' LIKE ?) AND
-      (config->'snapshots'->>'jpg' IS NULL)
+      (lower(config->> 'external_http_port') LIKE ?) AND
+      (lower(config->> 'external_host') LIKE ?) AND
+      ((config->'snapshots'->>'jpg')::text = '')
       """,
       ^"%#{port}%",
       ^"%#{host}%"
@@ -249,9 +249,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' LIKE ?) AND
-      (config->> 'external_host' IS NULL) AND
-      (config->'snapshots'->>'jpg' IS NULL)
+      (lower(config->> 'external_http_port') LIKE ?) AND
+      ((config->> 'external_host')::text = '') AND
+      ((config->'snapshots'->>'jpg')::text = '')
       """,
       ^"%#{port}%"
     ))
@@ -260,9 +260,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' IS NULL) AND
-      (config->> 'external_host' LIKE ?) AND
-      (config->'snapshots'->>'jpg' IS NULL)
+      ((config->> 'external_http_port')::text = '') AND
+      (lower(config->> 'external_host') LIKE ?) AND
+      ((config->'snapshots'->>'jpg')::text = '')
       """,
       ^"%#{host}%"
     ))
@@ -271,9 +271,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' IS NULL) AND
-      (config->> 'external_host' IS NULL) AND
-      (config->'snapshots'->>'jpg' LIKE ?)
+      ((config->> 'external_http_port')::text = '') AND
+      ((config->> 'external_host')::text = '') AND
+      (lower(config->'snapshots'->>'jpg') LIKE ?)
       """,
       ^"%#{jpg}%"
     ))
@@ -282,9 +282,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' LIKE ?) AND
-      (config->> 'external_host' IS NULL) AND
-      (config->'snapshots'->>'jpg' LIKE ?)
+      (lower(config->> 'external_http_port') LIKE ?) AND
+      ((config->> 'external_host')::text = '') AND
+      (lower(config->'snapshots'->>'jpg') LIKE ?)
       """,
       ^"%#{port}%",
       ^"%#{jpg}%"
@@ -294,9 +294,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' IS NULL) AND
-      (config->> 'external_host' LIKE ?) AND
-      (config->'snapshots'->>'jpg' LIKE ?)
+      ((config->> 'external_http_port')::text LIKE '') AND
+      (lower(config->> 'external_host') LIKE ?) AND
+      (lower(config->'snapshots'->>'jpg') LIKE ?)
       """,
       ^"%#{host}%",
       ^"%#{jpg}%"
@@ -306,9 +306,9 @@ defmodule EvercamAdminWeb.CamerasController do
     query
     |> where([_cam], fragment(
       """
-      (config->> 'external_http_port' LILKE ?) AND
-      (config->> 'external_host' LIKE ?) AND
-      (config->'snapshots'->>'jpg' IS NULL)
+      (lower(config->> 'external_http_port') LIKE ?) AND
+      (lower(config->> 'external_host') LIKE ?) AND
+      ((config->'snapshots'->>'jpg')::text = '')
       """,
       ^"%#{port}%",
       ^"%#{host}%"

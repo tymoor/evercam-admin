@@ -217,7 +217,7 @@ export default {
             group: "admins",
             title: "Error",
             type: "error",
-            text: "At least select one User!",
+            text: "Something went wrong!",
           });
         } else {
           this.dup_cameras = response.data,

@@ -160,40 +160,42 @@ import axios from "axios";
         if (this.status == "on-scheduled") {
           this.schedule = JSON.stringify(this.parseCalendar())
         }
+
         this.ajaxWait = true
-        axios.post(`${this.$root.api_url}/v2/cameras/${this.exid}/apps/cloud-recording`, {
-          params: {
-            status: this.status,
-            storage_duration: this.storage_duration,
-            frequency: this.interval,
-            schedule: this.schedule,
-            api_key: this.api_key,
-            api_id: this.api_id
-          }
-        }).then(response => {
-          this.ajaxWait = false
-          this.clearAllEvents()
-          this.$events.fire("close-cr-modal", false);
+
+        let params = {
+          status: this.status,
+          storage_duration: this.storage_duration,
+          frequency: this.interval,
+          schedule: this.schedule,
+          api_key: this.api_key,
+          api_id: this.api_id
+        }
+
+        this.$http.post(`https://media.evercam.io/v2/cameras/${this.exid}/apps/cloud-recording`, {...params}).then(response => {
 
           this.$notify({
             group: "admins",
             title: "Info",
             type: "success",
-            text: "Cloud Recordings has been updated!"
+            text: "Cloud Recordings has been updated!",
           });
 
-          this.$events.fire("refresh-cr-table", true);
+          this.ajaxWait = false
+          this.clearAllEvents()
           this.showCalendar = false;
-        }).catch(error => {
-          console.log(error.response)
+          this.$events.fire("close-cr-modal", false);
+          this.$events.fire("refresh-cr-table", true);
+
+        }, error => {
+          console.log(error)
           this.ajaxWait = false
           this.$notify({
             group: "admins",
             title: "Info",
             type: "error",
-            text: `${error.response.statusText}`
+            text: `${error.statusText}`
           });
-
         });
       },
 

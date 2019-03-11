@@ -172,6 +172,8 @@ import axios from "axios";
           }
         }).then(response => {
           this.ajaxWait = false
+          this.clearAllEvents()
+          this.$events.fire("close-cr-modal", false);
 
           this.$notify({
             group: "admins",
@@ -180,7 +182,8 @@ import axios from "axios";
             text: "Cloud Recordings has been updated!"
           });
 
-          this.$events.fire("close-cr-modal", false)
+          this.$events.fire("refresh-cr-table", true);
+          this.showCalendar = false;
         }).catch(error => {
           console.log(error.response)
           this.ajaxWait = false
@@ -188,7 +191,7 @@ import axios from "axios";
             group: "admins",
             title: "Info",
             type: "error",
-            text: `${error.response.request.responseText}`
+            text: `${error.response.statusText}`
           });
 
         });

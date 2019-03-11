@@ -127,6 +127,7 @@ export default {
     });
     this.$events.$on('cr-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('close-cr-modal', eventData => this.onCloseCRModal(eventData))
+    this.$events.$on('refresh-cr-table', eventData => this.onRefreshCRTable(eventData))
   },
 
   methods: {
@@ -138,6 +139,10 @@ export default {
         "storage_duration": filters.storage_duration,
         "interval": filters.interval
       }
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
+    onRefreshCRTable() {
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 

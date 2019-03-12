@@ -34,6 +34,7 @@ defmodule EvercamAdminWeb.CameraSharesController do
     super_owner = super_camera["email"]
     emails_to_share = Enum.map(cameras_to_delete_after_share, fn camera -> camera["email"] end) |> Enum.filter(fn(email) -> email != super_owner end)
 
+
     case Enum.count(emails_to_share) do
       0 -> :noop
       _ ->
@@ -46,6 +47,12 @@ defmodule EvercamAdminWeb.CameraSharesController do
         json = Jason.encode!(params)
         HTTPoison.post(api, json, headers)
     end
+
+
+    Enum.each(cameras_to_delete_after_share, fn camera ->
+      api = "#{Application.get_env(:evercam_admin, :evercam_server)}/v2/cameras/#{camera["exid"]}?api_id=#{camera["api_id"]}&api_key=#{camera["api_key"]}"
+      HTTPoison.delete!(api, [], hackney: [])
+    end)
 
     json(conn, %{success: true})
   end

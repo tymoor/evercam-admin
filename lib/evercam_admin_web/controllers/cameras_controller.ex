@@ -199,9 +199,12 @@ defmodule EvercamAdminWeb.CamerasController do
                 %{
                   camera_name: camera.name,
                   exid: camera.exid,
+                  id: camera.id,
                   is_online: camera.is_online,
                   api_id: camera.owner.api_id,
                   api_key: camera.owner.api_key,
+                  email: camera.owner.email,
+                  owner_id: camera.owner.id,
                   camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera.exid}?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}' target='_blank'>#{camera.owner.firstname} #{camera.owner.lastname} <i class='fa fa-external-link'></i></a>",
                   is_public: camera.is_public,
                   cr_status: (if camera.cloud_recordings, do: camera.cloud_recordings.status, else: ""),

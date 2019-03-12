@@ -206,8 +206,7 @@ import jQuery from 'jquery'
               });
             });
             this.$events.fire("close-dup-cameras", false)
-            
-            // this.$router.go()
+            this.$router.go()
           }
         }
       }

@@ -1,5 +1,54 @@
 defmodule EvercamAdminWeb.CameraSharesController do
   use EvercamAdminWeb, :controller
+  import Ecto.Query
+  require Logger
+
+  def create(conn, params) do
+    super_camera = params["super_camera"]
+    cameras_to_delete_after_share = params["sharee_cameras"] |> Enum.filter(fn(camera) -> camera["id"] != super_camera["id"] end)
+    require IEx; IEx.pry()
+    Enum.each(cameras_to_delete_after_share, fn camera ->
+      camera_id = camera["id"]
+      snapmails_for_merge_camera = SnapmailCamera |> where(camera_id: ^camera_id) |> Evercam.Repo.all
+
+      Enum.each(snapmails_for_merge_camera, fn snapmail ->
+        try do
+          query = "update snapmail_cameras set updated_at=now(), camera_id = #{super_camera["id"]} where id = #{snapmail.id}"
+          Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+        rescue
+          _ -> Logger.info "Something went wrong"
+        end
+      end)
+
+      going_to_merge_camera_share = CameraShare |> where(camera_id: ^camera_id) |> Evercam.Repo.all
+      Enum.each(going_to_merge_camera_share, fn share ->
+        try do
+          query = "update camera_shares set updated_at=now(), camera_id=#{super_camera["id"]}, sharer_id=#{super_camera["owner_id"]} where id = #{share.id}"
+          Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
+        rescue
+          _ -> Logger.info "Something went wrong"
+        end
+      end)
+    end)
+
+    super_owner = super_camera["email"]
+    emails_to_share = Enum.map(cameras_to_delete_after_share, fn camera -> camera["email"] end) |> Enum.filter(fn(email) -> email != super_owner end)
+
+    case Enum.count(emails_to_share) do
+      0 -> :noop
+      _ ->
+        api = "#{Application.get_env(:evercam_admin, :evercam_server)}/v2/cameras/#{super_camera["exid"]}/shares?api_id=#{super_camera["api_id"]}&api_key=#{super_camera["api_key"]}"
+        params = %{
+          email: emails_to_share,
+          rights: "Snapshot,View,Edit,List"
+        }
+        headers = ["Accept": "Accept:application/json", "Content-Type": "application/json"]
+        json = Jason.encode!(params)
+        HTTPoison.post(api, json, headers)
+    end
+
+    json(conn, %{success: true})
+  end
 
   def index(conn, params) do
     {camera_exid, sharer_fullname, sharee_fullname, sorting} =

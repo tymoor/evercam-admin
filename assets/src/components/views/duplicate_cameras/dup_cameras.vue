@@ -2,7 +2,7 @@
   <div>
     <div v-if="showModal">
       <transition name="modal">
-       <div class="modal modal-mask" style="display: block">
+       <div class="modal modal-mask" style="display: block;">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -51,15 +51,14 @@
       </div>
       </transition>
     </div>
-    <div v-if="mergeModal">
-      <transition name="modal">
-       <div class="modal modal-mask" style="display: block">
-        <div class="modal-dialog-1" role="document">
+    <div>
+      <div class="modal fade" id="mergeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none; z-index: 99999999;" aria-hidden="true" data-backdrop="static" data-keyboard="false" ref="vuemodal">
+        <div class="modal-dialog" role="document" style="width: 400px; margin-top: 150px">
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title">
+              <h4 class="modal-title">
                 Select Super Camera
-              </h3>
+              </h4>
             </div>
             <div class="modal-body">
               <div class="form-group row">
@@ -75,12 +74,11 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-success" @click="mergeWithSuperCamera()"> Merge </button>
-              <button type="button" class="btn btn-primary" @click="hideDupCameraModal()"> Close </button>
+              <button type="button" class="btn btn-primary" @click="hideMergeModal()"> Close </button>
             </div>
           </div>
         </div>
       </div>
-      </transition>
     </div>
   </div>
 </template>
@@ -116,6 +114,8 @@ modal-dialog-1 {
 </style>
 
 <script>
+import jQuery from 'jquery'
+
   export default {
     props: ["duplicateCameras", "showModal"],
     data: () => {
@@ -123,27 +123,72 @@ modal-dialog-1 {
         forCameras: [],
         ajaxWait: false,
         errors: [],
-        mergeModal: false,
         superCamera: ""
       }
     },
 
     methods: {
 
+      hideMergeModal() {
+        jQuery('#mergeModal').modal('hide')
+      },
+
       mergeCameras() {
-        if (Object.keys(this.forCameras).length === 0) {
+        if (Object.keys(this.forCameras).length <= 1) {
           return;
         } else {
-          this.mergeModal = true;
+          jQuery('#mergeModal').modal('show')
         }
 
       },
 
       mergeWithSuperCamera() {
         console.log(this.superCamera)
+        if (Object.keys(this.superCamera).length === 0) {
+          return;
+        } else {
+          jQuery('#mergeModal').modal('hide')
+          this.ajaxWait = true
+          let params = {
+            super_camera: this.superCamera,
+            sharee_cameras: this.forCameras
+          }
+
+          this.$http.post(`/v1/camera_shares`, {...params}).then(response => {
+
+            this.ajaxWait = false;
+            this.$events.fire("close-dup-cameras", false)
+            this.superCamera = ""
+            this.forCameras = []
+
+            this.$notify({
+              group: "admins",
+              title: "Info",
+              type: "success",
+              text: "Cameras has been merged!",
+            });
+            this.$router.go()
+
+          }, error => {
+            this.ajaxWait = false;
+            this.$events.fire("close-dup-cameras", false)
+            this.$notify({
+              group: "admins",
+              title: "Error",
+              type: "error",
+              text: "Something went wrong!",
+            });
+          });
+
+         console.log(sharee_emails)
+
+         // do merge operations
+        }
       },
 
       hideDupCameraModal () {
+        this.forCameras = []
+        this.superCamera = ""
         this.$events.fire("close-dup-cameras", false)
       },
 

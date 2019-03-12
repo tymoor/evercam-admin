@@ -6,7 +6,6 @@ defmodule EvercamAdminWeb.CameraSharesController do
   def create(conn, params) do
     super_camera = params["super_camera"]
     cameras_to_delete_after_share = params["sharee_cameras"] |> Enum.filter(fn(camera) -> camera["id"] != super_camera["id"] end)
-    require IEx; IEx.pry()
     Enum.each(cameras_to_delete_after_share, fn camera ->
       camera_id = camera["id"]
       snapmails_for_merge_camera = SnapmailCamera |> where(camera_id: ^camera_id) |> Evercam.Repo.all

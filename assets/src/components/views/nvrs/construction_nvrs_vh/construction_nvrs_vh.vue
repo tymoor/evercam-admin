@@ -176,7 +176,7 @@ export default {
             Jquery(allTableRows[i + 1]).find('.vuetable-td-manage_port').text(`${manage_port}`) 
             Jquery(allTableRows[i + 1]).find('.vuetable-td-online').text(`${online}`) 
             Jquery(allTableRows[i + 1]).find('.vuetable-td-vh_port').text(`${vh_port}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-vh_url').text(`${vh_url}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-url').text(`${vh_url}`) 
 
 
           }).catch(error => {

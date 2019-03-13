@@ -65,6 +65,11 @@ export default [
     togglable: true
   },
   {
+    name: 'online',
+    title: 'Status',
+    togglable: true
+  },
+  {
     name: 'vh_port',
     title: 'VH Port',
     togglable: true

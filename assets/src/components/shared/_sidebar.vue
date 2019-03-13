@@ -57,6 +57,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/construction_nvrs_vh'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Construction Nvrs VH
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/camera_share_requests'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Camera Share Requests

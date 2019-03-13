@@ -142,36 +142,25 @@ export default {
           let cameraAPID = camera.api_id
           let cameraAPIKey = camera.api_key
           let cameraExid = camera.exid
-          let httpURL = `https://media.evercam.io/v2/cameras/${cameraExid}/nvr/stream/info?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
+          let httpURL = `https://media.evercam.io/v2/cameras/${cameraExid}/nvr/stream/vhinfo?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
 
           axios.get(httpURL).then(response => {
             let nvrData = response.data
-            let model = nvrData.device_info.model || ""
-            let device = nvrData.device_info.device_name || ""
-            let mac_address = nvrData.device_info.mac_address || ""
-            let firmware_version = nvrData.device_info.firmware_version || ""
-            let resolution = nvrData.stream_info.resolution || ""
-            let bitrate_type = nvrData.stream_info.bitrate_type || ""
-            let video_quality = nvrData.stream_info.video_quality || ""
-            let frame_rate = nvrData.stream_info.frame_rate || ""
-            let bitrate = nvrData.stream_info.bitrate || ""
-            let video_encoding = nvrData.stream_info.video_encoding || ""
-            let hdd_info = nvrData.hdd_info || ""
-            let nvrStatus = (Object.keys(nvrData.device_info).length > 0) ? "Online" : "Offline"
-            let hdd_name = ""
-            let hdd_capacity = ""
-            let free_space = ""
-            let status = ""
-            let property = ""
-            if (Object.keys(hdd_info).length > 0) {
-              hdd_info.map((hdd) => {
-                hdd_name += "<div>" + hdd.name + "</div>";
-                hdd_capacity += "<div>" + hdd.capacity + "</div>";
-                free_space += "<div>" + hdd.free_space + "</div>";
-                status += "<div>" + hdd.status + "</div>";
-                property += "<div>" + hdd.property + "</div>";
-              })
-            }
+            let model = nvrData.vh_device_info.model || ""
+            let device = nvrData.vh_device_info.device_name || ""
+            let mac_address = nvrData.vh_device_info.mac_address || ""
+            let firmware_version = nvrData.vh_device_info.firmware_version || ""
+            let resolution = nvrData.vh_stream_info.resolution || ""
+            let bitrate_type = nvrData.vh_stream_info.bitrate_type || ""
+            let video_quality = nvrData.vh_stream_info.video_quality || ""
+            let frame_rate = nvrData.vh_stream_info.frame_rate || ""
+            let bitrate = nvrData.vh_stream_info.bitrate || ""
+            let video_encoding = nvrData.vh_stream_info.video_encoding || ""
+            let manage_port = nvrData.vh_info.manage_port || ""
+            let online = nvrData.vh_info.online || ""
+            let vh_port = nvrData.vh_info.vh_port || ""
+            let vh_url = nvrData.vh_info.vh_url || ""
+
 
             // list to update
             Jquery(allTableRows[i + 1]).find('.vuetable-td-model').text(`${model}`)
@@ -184,12 +173,11 @@ export default {
             Jquery(allTableRows[i + 1]).find('.vuetable-td-fps').text(`${frame_rate}`) 
             Jquery(allTableRows[i + 1]).find('.vuetable-td-max_bitrate').text(`${bitrate}`) 
             Jquery(allTableRows[i + 1]).find('.vuetable-td-encoding').text(`${video_encoding}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_name').html(`${hdd_name}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_capacity').html(`${hdd_capacity}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hd_free_space').html(`${free_space}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-status').html(`${status}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-property').html(`${property}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(`${nvrStatus}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-manage_port').text(`${manage_port}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-online').text(`${online}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-vh_port').text(`${vh_port}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-vh_url').text(`${vh_url}`) 
+
 
           }).catch(error => {
             Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(`Offline`) 

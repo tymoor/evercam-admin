@@ -119,7 +119,6 @@ export default {
       this.data = response.data.data;
       this.ajaxWait = false;
       this.filtered = response.data.data;
-      this.appendOtherData(this.data);
     });
   },
 

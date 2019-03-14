@@ -31,6 +31,7 @@ import ConstructionNvrs from "./components/views/nvrs/construction_nvrs/construc
 import ConstructionVHNvrs from "./components/views/nvrs/construction_nvrs_vh/construction_nvrs_vh";
 import IntercomCompanies from "./components/views/intercom_companies/intercom_companies";
 import DuplicateCameras from "./components/views/duplicate_cameras/duplicate_cameras";
+import Licences from "./components/views/licences/licences";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
 
@@ -152,6 +153,7 @@ const router = new VueRouter({
     { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Duplicate Cameras"} },
     { path: "/construction_nvrs", component: ConstructionNvrs, name: "construction_nvrs", meta: { title: "Construction Nvrs"} },
     { path: "/construction_nvrs_vh", component: ConstructionVHNvrs, name: "construction_nvrs_vh", meta: { title: "Construction Nvrs VH"} },
+    { path: "/licences", component: Licences, name: "licences", meta: { title: "Licences"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

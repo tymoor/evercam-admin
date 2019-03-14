@@ -144,6 +144,13 @@ body {
 .vuetable-body-wrapper .dc-report .vuetable-td-online,
 .vuetable-body-wrapper .dc-report .vuetable-td-count,
 .vuetable-body-wrapper .dc-report .vuetable-slot,
+.vuetable-body-wrapper .licences-report .vuetable-td-total_cameras,
+.vuetable-body-wrapper .licences-report .vuetable-td-storage,
+.vuetable-body-wrapper .licences-report .vuetable-td-amount,
+.vuetable-body-wrapper .licences-report .vuetable-td-status,
+.vuetable-body-wrapper .licences-report .vuetable-td-auto_renew,
+.vuetable-body-wrapper .licences-report .vuetable-td-payment_method,
+.vuetable-body-wrapper .licences-report .vuetable-td-expiry,
 .vuetable-body-wrapper .compares-report .vuetable-td-download {
   text-align: center;
 }
@@ -157,6 +164,9 @@ body {
 }
 
 .vuetable-body-wrapper .camera-report .vuetable-th-created_at,
+.vuetable-body-wrapper .licences-report .vuetable-th-created_at,
+.vuetable-body-wrapper .licences-report .vuetable-th-end_date,
+.vuetable-body-wrapper .licences-report .vuetable-th-start_date,
 .vuetable-body-wrapper .ic-report .vuetable-th-created_at,
 .vuetable-body-wrapper .compares-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
@@ -739,4 +749,48 @@ body {
 
 .vuetable-body-wrapper .construction-nvr-vh-report .vuetable-th-url {
   width: 300px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-email {
+  width: 218px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-name_link {
+  width: 179px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-country_name {
+  width: 135px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-description {
+  width: 310px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-total_cameras {
+  width: 115px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-storage {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-expiry {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-amount {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-auto_renew {
+  width: 125px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-status {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .licences-report .vuetable-th-payment_method {
+  width: 155px;
 }

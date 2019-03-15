@@ -93,5 +93,10 @@ export default [
     title: 'Payment Method',
     sortField: 'payment_method',
     togglable: true
+  },
+  {
+    name: "delete-slot",
+    title: '',
+    titleClass: "trash-licences"
   }
 ]

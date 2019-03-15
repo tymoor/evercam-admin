@@ -52,6 +52,7 @@ defmodule EvercamAdminWeb.Router do
     get "/sync_stat_metadata", MetaDatasController, :sync_stat_metadata
     get "/nvrs", NvrsController, :index
     get "/licences", LicencesController, :index
+    delete "/licences", LicencesController, :delete
   end
 
   scope "/", EvercamAdminWeb do

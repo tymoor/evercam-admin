@@ -25,6 +25,11 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="delete-slot" slot-scope="props">
+            <div v-if="props.rowData.id">
+              <span @click="onDeleteLicences($event, props.rowData)" class="fa fa-trash delete_licences"></span>
+            </div>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -63,6 +68,10 @@
 
 .ui.compact.icon.button {
   padding: 5px;
+  cursor: pointer;
+}
+
+.delete_licences {
   cursor: pointer;
 }
 </style>
@@ -196,6 +205,31 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    onDeleteLicences(e, data) {
+      console.log(data)
+      if (window.confirm("Are you sure you want to delete this licence?")) {
+        if (("id" in data)) {
+          console.log("ye db wala hai")
+          this.$http.delete(`/v1/licences`, {params: {licence_id: data.id}}).then(response => {
+            this.$notify({
+              group: "admins",
+              title: "Info",
+              type: "success",
+              text: "Licence has been deleted.",
+            });
+            this.$router.go()
+          }, error => {
+            this.$notify({
+              group: "admins",
+              title: "Error",
+              type: "error",
+              text: "Something went wrong.",
+            });
+          });
+        }
+      }
     }
   }
 }

@@ -1,13 +1,14 @@
 defmodule EvercamAdminWeb.LicencesController do
   use EvercamAdminWeb, :controller
   import Ecto.Query
-  @auth_header ["Authorization": "Bearer sk_live_9g7nHGj9hct6fOj6rh2rBTaQ", "Accept": "Accept:application/json"]
+  @auth_header ["Authorization": "Bearer #{System.get_env["STRIPE_KEY"]}", "Accept": "Accept:application/json"]
   @strip_url "https://api.stripe.com/v1/customers?limit=1000"
 
   def index(conn, _params) do
-    query = "select l.*, u.*, con.name as con_name from licences as l
+    query = "select l.*, l.id as lic_id, u.*, con.name as con_name from licences as l
             inner join users as u on l.user_id = u.id
-            inner join countries as con on u.country_id = con.id"
+            inner join countries as con on u.country_id = con.id
+            where cancel_licence=false and subscription_id is null"
 
     licences = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
     cols = Enum.map licences.columns, &(String.to_atom(&1))
@@ -37,7 +38,8 @@ defmodule EvercamAdminWeb.LicencesController do
               amount: "&euro; #{:erlang.float_to_binary((licence[:amount] / 100), [decimals: 2])}",
               auto_renew: "No",
               status: get_status(licence[:paid]),
-              payment_method: (if licence[:payment_method] == 1, do: "Custom", else: "Stripe")
+              payment_method: (if licence[:payment_method] == 1, do: "Custom", else: "Stripe"),
+              id: licence[:lic_id]
             }
             acc ++ [lic]
           end)
@@ -76,7 +78,9 @@ defmodule EvercamAdminWeb.LicencesController do
                       amount: "&euro; #{:erlang.float_to_binary((licence["plan"]["amount"] / 100 * licence["quantity"]), [decimals: 2])}",
                       auto_renew: (if licence["cancel_at_period_end"], do: "No", else: "Yes"),
                       status: get_status(licence["status"]),
-                      payment_method: ""
+                      payment_method: "",
+                      stripe_customer_id: customer["id"],
+                      licence: ["id"]
                     }
                   end)
               end
@@ -84,6 +88,12 @@ defmodule EvercamAdminWeb.LicencesController do
           end)
       end
     json(conn, %{data: db_data ++ List.flatten(strip_data)})
+  end
+
+  def delete(conn, params) do
+    licence_id = params["licence_id"]
+    Ecto.Adapters.SQL.query!(Evercam.Repo, "update licences set cancel_licence=true where id=#{licence_id}", [])
+    json(conn, %{success: true})
   end
 
   defp get_expiry(end_date) when end_date in ["", nil], do: ""

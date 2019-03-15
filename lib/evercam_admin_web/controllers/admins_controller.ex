@@ -25,7 +25,7 @@ defmodule EvercamAdminWeb.AdminsController do
           Enum.reduce(display_start..index_end, [], fn i, acc ->
             admin = Enum.at(admins, i)
             a = %{
-              fullname: admin.firstname <> admin.lastname,
+              fullname: admin.firstname <> " " <> admin.lastname,
               email: admin.email,
               created_at: (if admin.created_at, do: Calendar.Strftime.strftime!(admin.created_at, "%A, %d %b %Y %l:%M %p"), else: ""),
               updated_at: (if admin.updated_at, do: Calendar.Strftime.strftime!(admin.updated_at, "%A, %d %b %Y %l:%M %p"), else: ""),

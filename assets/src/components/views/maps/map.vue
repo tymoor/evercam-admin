@@ -1,5 +1,16 @@
 <template>
   <div>
+    <form>
+      <div class="form-row">
+        <div class="col-2">
+          <select v-model="map_request" class="form-control map-input" @change="handleChange()">
+            <option value="construction">Construction Only</option>
+            <option value="garda">Garda</option>
+            <option value="all">All</option>
+          </select>
+        </div>
+      </div>
+    </form>
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
     <gmap-map :center="center" :zoom="7" style="width: 100%; height: 800px">
       <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
@@ -39,6 +50,14 @@ table td {
 .table {
   margin: 0px;
 }
+
+.form-row {
+  margin: 10px;
+}
+
+.map-input {
+  width: 146px;
+}
 </style>
 
 <script>
@@ -48,8 +67,8 @@ export default {
   data: () => {
     return {
       center: {
-        lat: 53.412910,
-        lng: -8.243890
+        lat: 52.8999964,
+        lng: -3.8499966
       },
       infoContent: '',
       infoWindowPos: null,
@@ -63,19 +82,28 @@ export default {
         }
       },
       markers: [],
-      ajaxWait: true
+      ajaxWait: true,
+      map_request: "construction"
     }
   },
 
   created() {
-    this.fetchMarkers()
+    this.fetchMarkers(this.map_request)
   },
 
   methods: {
-    fetchMarkers () {
+
+    handleChange() {
+      let map_request = this.map_request;
+      this.markers = []
+      this.ajaxWait = true;
+      this.fetchMarkers(map_request)
+    },
+
+    fetchMarkers (map_request) {
       axios.get("/v1/maps", {
         params: {
-          map_for: "all",
+          map_for: map_request,
         }
       }).then(response => {
         this.ajaxWait = false;

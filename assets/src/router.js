@@ -20,8 +20,6 @@ import SnapmailHistory from "./components/views/snapmail_history/snapmail_histor
 import Admins from "./components/views/admins/admins";
 import Archives from "./components/views/archives/archives";
 import Map from "./components/views/maps/map";
-import MapGarda from "./components/views/maps/maps_garda";
-import MapConstruction from "./components/views/maps/maps_construction";
 import Compares from "./components/views/compares/compares";
 import CameraShareRequests from "./components/views/camera_share_requests/camera_share_requests";
 import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
@@ -131,29 +129,27 @@ Vue.component("v-horizontal-scroll", HorizontalScroll);
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: "/", component: Users, name: "users", meta: { title: "Users"} },
-    { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Cameras"} },
-    { path: "/camera_shares", component: CameraShares, name: "camera_shares", meta: { title: "Camera Shares"} },
-    { path: "/camera_share_requests", component: CameraShareRequests, name: "camera_share_requests", meta: { title: "Camera Share Requests"} },
-    { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Vendor Models"} },
-    { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Vendors"} },
-    { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Cloud Recordings"} },
-    { path: "/admins", component: Admins, name: "admins", meta: { title: "Admins"} },
-    { path: "/archives", component: Archives, name: "archives", meta: { title: "Archives"} },
-    { path: "/compares", component: Compares, name: "compares", meta: { title: "Compares"} },
-    { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Snapmails"} },
-    { path: "/snapmail_history", component: SnapmailHistory, name: "snapmail_history", meta: { title: "Snapmail History"} },
-    { path: "/map", component: Map, name: "map", meta: { title: "Map"} },
-    { path: "/maps_garda", component: MapGarda, name: "map_garda", meta: { title: "Maps Garda"} },
-    { path: "/maps_construction", component: MapConstruction, name: "maps_construction", meta: { title: "Maps Construction"} },
-    { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Snapshot Extractors"} },
-    { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Meta Datas"} },
+    { path: "/", component: Users, name: "users", meta: { title: "Admin - Users"} },
+    { path: "/cameras", component: Cameras, name: "cameras", meta: { title: "Admin - Cameras"} },
+    { path: "/shares", component: CameraShares, name: "shares", meta: { title: "Admin - Shares"} },
+    { path: "/share_requests", component: CameraShareRequests, name: "share_requests", meta: { title: "Admin - Share Requests"} },
+    { path: "/vendor_models", component: VendorModels, name: "vendor_models", meta: { title: "Admin - Vendor Models"} },
+    { path: "/vendors", component: Vendors, name: "vendors", meta: { title: "Admin - Vendors"} },
+    { path: "/cloud_recordings", component: CloudRecordings, name: "cloud_recordings", meta: { title: "Admin - Cloud Recordings"} },
+    { path: "/admins", component: Admins, name: "admins", meta: { title: "Admin - Admins"} },
+    { path: "/clips", component: Archives, name: "clips", meta: { title: "Admin - Clips"} },
+    { path: "/compares", component: Compares, name: "compares", meta: { title: "Admin - Compares"} },
+    { path: "/snapmails", component: Snapmails, name: "snapmails", meta: { title: "Admin - Snapmails"} },
+    { path: "/snapmail_history", component: SnapmailHistory, name: "snapmail_history", meta: { title: "Admin - Snapmail History"} },
+    { path: "/maps", component: Map, name: "map", meta: { title: "Admin - Maps"} },
+    { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Admin - Snapshot Extractors"} },
+    { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Admin - Meta Datas"} },
     { path: "/onvif", component: Onvif, name: "onvif", meta: { title: "Onvif"} },
-    { path: "/intercom_companies", component: IntercomCompanies, name: "intercom_companies", meta: { title: "Intercom Companies"} },
-    { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Duplicate Cameras"} },
-    { path: "/construction_nvrs", component: ConstructionNvrs, name: "construction_nvrs", meta: { title: "Construction Nvrs"} },
-    { path: "/construction_nvrs_vh", component: ConstructionVHNvrs, name: "construction_nvrs_vh", meta: { title: "Construction Nvrs VH"} },
-    { path: "/licences", component: Licences, name: "licences", meta: { title: "Licences"} },
+    { path: "/companies", component: IntercomCompanies, name: "companies", meta: { title: "Admin - Companies"} },
+    { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Admin - Duplicate Cameras"} },
+    { path: "/nvrs", component: ConstructionNvrs, name: "nvrs", meta: { title: "Admin - NVRs"} },
+    { path: "/nvr_vhs", component: ConstructionVHNvrs, name: "nvrs_vh", meta: { title: "Admin - NVR VHs"} },
+    { path: "/licences", component: Licences, name: "licences", meta: { title: "Admin - Licences"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}
   ],

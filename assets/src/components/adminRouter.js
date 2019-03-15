@@ -7,7 +7,7 @@ import Login from "./Login"
 const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: "/users/sign_in", component: Login, name: "login", meta: { title: "Login"}}
+    { path: "/users/sign_in", component: Login, name: "login", meta: { title: "Admin - Login"}}
   ]
 });
 

@@ -15,9 +15,9 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/archives'">
+          <router-link class="nav-link" v-bind:to="'/clips'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Archives
+            Clips
           </router-link>
         </li>
         <li class="nav-item">
@@ -51,27 +51,27 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/camera_shares'">
+          <router-link class="nav-link" v-bind:to="'/shares'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Camera Shares
+            Shares
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/construction_nvrs'">
+          <router-link class="nav-link" v-bind:to="'/nvrs'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Construction Nvrs
+            NVRs
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/construction_nvrs_vh'">
+          <router-link class="nav-link" v-bind:to="'/nvr_vhs'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Construction Nvrs VH
+            NVR VHs
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/camera_share_requests'">
+          <router-link class="nav-link" v-bind:to="'/share_requests'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Camera Share Requests
+            Share Requests
           </router-link>
         </li>
         <li class="nav-item">
@@ -93,9 +93,9 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/intercom_companies'">
+          <router-link class="nav-link" v-bind:to="'/companies'">
             <i class="nav-icon icon-drop fa fa-building"></i>
-            Intercom Companies
+            Companies
           </router-link>
         </li>
         <li class="nav-item">
@@ -126,18 +126,6 @@
           <router-link class="nav-link" v-bind:to="'/map'">
             <i class="nav-icon icon-drop fa fa-map"></i>
             Map
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/maps_garda'">
-            <i class="nav-icon icon-drop fa fa-map"></i>
-            Maps Garda
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/maps_construction'">
-            <i class="nav-icon icon-drop fa fa-map"></i>
-            Maps Construction
           </router-link>
         </li>
       </ul>

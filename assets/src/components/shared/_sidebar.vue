@@ -123,9 +123,9 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/map'">
+          <router-link class="nav-link" v-bind:to="'/maps'">
             <i class="nav-icon icon-drop fa fa-map"></i>
-            Map
+            Maps
           </router-link>
         </li>
       </ul>

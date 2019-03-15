@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content="<%= get_csrf_token() %>">
     <link rel="icon" href="<%= Routes.static_path(@conn, "/img/Favicon-300.png") %>">
-    <title>EvercamAdmin</title>
+    <title>Admin - Login</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">

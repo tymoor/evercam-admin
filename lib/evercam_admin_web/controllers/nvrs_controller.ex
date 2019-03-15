@@ -1,6 +1,5 @@
 defmodule EvercamAdminWeb.NvrsController do
   use EvercamAdminWeb, :controller
-  import Ecto.Query
 
   def index(conn, _params) do
     query = "select c.*, u.api_id, u.api_key

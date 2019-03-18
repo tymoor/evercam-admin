@@ -28,10 +28,5 @@ export default [
     title: 'Subject',
     sortField: 'subject',
     togglable: true
-  },
-  {
-    name: "template-slot",
-    title: '',
-    titleClass: "template"
-  },
+  }
 ]

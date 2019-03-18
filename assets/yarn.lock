@@ -9841,10 +9841,10 @@ vue-clipboard2@^0.3.0:
   dependencies:
     clipboard "^2.0.0"
 
-vue-cool-select@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/vue-cool-select/-/vue-cool-select-2.5.0.tgz#43270d23311d176faaa3d68e577bf719c46beae8"
-  integrity sha512-QmvZ00H9T50TuBij+SYLn8K1wNnAGZrBGwAD5RrEIyzh4q9OXMfVcS4BQ3RfeUbgMHqcn/Z59ytTgu2PU1JHew==
+vue-cool-select@2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/vue-cool-select/-/vue-cool-select-2.9.0.tgz#49ecacc23f38b9c3172fa5cc24e6d25038ca2c28"
+  integrity sha512-K8+JOg25k0GJcGQ/9VGwkJNNSwvQd7HWb4ZIeMvfuavqrFnvWFRy/RqxGwJtRhtMRZzwpCAhAX8DUAlHYed0Dg==
 
 vue-events@^3.1.0:
   version "3.1.0"

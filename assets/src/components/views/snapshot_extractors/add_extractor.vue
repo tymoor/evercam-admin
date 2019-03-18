@@ -131,7 +131,8 @@
                   @event-created="eventCreated"
                   @event-selected="eventSelected"
                   @event-resize="eventResized"
-                  ref="calendar">
+                  ref="calendar"
+                  class="full-calendar">
                   </full-calendar>
                 </div>
               </div>
@@ -190,6 +191,17 @@
   margin-right: 10px;
   border: 1px solid #eaecf0;
 }
+
+
+.full-calendar .fc-axis {
+  width: 36px;
+  min-width: 36px;
+}
+
+.full-calendar .fc-ltr .fc-axis {
+  min-width: 36px;
+}
+
 
 </style>
 
@@ -257,7 +269,9 @@ import moment from "moment";
             center: '',
             right: '',
           },
-          header:false
+          header: false,
+          handleWindowResize: true,
+          windowResizeDelay: 20
         },
         dateFormat: {
           stringify: (date) => {

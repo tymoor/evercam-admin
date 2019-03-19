@@ -53,6 +53,7 @@ defmodule EvercamAdminWeb.Router do
     get "/nvrs", NvrsController, :index
     get "/licences", LicencesController, :index
     delete "/licences", LicencesController, :delete
+    get "/storage", StorageController, :index
   end
 
   scope "/", EvercamAdminWeb do

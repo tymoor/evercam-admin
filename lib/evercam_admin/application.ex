@@ -9,9 +9,12 @@ defmodule EvercamAdmin.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      EvercamAdminWeb.Endpoint
+      EvercamAdminWeb.Endpoint,
       # Starts a worker by calling: EvercamAdmin.Worker.start_link(arg)
       # {EvercamAdmin.Worker, arg},
+      :hackney_pool.child_spec(:snapshot_pool, [timeout: 5000, max_connections: 1000]),
+      :hackney_pool.child_spec(:seaweedfs_upload_pool, [timeout: 5000, max_connections: 1000]),
+      :hackney_pool.child_spec(:seaweedfs_download_pool, [timeout: 5000, max_connections: 1000]),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

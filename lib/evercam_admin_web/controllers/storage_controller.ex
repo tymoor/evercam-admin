@@ -6,7 +6,6 @@ defmodule EvercamAdminWeb.StorageController do
 
   def index(conn, param) do
     year = param["year"]
-    server = param["server"]
 
     months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     construction_cameras =
@@ -27,7 +26,7 @@ defmodule EvercamAdminWeb.StorageController do
         months_data =
           Enum.map(months, fn month ->
             available =
-              create_request_url(server, camera.exid, year, month)
+              create_request_url(camera, year, month)
               |> get_month_request(hearders)
             %{
               translate_month(month) => available
@@ -47,19 +46,19 @@ defmodule EvercamAdminWeb.StorageController do
   end
 
   defp get_month_request(url, hearders) do
-    with {:ok, %Resp{status_code: 200, body: body}} <- HTTPoison.get(url, hearders, hackney: [pool: :seaweedfs_download_pool, recv_timeout: 30_000_000]) do
-      Jason.decode!(body)["Directories"] |> directories?
+    with {:ok, %Resp{status_code: 200, body: body}} <- HTTPoison.get(url, hearders) do
+      Jason.decode!(body)["days"] |> directories?
     else
       _ ->
         false
     end
   end
 
-  defp directories?(nil), do: false
+  defp directories?([]), do: false
   defp directories?(_dirs), do: true
 
-  defp create_request_url(server, camera_exid, year, month) do
-    "#{server}:8888/#{camera_exid}/snapshots/recordings/#{year}/#{month}/"
+  defp create_request_url(camera, year, month) do
+    "https://media.evercam.io/v2/cameras/#{camera.exid}/recordings/snapshots/#{year}/#{month}/days?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}"
   end
 
   defp translate_month("01"), do: "Jan"

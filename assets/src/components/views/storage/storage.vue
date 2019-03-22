@@ -2,7 +2,7 @@
   <div>
 
     <div>
-      
+      <v-storage-filters />
     </div>
 
     <v-horizontal-scroll />
@@ -74,11 +74,15 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import StorageFilters from "./storage_filters";
 import Jquery from "jquery";
 import axios from "axios";
 import _ from "lodash";
 
 export default {
+  components: {
+    "v-storage-filters": StorageFilters
+  },
   data: () => {
     return {
       loading: "",

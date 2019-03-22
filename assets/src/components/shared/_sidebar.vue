@@ -57,6 +57,12 @@
           </router-link>
         </li>
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/storage'">
+            <i class="nav-icon icon-drop fa fa-camera"></i>
+            Storage
+          </router-link>
+        </li>
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/nvrs'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             NVRs

@@ -283,6 +283,7 @@ export default {
       this.year = filter.year;
       this.ajaxWait = true;
       this.appendOtherData(this.data)
+      this.ajaxWait = false;
     },
 
     onPaginationData(paginationData) {

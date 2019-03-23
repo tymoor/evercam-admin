@@ -2,7 +2,23 @@
   <div>
 
     <div>
-      <v-storage-filters />
+      <div class="row cameras-filter_css">
+        <form>
+          <div class="form-row">
+            <div class="col-0.5 search-label">
+              <label class="control-label">Year :</label>
+            </div>
+            <div class="col">
+              <select v-model="year" @change="storageYearChange" class="form-control">
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
     <v-horizontal-scroll />
@@ -69,6 +85,17 @@
   cursor: pointer;
 }
 
+.form-control {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.search-label {
+  margin-top: 4px;
+  margin-left: 15px;
+}
+
 </style>
 
 <script>
@@ -94,7 +121,7 @@ export default {
       data: [],
       filtered: [],
       ajaxWait: true,
-      year: 2016
+      year: "2016"
     }
   },
   watch: {
@@ -130,8 +157,6 @@ export default {
       this.ajaxWait = false;
       this.filtered = response.data.data;
     });
-
-    this.$events.$on('storage-filter-set', eventData => this.onFilterSet(eventData))
   },
 
   updated() {
@@ -140,6 +165,32 @@ export default {
   },
 
   methods: {
+
+    clearTable(data) {
+
+      NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+      HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+
+      let allTableRows = document.getElementsByTagName("table")[0].rows;
+
+      if (allTableRows.length > 3) {
+        data.forEach((camera, i) => {
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-may').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').text(``)
+        });
+      }
+
+    },
 
     appendOtherData(data) {
 
@@ -279,9 +330,9 @@ export default {
       }
     },
 
-    onFilterSet (filter) {
-      this.year = filter.year;
+    storageYearChange () {
       this.ajaxWait = true;
+      this.clearTable(this.data)
       this.appendOtherData(this.data)
       this.ajaxWait = false;
     },

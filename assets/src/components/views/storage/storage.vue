@@ -182,18 +182,18 @@ export default {
 
       if (allTableRows.length > 3) {
         data.forEach((camera, i) => {
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-may').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').text(``)
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-may').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').css('background-color', 'white');
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').css('background-color', 'white');
         });
       }
 

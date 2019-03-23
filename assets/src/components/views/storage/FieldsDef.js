@@ -11,62 +11,62 @@ export default [
   },
   {
     name: 'jan',
-    title: 'January',
+    title: 'J',
     togglable: true
   },
   {
     name: 'feb',
-    title: 'Feburary',
+    title: 'F',
     togglable: true
   },
   {
     name: 'mar',
-    title: 'March',
+    title: 'M',
     togglable: true
   },
   {
     name: 'apr',
-    title: 'April',
+    title: 'A',
     togglable: true
   },
   {
     name: 'may',
-    title: 'May',
+    title: 'M',
     togglable: true
   },
   {
     name: 'jun',
-    title: 'June',
+    title: 'J',
     togglable: true
   },
   {
     name: 'jul',
-    title: 'July',
+    title: 'J',
     togglable: true
   },
   {
     name: 'aug',
-    title: 'August',
+    title: 'A',
     togglable: true
   },
   {
     name: 'sep',
-    title: 'September',
+    title: 'S',
     togglable: true
   },
   {
     name: 'oct',
-    title: 'October',
+    title: 'O',
     togglable: true
   },
   {
     name: 'nov',
-    title: 'November',
+    title: 'N',
     togglable: true
   },
   {
     name: 'dec',
-    title: 'December',
+    title: 'D',
     togglable: true
   },
 ]

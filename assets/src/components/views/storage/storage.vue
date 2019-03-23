@@ -39,6 +39,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+        <div slot="axios-slot" slot-scope="props">
+          {{ axiosRequst(props.rowData) }}
+        </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -165,6 +168,10 @@ export default {
   },
 
   methods: {
+ 
+    axiosRequst(data) {
+      console.log(data)
+    },
 
     clearTable(data) {
 
@@ -227,100 +234,54 @@ export default {
               let monthData = response.data.days
 
               if (monthData.length > 0) {
-                if (month == "01") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').text(`Yes`)
-                }
-
-                if (month == "02") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').text(`Yes`)
-                }
-                
-                if (month == "03") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').text(`Yes`)
-                }
-                
-                if (month == "04") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').text(`Yes`)
-                }
-                
-                if (month == "05") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-may').text(`Yes`)
-                }
-                
-                if (month == "06") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').text(`Yes`)
-                }
-                
-                if (month == "07") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').text(`Yes`)
-                }
-                
-                if (month == "08") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').text(`Yes`)
-                }
-
-                if (month == "09") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').text(`Yes`)
-                }
-
-                if (month == "10") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').text(`Yes`)
-                }
-
-                if (month == "11") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').text(`Yes`)
-                }
-
-                if (month == "12") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').text(`Yes`)
-                }
+                console.log("do nothing");
               } else {
                 if (month == "01") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').css('background-color', 'black');
                 }
 
                 if (month == "02") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').css('background-color', 'black');
                 }
                 
                 if (month == "03") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').css('background-color', 'black');
                 }
                 
                 if (month == "04") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').css('background-color', 'black');
                 }
                 
                 if (month == "05") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-may').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-may').css('background-color', 'black');
                 }
                 
                 if (month == "06") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').css('background-color', 'black');
                 }
                 
                 if (month == "07") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').css('background-color', 'black');
                 }
                 
                 if (month == "08") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').css('background-color', 'black');
                 }
 
                 if (month == "09") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').css('background-color', 'black');
                 }
 
                 if (month == "10") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').css('background-color', 'black');
                 }
 
                 if (month == "11") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').css('background-color', 'black');
                 }
 
                 if (month == "12") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').text(`No`)
+                  Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').css('background-color', 'black');
                 }
               }
 

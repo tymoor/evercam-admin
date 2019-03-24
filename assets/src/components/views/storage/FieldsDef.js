@@ -10,6 +10,16 @@ export default [
     togglable: true
   },
   {
+    name: 'latest-image-date',
+    title: "Latest Snapshot",
+    titleClass: "snapshot_date"
+  },
+  {
+    name: 'oldest-image-date',
+    title: "Oldest Snapshot",
+    titleClass: "snapshot_date"
+  },
+  {
     name: 'jan',
     title: 'J',
     togglable: true

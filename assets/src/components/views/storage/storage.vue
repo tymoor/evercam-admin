@@ -10,6 +10,7 @@
             </div>
             <div class="col">
               <select v-model="year" @change="storageYearChange" class="form-control">
+                <option value="2015">2015</option>
                 <option value="2016">2016</option>
                 <option value="2017">2017</option>
                 <option value="2018">2018</option>
@@ -39,9 +40,6 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
-        <div slot="axios-slot" slot-scope="props">
-          {{ axiosRequst(props.rowData) }}
-        </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -104,15 +102,11 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
-import StorageFilters from "./storage_filters";
 import Jquery from "jquery";
 import axios from "axios";
 import _ from "lodash";
 
 export default {
-  components: {
-    "v-storage-filters": StorageFilters
-  },
   data: () => {
     return {
       loading: "",
@@ -168,10 +162,6 @@ export default {
   },
 
   methods: {
- 
-    axiosRequst(data) {
-      console.log(data)
-    },
 
     clearTable(data) {
 
@@ -212,6 +202,23 @@ export default {
           let cameraAPID = camera.api_id
           let cameraAPIKey = camera.api_key
           let cameraExid = camera.exid
+
+          let latest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/latest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
+          let oldest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/oldest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
+
+          axios.get(latest).then(response => {
+            let data = response.data;
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(`${data.created_at}`);
+          }).catch(error => {
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(``);
+          });
+
+          axios.get(oldest).then(response => {
+            let data = response.data;
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(`${data.created_at}`);
+          }).catch(error => {
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(``);
+          });
 
           let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
           let january = ""

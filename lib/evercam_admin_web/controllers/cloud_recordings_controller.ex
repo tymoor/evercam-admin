@@ -5,8 +5,7 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
     [column, order] = params["sort"] |> String.split("|")
 
     query = "select c.name, c.exid, c.id cam_id, c.is_online, c.is_public, u.username,u.firstname, u.lastname, u.id user_id, u.api_id, u.api_key, u.payment_method ,cr.*,
-      (select count(c1.id) from cameras c1 inner join cloud_recordings cr1 on c1.id=cr1.camera_id where owner_id=u.id and cr1.storage_duration=cr.storage_duration) total_cameras,
-      (select sum(total_cameras) from licences l where l.user_id=u.id and l.storage=cr.storage_duration) licences
+      (select count(c1.id) from cameras c1 inner join cloud_recordings cr1 on c1.id=cr1.camera_id where owner_id=u.id and cr1.storage_duration=cr.storage_duration) total_cameras
       from cloud_recordings cr
       inner join cameras c on cr.camera_id=c.id
       inner join users u on c.owner_id=u.id #{condition(params)} #{sorting(column, order)}"
@@ -35,7 +34,6 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
           schedule: get_hours(cloud_recording[:schedule]),
           online: cloud_recording[:is_online],
           public: cloud_recording[:is_public],
-          licences: cloud_recording[:licences],
           api_key: cloud_recording[:api_key],
           api_id: cloud_recording[:api_id],
           exid: cloud_recording[:exid],

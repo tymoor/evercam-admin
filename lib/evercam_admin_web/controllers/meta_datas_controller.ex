@@ -64,15 +64,25 @@ defmodule EvercamAdminWeb.MetaDatasController do
   end
 
   def sync_stat_metadata(conn, _params) do
-    {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get("https://media.evercam.io/stats/")
-    tokens =
-      body
-      |> xpath(~x"//stream"l)
-      |> get_token_from_streams
+    referer_url =
+      case List.keyfind(conn.req_headers, "referer", 0) do
+        {"referer", referer} -> referer
+        nil -> ""
+      end
 
-    tokens |> get_exids_from_tokens |> delete_streams
-    tokens |> kill_rtmp_stream
-    json(conn, %{status: true})
+    case String.match?(referer_url, ~r/meta_data/) do
+      true ->
+        {:ok, %HTTPoison.Response{body: body}} = HTTPoison.get("https://media.evercam.io/stats/")
+        tokens =
+          body
+          |> xpath(~x"//stream"l)
+          |> get_token_from_streams
+
+        tokens |> get_exids_from_tokens |> delete_streams
+        tokens |> kill_rtmp_stream
+        json(conn, %{status: true})
+      _ -> json(conn, %{status: false})
+    end
   end
 
   defp get_token_from_streams([]), do: []

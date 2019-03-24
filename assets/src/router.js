@@ -29,7 +29,6 @@ import ConstructionNvrs from "./components/views/nvrs/construction_nvrs/construc
 import ConstructionVHNvrs from "./components/views/nvrs/construction_nvrs_vh/construction_nvrs_vh";
 import IntercomCompanies from "./components/views/intercom_companies/intercom_companies";
 import DuplicateCameras from "./components/views/duplicate_cameras/duplicate_cameras";
-import Licences from "./components/views/licences/licences";
 import Storage from "./components/views/storage/storage";
 import Page404 from "./components/Page404";
 import Login from "./components/Login"
@@ -150,7 +149,6 @@ const router = new VueRouter({
     { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Admin - Duplicate Cameras"} },
     { path: "/nvrs", component: ConstructionNvrs, name: "nvrs", meta: { title: "Admin - NVRs"} },
     { path: "/nvr_vhs", component: ConstructionVHNvrs, name: "nvrs_vh", meta: { title: "Admin - NVR VHs"} },
-    { path: "/licences", component: Licences, name: "licences", meta: { title: "Admin - Licences"} },
     { path: "/storage", component: Storage, name: "storage", meta: { title: "Admin - Storage"} },
     { path: "/users", redirect: '/'},
     { path: "*", component: Page404, name: "notfound", meta: { title: "Not Found"}}

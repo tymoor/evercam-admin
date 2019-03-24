@@ -91,24 +91,6 @@ export default [
     togglable: true
   },
   {
-    name: 'required_licence',
-    title: 'Required Licence',
-    sortField: 'required_licence',
-    togglable: true
-  },
-  {
-    name: 'valid_licence',
-    title: 'Licence Valid',
-    sortField: 'valid_licence',
-    togglable: true
-  },
-  {
-    name: 'def',
-    title: 'Deficient Licence',
-    sortField: 'def',
-    togglable: true
-  },
-  {
     name: 'referral_url',
     title: 'Referral URL',
     sortField: 'referral_url',

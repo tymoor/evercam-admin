@@ -45,12 +45,6 @@
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/licences'">
-            <i class="nav-icon icon-drop fa fa-certificate"></i>
-            Licences
-          </router-link>
-        </li>
-        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/shares'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Shares

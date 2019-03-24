@@ -56,12 +56,6 @@ export default [
     }
   },
   {
-    name: 'licences',
-    title: 'Licenced',
-    sortField: 'licences',
-    togglable: true
-  },
-  {
     name: 'payment_method',
     title: 'Type',
     sortField: 'payment_method',

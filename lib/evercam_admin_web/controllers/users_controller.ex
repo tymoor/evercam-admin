@@ -2,11 +2,10 @@ defmodule EvercamAdminWeb.UsersController do
   use EvercamAdminWeb, :controller
 
   def index(conn, params) do
-    case_value = "(CASE WHEN (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) >= 0 THEN (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) ELSE 0 end)"
     [column, order] = params["sort"] |> String.split("|")
 
-    first_sort = ["payment_method", "username", "name", "email", "api_id", "api_key", "cameras_owned", "camera_shares", "snapmail_count", "country", "created_at", "last_login_at", "required_licence", "referral_url"]
-    second_sort = ["total_cameras", "valid_licence", "required_licence", "def"]
+    first_sort = ["payment_method", "username", "name", "email", "api_id", "api_key", "cameras_owned", "camera_shares", "snapmail_count", "country", "created_at", "last_login_at", "referral_url"]
+    second_sort = ["total_cameras"]
     sorting1 =
       Enum.any?(first_sort, fn(x) -> x == column end)
       |> decide_sorting(column, order)
@@ -17,9 +16,8 @@ defmodule EvercamAdminWeb.UsersController do
 
     condition1 = decide_condition1(params)
     condition2 = decide_condition2(params)
-    query = "select *, #{case_value} def, (cameras_owned + camera_shares) total_cameras from (
-                 select *, (select count(cr.id) from cloud_recordings cr left join cameras c on c.owner_id=u.id where c.id=cr.camera_id and cr.status <>'off' and cr.storage_duration <> 1) required_licence,
-                 (select SUM(l.total_cameras) from licences l left join users uu on l.user_id=uu.id where uu.id=u.id and cancel_licence=false) valid_licence,
+    query = "select *, (cameras_owned + camera_shares) total_cameras from (
+                 select *, (select count(cr.id) from cloud_recordings cr left join cameras c on c.owner_id=u.id where c.id=cr.camera_id and cr.status <>'off' and cr.storage_duration <> 1),
                  (select count(*) from cameras cc left join users uuu on cc.owner_id=uuu.id where uuu.id=u.id) cameras_owned,
                  (select count(*) from camera_shares cs left join users uuuu on cs.user_id=uuuu.id where uuuu.id = u.id) camera_shares,
                  (select count(*) from snapmails sm left join users suser on sm.user_id=suser.id where suser.id = u.id) snapmail_count,
@@ -55,9 +53,6 @@ defmodule EvercamAdminWeb.UsersController do
           camera_shares: user[:camera_shares],
           total_cameras: user[:total_cameras],
           country: user[:country],
-          required_licence: user[:required_licence],
-          valid_licence: user[:valid_licence],
-          def: user[:def],
           payment_method: user[:payment_method],
           id: user[:id],
           referral_url: user[:referral_url],

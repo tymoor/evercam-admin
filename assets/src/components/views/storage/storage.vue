@@ -158,7 +158,7 @@ export default {
 
   updated() {
     document.addEventListener("resize", this.setScrollBar());
-    this.appendOtherData(this.data);
+    this.appendOtherData(this.data, true);
   },
 
   methods: {
@@ -189,7 +189,7 @@ export default {
 
     },
 
-    appendOtherData(data) {
+    appendOtherData(data, oldestLatest) {
 
       NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
       HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
@@ -203,22 +203,26 @@ export default {
           let cameraAPIKey = camera.api_key
           let cameraExid = camera.exid
 
-          let latest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/latest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
-          let oldest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/oldest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
+          if (oldestLatest) {
+            let latest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/latest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
+            let oldest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/oldest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
 
-          axios.get(latest).then(response => {
-            let data = response.data;
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(`${data.created_at}`);
-          }).catch(error => {
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(``);
-          });
+            axios.get(latest).then(response => {
+              let data = response.data;
+              Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(`${data.created_at}`);
+            }).catch(error => {
+              Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(``);
+            });
 
-          axios.get(oldest).then(response => {
-            let data = response.data;
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(`${data.created_at}`);
-          }).catch(error => {
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(``);
-          });
+            axios.get(oldest).then(response => {
+              let data = response.data;
+              Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(`${data.created_at}`);
+            }).catch(error => {
+              Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(``);
+            });
+          } else {
+            console.log("No new OldestLatest.")
+          }
 
           let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
           let january = ""
@@ -301,7 +305,7 @@ export default {
     storageYearChange () {
       this.ajaxWait = true;
       this.clearTable(this.data)
-      this.appendOtherData(this.data)
+      this.appendOtherData(this.data, false)
       this.ajaxWait = false;
     },
 

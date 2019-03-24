@@ -6,7 +6,7 @@ defmodule EvercamAdminWeb.StorageController do
     query = "select c.*, u.api_id, u.api_key
             from cameras as c
             inner JOIN users u on c.owner_id = u.id
-            where owner_id=13959 order by c.name asc"
+            where owner_id in (13959, 109148) order by c.name asc"
 
     cameras = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
     cols = Enum.map cameras.columns, &(String.to_atom(&1))

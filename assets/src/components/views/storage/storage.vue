@@ -241,8 +241,6 @@ export default {
               let monthData = response.data.days
 
               if (monthData.length > 0) {
-                console.log("do nothing");
-              } else {
                 if (month == "01") {
                   Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').css('background-color', 'black');
                 }
@@ -290,6 +288,8 @@ export default {
                 if (month == "12") {
                   Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').css('background-color', 'black');
                 }
+              } else {
+                console.log("do nothing");
               }
 
             }).catch(error => {});

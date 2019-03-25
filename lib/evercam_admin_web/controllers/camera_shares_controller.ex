@@ -101,8 +101,8 @@ defmodule EvercamAdminWeb.CameraSharesController do
       Enum.reduce(display_start..index_end, [], fn i, acc ->
         camera_share = Enum.at(roles, i)
         c = %{
-          camera_sharee_link: (if camera_share[:sharee_fullname] == nil, do: "Deleted", else: "<a href='https://dash.evercam.io/v1/cameras/#{camera_share[:exid]}?api_id=#{camera_share[:sharee_api_id]}&api_key=#{camera_share[:sharee_api_key]}' target='_blank'>#{camera_share[:sharee_fullname]} <i class='fa fa-external-link'></i></a>"),
-          camera_sharer_link: (if camera_share[:sharer_fullname] == nil, do: "Deleted", else: "<a href='https://dash.evercam.io/v1/cameras/#{camera_share[:exid]}?api_id=#{camera_share[:sharer_api_id]}&api_key=#{camera_share[:sharee_api_key]}' target='_blank'>#{camera_share[:sharer_fullname]} <i class='fa fa-external-link'></i></a>"),
+          camera_sharee_link: (if camera_share[:sharee_fullname] == nil, do: "Deleted", else: "<a href='https://dash.evercam.io/v2/cameras/#{camera_share[:exid]}?api_id=#{camera_share[:sharee_api_id]}&api_key=#{camera_share[:sharee_api_key]}' target='_blank'>#{camera_share[:sharee_fullname]} <i class='fa fa-external-link'></i></a>"),
+          camera_sharer_link: (if camera_share[:sharer_fullname] == nil, do: "Deleted", else: "<a href='https://dash.evercam.io/v2/cameras/#{camera_share[:exid]}?api_id=#{camera_share[:sharer_api_id]}&api_key=#{camera_share[:sharee_api_key]}' target='_blank'>#{camera_share[:sharer_fullname]} <i class='fa fa-external-link'></i></a>"),
           created_at: (if camera_share[:created_at], do: Calendar.Strftime.strftime!(camera_share[:created_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           name: camera_share[:name],
           exid: (if camera_share[:exid] == nil, do: "Deleted", else: camera_share[:exid]),

@@ -25,7 +25,7 @@ defmodule EvercamAdminWeb.StorageController do
             c = %{
               exid: camera[:exid],
               name: camera[:name],
-              camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:name]} <i class='fa fa-external-link'></i></a>",
+              camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:name]} <i class='fa fa-external-link'></i></a>",
               api_key: camera[:api_key],
               api_id: camera[:api_id]
             }

@@ -81,7 +81,7 @@ defmodule EvercamAdminWeb.CamerasController do
           external_rtsp_port: camera[:config]["external_rtsp_port"],
           username: camera[:config]["auth"]["basic"]["username"],
           password: camera[:config]["auth"]["basic"]["password"],
-          camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:fullname]} <i class='fa fa-external-link'></i></a>",
+          camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:fullname]} <i class='fa fa-external-link'></i></a>",
           created_at: (if camera[:created_at], do: Calendar.Strftime.strftime!(camera[:created_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           last_polled_at: (if camera[:last_polled_at], do: Calendar.Strftime.strftime!(camera[:last_polled_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           last_online_at: (if camera[:last_online_at], do: Calendar.Strftime.strftime!(camera[:last_online_at], "%A, %d %b %Y %l:%M %p"), else: "")
@@ -205,7 +205,7 @@ defmodule EvercamAdminWeb.CamerasController do
                   api_key: camera.owner.api_key,
                   email: camera.owner.email,
                   owner_id: camera.owner.id,
-                  camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{camera.exid}?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}' target='_blank'>#{camera.owner.firstname} #{camera.owner.lastname} <i class='fa fa-external-link'></i></a>",
+                  camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera.exid}?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}' target='_blank'>#{camera.owner.firstname} #{camera.owner.lastname} <i class='fa fa-external-link'></i></a>",
                   is_public: camera.is_public,
                   cr_status: (if camera.cloud_recordings, do: camera.cloud_recordings.status, else: ""),
                   share_count: Enum.count(camera.shares),

@@ -45,7 +45,7 @@ defmodule EvercamAdminWeb.UsersController do
         u = %{
           username: user[:username],
           name: user[:fullname],
-          name_link: "<a href='https://dash.evercam.io/v1/cameras?api_id=#{user[:api_id]}&api_key=#{user[:api_key]}' target='_blank'>#{user[:firstname]} #{user[:lastname]} <i class='fa fa-external-link'></i></a>",
+          name_link: "<a href='https://dash.evercam.io/v2/cameras?api_id=#{user[:api_id]}&api_key=#{user[:api_key]}' target='_blank'>#{user[:firstname]} #{user[:lastname]} <i class='fa fa-external-link'></i></a>",
           email: user[:email],
           api_id: user[:api_id],
           api_key: user[:api_key],

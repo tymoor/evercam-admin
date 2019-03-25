@@ -39,7 +39,7 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
           exid: cloud_recording[:exid],
           schedule_for_edit: cloud_recording[:schedule],
           payment_method: cloud_recording[:payment_method],
-          camera_link: "<a href='https://dash.evercam.io/v1/cameras/#{cloud_recording[:exid]}?api_id=#{cloud_recording[:api_id]}&api_key=#{cloud_recording[:api_key]}' target='_blank'>#{cloud_recording[:firstname]} #{cloud_recording[:lastname]} <i class='fa fa-external-link'></i></a>"
+          camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{cloud_recording[:exid]}?api_id=#{cloud_recording[:api_id]}&api_key=#{cloud_recording[:api_key]}' target='_blank'>#{cloud_recording[:firstname]} #{cloud_recording[:lastname]} <i class='fa fa-external-link'></i></a>"
         }
         acc ++ [cr]
       end)

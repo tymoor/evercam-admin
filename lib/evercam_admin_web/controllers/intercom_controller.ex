@@ -18,7 +18,7 @@ defmodule EvercamAdminWeb.IntercomController do
     end
   end
 
-  def index(conn, params) do
+  def index(conn, _params) do
     with {:ok, companies} <- Intercom.get_companies() do
       length = Enum.count(companies)
       data =

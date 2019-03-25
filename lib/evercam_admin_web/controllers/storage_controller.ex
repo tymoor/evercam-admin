@@ -1,8 +1,7 @@
 defmodule EvercamAdminWeb.StorageController do
   use EvercamAdminWeb, :controller
-  import Ecto.Query
 
-  def index(conn, param) do
+  def index(conn, _param) do
     query = "select c.*, u.api_id, u.api_key
             from cameras as c
             inner JOIN users u on c.owner_id = u.id

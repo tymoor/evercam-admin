@@ -38,7 +38,9 @@ export default {
   },
   data () {
     return {
-      json: null
+      json: {
+        message: "Please select a camera and proceed."
+      }
     }
   },
   mounted() {

@@ -541,8 +541,8 @@ import moment from "moment";
       },
 
       parseCalendar: function() {
-        var events = this.$refs.calendar.fireMethod('clientEvents');
-        var schedule = {
+        let events = this.$refs.calendar.fireMethod('clientEvents');
+        let schedule = {
           'Monday': [],
           'Tuesday': [],
           'Wednesday': [],
@@ -552,12 +552,10 @@ import moment from "moment";
           'Sunday': [],
         }
         events.map(function(event){
-          var endTime = ''
-          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-          var startTime = moment(event.start).get('hours');
-          var endTime = moment(event.end).get('hours');
-          var day = moment(event.start).get('day');
-          schedule[days[day]] = schedule[days[day]].concat(startTime + "-" + endTime)
+          let startTime = `${moment(event.start).format('HH')}:${moment(event.start).format('mm')}`
+          let endTime = `${moment(event.end).format('HH')}:${moment(event.end).format('mm')}`
+          let day = moment(event.start).format('dddd')
+          schedule[day] = schedule[day].concat(`${startTime}-${endTime}`)
         });
         return schedule
       }

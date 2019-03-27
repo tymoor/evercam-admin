@@ -26,7 +26,7 @@ export default [
   },
   {
     name: 'camera_link',
-    title: 'Onwer',
+    title: 'Owner',
     sortField: 'fullname',
     togglable: true
   },

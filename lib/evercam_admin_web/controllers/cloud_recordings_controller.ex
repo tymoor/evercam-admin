@@ -84,7 +84,7 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
       cond do
         name == "camera_name" && value != "" -> condition <> " and c.name='#{value}'"
         name == "owner" && value != "" -> condition <> " and lower(u.firstname || ' ' || u.lastname) like lower('%#{value}%')"
-        name == "status" && value != "" -> condition <> " and status='#{value}'"
+        name == "status" && value != "" -> condition <> " and lower(status) like lower('%#{value}%')"
         name == "storage_duration" && value != "" -> condition <> " and storage_duration=#{value}"
         name == "interval" && value != "" -> condition <> " and frequency=#{value}"
         true -> condition

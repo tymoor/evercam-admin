@@ -41,7 +41,13 @@
     "vue2-datepicker": "^2.10.0",
     "vue2-google-maps": "^0.10.6",
     "vuetable-2": "next",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "@fullcalendar/core": "^4.0.0",
+    "@fullcalendar/interaction": "^4.0.0",
+    "@fullcalendar/daygrid": "^4.0.0",
+    "@fullcalendar/timegrid": "^4.0.0",
+    "@fullcalendar/list": "^4.0.0",
+    "@fullcalendar/moment": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",

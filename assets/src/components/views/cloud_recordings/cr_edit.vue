@@ -49,13 +49,7 @@
 
               <div class="form-group" v-show="showCalendar">
                 <label>Schedule:</label>
-                <full-calendar
-                :config="config"
-                @event-created="eventCreated"
-                @event-selected="eventSelected"
-                @event-resize="eventResized"
-                ref="calendar">
-                </full-calendar>
+                <div id="calendar"></div>
               </div>
 
             </form>
@@ -96,15 +90,19 @@
 </style>
 
 <script>
-import { FullCalendar } from 'vue-full-calendar';
 import moment from "moment";
 import axios from "axios";
 
+import { Calendar } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import momentPlugin from '@fullcalendar/moment';
+
+
   export default {
     props: ["crSettings", "showCRModal"],
-    components: {
-      FullCalendar
-    },
     data: () => {
       return {
         showCalendar: false,
@@ -116,12 +114,15 @@ import axios from "axios";
         api_id: "",
         exid: "",
         ajaxWait: false,
+        calendar: null,
         config: {
+          plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, momentPlugin],
           axisFormat: 'HH',
-          defaultView: 'agendaWeek',
+          defaultView: 'timeGridWeek',
           allDaySlot: false,
           slotDuration: '00:60:00',
-          columnFormat: 'ddd',
+          columnFormat: 'dddd',
+          columnHeaderFormat: { weekday: 'short' },
           defaultDate: '1970-01-01',
           dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
           eventLimit: true,
@@ -131,13 +132,15 @@ import axios from "axios";
           height: 'auto',
           selectHelper: true,
           selectable: true,
-          timezone: 'local',
+          timezone: 'UTC',
           header: {
             left: '',
             center: '',
             right: '',
           },
-          header:false
+          header: false,
+          editable: true,
+          events: null
         }
       }
     },
@@ -151,10 +154,132 @@ import axios from "axios";
         this.api_id = this.crSettings.api_id,
         this.api_key = this.crSettings.api_key,
         this.exid = this.crSettings.exid
+        if (this.status === "on-scheduled") {
+          this.showCalendar = true
+        }
+      }
+    },
+
+    updated() {
+      if (this.status === "on-scheduled") {
+
+        if (this.calendar == null) {
+          console.log(this.schedule)
+          let calendarEl = document.getElementById('calendar');
+
+          let calendarConfig = this.config
+
+          let select = (event) => {
+            this.selectCalendar(event)
+          }
+
+          let eventClick = (event) => {
+            this.clickCalendar(event)
+          }
+
+          let eventDrop = (event) => {
+            this.dropCalendar(event)
+          }
+
+          let eventResize = (event) => {
+            this.resizeCalendar(event)
+          }
+
+          calendarConfig.select = select;
+          calendarConfig.eventClick = eventClick;
+          calendarConfig.eventDrop = eventDrop;
+          calendarConfig.eventResize = eventResize;
+
+          this.calendar = new Calendar(calendarEl, calendarConfig);
+          this.calendar.render();
+
+          this.renderEvents()
+        }
+      } else {
+        this.destroyCalendar()
       }
     },
 
     methods: {
+
+      renderEvents() {
+        let schedule = JSON.parse(this.schedule)
+        let calendarWeek = this.currentCalendarWeek()
+        let days = Object.keys(schedule)
+
+        days.forEach((weekDay) => {
+          let day  = schedule[weekDay]
+          if (day.length != 0) {
+            day.forEach((event) => {
+              let start = event.split("-")[0]
+              let end = event.split("-")[1]
+
+              let addEvent = {
+                id: this.generate_random_string(4),
+                start: moment(`${calendarWeek[weekDay]} ${start}`, "YYYY-MM-DD HH:mm")._i,
+                end: moment(`${calendarWeek[weekDay]} ${end}`, "YYYY-MM-DD HH:mm")._i
+              }
+              this.calendar.addEvent(addEvent);
+            });
+          }
+        });
+      },
+
+      generate_random_string(string_length) {
+        let random_string = '';
+        let random_ascii;
+        for(let i = 0; i < string_length; i++) {
+            random_ascii = Math.floor((Math.random() * 25) + 97);
+            random_string += String.fromCharCode(random_ascii)
+        }
+        return random_string
+      },
+
+      currentCalendarWeek() {
+        let calendarWeek = {}
+        let weekStart = moment(this.calendar.view.currentStart)
+        let weekEnd = moment(this.calendar.view.currentEnd)
+        while (weekStart.isBefore(weekEnd)) {
+          let weekDay = weekStart.format("dddd")
+          calendarWeek[weekDay] = weekStart.format('YYYY-MM-DD')
+          weekStart.add(1, "days")
+        }
+        return calendarWeek;
+      },
+
+      selectCalendar(event) {
+        this.calendar.addEvent(event)
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      clickCalendar(event) {
+        if (window.confirm("Are you sure you want to delete this event?")) {
+          let findingID = null
+          if (event.event.id === "") {
+            findingID = event.el
+          } else {
+            findingID = event.event.id
+          }
+          let removeEvent = this.calendar.getEventById( findingID )
+          removeEvent.remove()
+        }
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      dropCalendar(event) {
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      resizeCalendar(event) {
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      destroyCalendar() {
+        if (this.calendar != null) {
+          this.calendar.destroy();
+          this.calendar = null
+        }
+      },
 
       SaveCR() {
         if (this.status == "on-scheduled") {
@@ -182,7 +307,7 @@ import axios from "axios";
           });
 
           this.ajaxWait = false
-          this.clearAllEvents()
+          // clear all evenrts here
           this.showCalendar = false;
           this.$events.fire("close-cr-modal", false);
           this.$events.fire("refresh-cr-table", true);
@@ -199,39 +324,6 @@ import axios from "axios";
         });
       },
 
-      clearAllEvents() {
-        var events = this.$refs.calendar.fireMethod('clientEvents');
-        events.preventDefault
-        for (var i = 0; i < events.length; i++) {
-          this.$refs.calendar.fireMethod('removeEvents', events[i]._id);
-        }
-      },
-
-      eventResized(event) {
-        this.$refs.calendar.$emit('refetch-events');
-        this.updateSchedule()
-      },
-
-      eventSelected(event, jsEvent, view) {
-        console.log(event);
-        event.preventDefault
-        if (window.confirm("Are you sure you want to delete this event?")){
-          this.$refs.calendar.fireMethod('removeEvents', event._id);
-        }
-        this.updateSchedule()
-      },
-
-      eventCreated(start_end) {
-        let eventData;
-        eventData = {
-          start: start_end.start,
-          end: start_end.end
-        }
-        this.$refs.calendar.fireMethod('renderEvent', eventData, true);
-        this.$refs.calendar.fireMethod('unselect');
-        this.updateSchedule()
-      },
-
       updateSchedule() {
         var schedule = JSON.stringify(this.parseCalendar());
         this.schedule = schedule
@@ -241,6 +333,7 @@ import axios from "axios";
       handleChange() {
         if (this.status === "on" || this.status === "off" ){
           this.showCalendar = false;
+          this.destroyCalendar();
           let schedule = {
             "Monday": ["00:00-23:59"],
             "Tuesday": ["00:00-23:59"],
@@ -251,30 +344,25 @@ import axios from "axios";
             "Sunday": ["00:00-23:59"]
           };
           this.schedule = JSON.stringify(schedule);
-          this.config.events = null
-          this.config.eventSources = null
-          this.clearAllEvents()
+
         } else if (this.status === "on-scheduled"){
           this.showCalendar = true
-          this.config.events = null
-          this.config.eventSources = null
-          this.clearAllEvents()
+
         } else if (this.status === "paused") {
           this.showCalendar = false;
-          console.log(this.schedule);
+          this.destroyCalendar();
         }
-        console.log(this.schedule);
       },
 
       hideCRModal () {
         this.showCalendar = false;
-        this.clearAllEvents()
+        this.destroyCalendar();
         this.$events.fire("close-cr-modal", false);
       },
 
-      parseCalendar: function() {
-        var events = this.$refs.calendar.fireMethod('clientEvents');
-        var schedule = {
+      parseCalendar () {
+        let events = this.calendar.getEvents()
+        let schedule = {
           'Monday': [],
           'Tuesday': [],
           'Wednesday': [],
@@ -284,14 +372,12 @@ import axios from "axios";
           'Sunday': [],
         }
         events.map(function(event){
-          var endTime = ''
-          var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-          var startTime = moment(event.start).get('hours');
-          var endTime = moment(event.end).get('hours');
-          var day = moment(event.start).get('day');
-          schedule[days[day]] = schedule[days[day]].concat(startTime + "-" + endTime)
+          let startTime = `${moment(event.start).format('HH')}:${moment(event.start).format('mm')}`
+          let endTime = `${moment(event.end).format('HH')}:${moment(event.end).format('mm')}`
+          let day = moment(event.start).format('dddd')
+          schedule[day] = schedule[day].concat(`${startTime}-${endTime}`)
         });
-        return schedule
+        return schedule;
       }
     }
   }

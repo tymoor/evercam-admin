@@ -708,6 +708,38 @@
     vue-clickaway "^2.2.2"
     vue-perfect-scrollbar "^0.1.0"
 
+"@fullcalendar/core@^4.0.0":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/core/-/core-4.0.1.tgz#9ae5d53f67dc5f5062ffa142b9226d57b0a3b41e"
+  integrity sha512-dUhBtZ2hIuPFJP4Rr1QOFs5/nG5EAnzqMDvy1IZ0JEBw/+0Dwj4X55Ugb3buHBh5GDrQmPbZVW21mbcUqeTprQ==
+
+"@fullcalendar/daygrid@^4.0.0", "@fullcalendar/daygrid@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/daygrid/-/daygrid-4.0.1.tgz#383bfd51dd55bbec2ccc90926e9dbdf710aa3789"
+  integrity sha512-nKFFKgTm5eijOukD6pjsQSLlsBoMrKuHXc00zaHaMWSeJndGHxtseR8oeHOnclNNScMKLXLNZthzEduSqqyuRw==
+
+"@fullcalendar/interaction@^4.0.0":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/interaction/-/interaction-4.0.1.tgz#9b4493ccf19df1f52ac7d50f6ac1ef274ca08a77"
+  integrity sha512-JvbcK6PLqPDxUsiDHc+BD2qXt7Se9GmriezKQc45Tt2I1+z7NSmMmzuA5QiKYGCnz/Sii/QfQ6JiI3t59iOLLg==
+
+"@fullcalendar/list@^4.0.0":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/list/-/list-4.0.1.tgz#97b81ff98d2547bb317047c513903cd0fc0883ef"
+  integrity sha512-m8H9P908WzDX9nmhr1rnxrl2VHGIQMgouFxaOdinukUtQt3h4nT51aoaRnT9lVKG7mPEyMDHI+M3mKXShl1g6g==
+
+"@fullcalendar/moment@^4.0.0":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/moment/-/moment-4.0.1.tgz#39df41de4f81c68b62ea06359cfdb8127ecd1e92"
+  integrity sha512-1saWNA2ITXOXiU93QxtQnXXTxUE1nSHLSiBN1fMz0rdDJBwg5t3x5dFpv0bTJ6l9/q4vVfD5U6WhAONz0UKaXQ==
+
+"@fullcalendar/timegrid@^4.0.0":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/timegrid/-/timegrid-4.0.1.tgz#26454567a256af70b2aa6dae7f6351d0c0a92a32"
+  integrity sha512-gCtQ+xjVY5K3TV8o05KuAE9pCizoRIk/pCOueSkkQG8eSOFud34/LMB9OOQKb/yOQcMHx9UXEpup+xodEJC5ow==
+  dependencies:
+    "@fullcalendar/daygrid" "^4.0.1"
+
 "@intervolga/optimize-cssnano-plugin@^1.0.5":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@intervolga/optimize-cssnano-plugin/-/optimize-cssnano-plugin-1.0.6.tgz#be7c7846128b88f6a9b1d1261a0ad06eb5c0fdf8"

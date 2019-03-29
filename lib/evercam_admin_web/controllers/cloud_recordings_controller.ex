@@ -82,11 +82,11 @@ defmodule EvercamAdminWeb.CloudRecordingsController do
     Enum.reduce(params, "where 1=1", fn param, condition = _acc ->
       {name, value} = param
       cond do
-        name == "camera_name" && value != "" -> condition <> " and c.name='#{value}'"
+        name == "camera_name" && value != "" -> condition <> " and lower(c.name) like lower('%#{value}')"
         name == "owner" && value != "" -> condition <> " and lower(u.firstname || ' ' || u.lastname) like lower('%#{value}%')"
         name == "status" && value != "" -> condition <> " and lower(status) like lower('%#{value}%')"
-        name == "storage_duration" && value != "" -> condition <> " and storage_duration=#{value}"
-        name == "interval" && value != "" -> condition <> " and frequency=#{value}"
+        name == "storage_duration" && value != "" -> condition <> " and CAST(storage_duration AS TEXT) like '#{value}%'"
+        name == "interval" && value != "" -> condition <> " and CAST(frequency AS TEXT) like '#{value}%'"
         true -> condition
       end
     end)

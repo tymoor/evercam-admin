@@ -49,14 +49,10 @@ var statusCheck;
 statusCheck = (status) => {
   switch (status) {
     case 0:
-      return "Pending"
-    case 1:
       return "Processing"
-    case 2:
+    case 1:
       return "Completed"
-    case 3:
-      return "Failed"
     default:
-      return ""
+      return "Failed"
   }
 }

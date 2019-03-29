@@ -1,6 +1,5 @@
 import "./assets/application.scss";
 import "semantic-ui-css/semantic.css";
-import 'fullcalendar/dist/fullcalendar.css';
 
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';

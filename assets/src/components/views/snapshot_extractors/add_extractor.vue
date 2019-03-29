@@ -126,17 +126,8 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group row" v-show="showSchedule">
-                  <div class="col-sm-12">
-                    <full-calendar
-                    :config="config"
-                    @event-created="eventCreated"
-                    @event-selected="eventSelected"
-                    @event-resize="eventResized"
-                    ref="calendar"
-                    class="full-calendar">
-                    </full-calendar>
-                  </div>
+                <div class="form-group row">
+                  <div id="calendar"></div>
                 </div>
               </form>
               <p v-if="errors.length">
@@ -210,29 +201,27 @@
   border: 1px solid #eaecf0;
 }
 
-
-.full-calendar .fc-axis {
-  width: 36px;
-  min-width: 36px;
+#calendar {
+  margin: 0 auto;
+  width: 95%;
 }
-
-.full-calendar .fc-ltr .fc-axis {
-  min-width: 36px;
-}
-
-
 </style>
 
 <script>
-import { FullCalendar } from 'vue-full-calendar';
 import { CoolSelect, EventEmitter } from "vue-cool-select";
 import DatePicker from 'vue2-datepicker';
-import jQuery from 'jquery';
 import moment from "moment";
+
+import { Calendar } from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import momentPlugin from '@fullcalendar/moment';
 
   export default {
     components: {
-      CoolSelect, DatePicker, FullCalendar
+      CoolSelect, DatePicker
     },
     data: () => {
       return {
@@ -247,7 +236,7 @@ import moment from "moment";
         search: "",
         camera: "",
         selected: null,
-        showSchedule: false,
+        showSchedule: true,
         showLocalOptions: false,
         items: [],
         loading: false,
@@ -267,12 +256,15 @@ import moment from "moment";
           "Saturday": [],
           "Sunday": []
         }),
+        calendar: null,
         config: {
+          plugins: [ interactionPlugin, dayGridPlugin, timeGridPlugin, listPlugin, momentPlugin],
           axisFormat: 'HH',
-          defaultView: 'agendaWeek',
+          defaultView: 'timeGridWeek',
           allDaySlot: false,
           slotDuration: '00:60:00',
-          columnFormat: 'ddd',
+          columnFormat: 'dddd',
+          columnHeaderFormat: { weekday: 'short' },
           defaultDate: '1970-01-01',
           dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
           eventLimit: true,
@@ -282,15 +274,15 @@ import moment from "moment";
           height: 'auto',
           selectHelper: true,
           selectable: true,
-          timezone: 'local',
+          timezone: 'UTC',
           header: {
             left: '',
             center: '',
             right: '',
           },
           header: false,
-          handleWindowResize: true,
-          windowResizeDelay: 20
+          editable: true,
+          events: null
         },
         dateFormat: {
           stringify: (date) => {
@@ -304,15 +296,6 @@ import moment from "moment";
     },
 
     watch: {
-      schedule_type(newVal, oldVal) {
-        if (newVal == "on_schedule") {
-          this.$nextTick(() => {
-            this.showSchedule = true
-          });
-        } else {
-          this.showSchedule = false
-        }
-      },
 
       extraction(newVal, oldVal) {
         if (newVal == "local") {
@@ -325,10 +308,137 @@ import moment from "moment";
       }
     },
 
+
+    updated() {
+      if (this.schedule_type === "on_schedule" || this.schedule_type === "working_hours" || this.schedule_type === "continuous") {
+
+        this.destroyCalendar();
+        if (this.calendar === null) {
+          let calendarEl = document.getElementById('calendar');
+          if (calendarEl) {
+
+            let calendarConfig = this.config
+
+            let select = (event) => {
+              this.selectCalendar(event)
+            }
+
+            let eventClick = (event) => {
+              this.clickCalendar(event)
+            }
+
+            let eventDrop = (event) => {
+              this.dropCalendar(event)
+            }
+
+            let eventResize = (event) => {
+              this.resizeCalendar(event)
+            }
+
+            calendarConfig.select = select;
+            calendarConfig.eventClick = eventClick;
+            calendarConfig.eventDrop = eventDrop;
+            calendarConfig.eventResize = eventResize;
+
+            this.calendar = new Calendar(calendarEl, calendarConfig);
+            this.calendar.render();
+
+            this.clearCalendar();
+            if (this.schedule_type === "on_schedule") {
+              // dont render any event
+            } else {
+              this.renderEvents()
+            }
+          }
+        }
+      } else {
+        console.log("detosyred")
+        this.destroyCalendar()
+      }
+    },
+
     methods: {
 
+      renderEvents() {
+        let schedule = JSON.parse(this.schedule)
+        let calendarWeek = this.currentCalendarWeek()
+        let days = Object.keys(schedule)
+
+        days.forEach((weekDay) => {
+          let day  = schedule[weekDay]
+          if (day.length != 0) {
+            day.forEach((event) => {
+              let start = event.split("-")[0]
+              let end = event.split("-")[1]
+
+              let addEvent = {
+                id: this.generate_random_string(4),
+                start: moment(`${calendarWeek[weekDay]} ${start}`, "YYYY-MM-DD HH:mm")._i,
+                end: moment(`${calendarWeek[weekDay]} ${end}`, "YYYY-MM-DD HH:mm")._i
+              }
+              this.calendar.addEvent(addEvent);
+            });
+          }
+        });
+      },
+
+      generate_random_string(string_length) {
+        let random_string = '';
+        let random_ascii;
+        for(let i = 0; i < string_length; i++) {
+            random_ascii = Math.floor((Math.random() * 25) + 97);
+            random_string += String.fromCharCode(random_ascii)
+        }
+        return random_string
+      },
+
+      currentCalendarWeek() {
+        let calendarWeek = {}
+        let weekStart = moment(this.calendar.view.currentStart)
+        let weekEnd = moment(this.calendar.view.currentEnd)
+        while (weekStart.isBefore(weekEnd)) {
+          let weekDay = weekStart.format("dddd")
+          calendarWeek[weekDay] = weekStart.format('YYYY-MM-DD')
+          weekStart.add(1, "days")
+        }
+        return calendarWeek;
+      },
+
+      selectCalendar(event) {
+        this.calendar.addEvent(event)
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      clickCalendar(event) {
+        if (window.confirm("Are you sure you want to delete this event?")) {
+          let findingID = null
+          if (event.event.id === "") {
+            findingID = event.el
+          } else {
+            findingID = event.event.id
+          }
+          let removeEvent = this.calendar.getEventById( findingID )
+          removeEvent.remove()
+        }
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      dropCalendar(event) {
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      resizeCalendar(event) {
+        this.schedule = JSON.stringify(this.parseCalendar())
+      },
+
+      destroyCalendar() {
+        if (this.calendar != null) {
+          this.calendar.destroy();
+          this.calendar = null
+        }
+      },
+
       showExModalEvent() {
-        console.log("works")
         this.showExModal = true
       },
 
@@ -338,37 +448,6 @@ import moment from "moment";
 
       clearToDate() {
         this.toDateTime = ""
-      },
-
-      eventResized(event) {
-        this.$refs.calendar.$emit('refetch-events');
-        this.updateSchedule()
-      },
-
-      eventSelected(event, jsEvent, view) {
-        console.log(event);
-        event.preventDefault
-        if (window.confirm("Are you sure you want to delete this event?")){
-          this.$refs.calendar.fireMethod('removeEvents', event._id);
-        }
-        this.updateSchedule()
-      },
-
-      eventCreated(start_end) {
-        let eventData;
-        eventData = {
-          start: start_end.start,
-          end: start_end.end
-        }
-        this.$refs.calendar.fireMethod('renderEvent', eventData, true);
-        this.$refs.calendar.fireMethod('unselect');
-        this.updateSchedule()
-      },
-
-      updateSchedule() {
-        var schedule = JSON.stringify(this.parseCalendar());
-        this.schedule = schedule
-        console.log(this.schedule);
       },
 
       handleChange() {
@@ -383,9 +462,8 @@ import moment from "moment";
             "Sunday": ["00:00-23:59"]
           }
           this.schedule = JSON.stringify(schedule);
-          this.config.events = null
-          this.config.eventSources = null
-          this.clearAllEvents()
+          this.clearCalendar();
+          this.showSchedule = true
         } else if (this.schedule_type === "working_hours"){
           let schedule = {
             "Monday": ["08:00-18:00"],
@@ -397,28 +475,19 @@ import moment from "moment";
             "Sunday": []
           }
           this.schedule = JSON.stringify(schedule);
-          this.config.events = null
-          this.config.eventSources = null
-          this.clearAllEvents()
-        }
-        console.log(this.schedule);
-      },
-
-      clearAllEvents() {
-        var events = this.$refs.calendar.fireMethod('clientEvents');
-        events.preventDefault
-        for (var i = 0; i < events.length; i++) {
-          this.$refs.calendar.fireMethod('removeEvents', events[i]._id);
+          this.clearCalendar();
+          this.showSchedule = true
+        } else if (this.schedule_type === "on_schedule") {
+          this.clearCalendar();
+          this.showSchedule = true
         }
       },
 
       setFromDate(val) {
-        console.log(val)
         this.fromDateTime =  val
       },
 
       setToDate(val) {
-        console.log(val)
         this.toDateTime =  val
       },
 
@@ -439,7 +508,6 @@ import moment from "moment";
             `/v1/construction_cameras?search=${search}`
           );
 
-          console.log(response)
           this.items = await response.json();
           this.loading = false;
 
@@ -536,8 +604,7 @@ import moment from "moment";
         this.errors = [];
         this.cameras = [];
         this.selected = null;
-        this.clearAllEvents();
-        this.showSchedule = false;
+        this.showSchedule = true;
         this.items = [];
         this.loading = false;
         this.timeoutId = null;
@@ -561,11 +628,12 @@ import moment from "moment";
           "Sunday": []
         });
         this.selectEventEmitter.emit("set-search", "");
+        this.clearCalendar();
         this.showExModal = false;
       },
 
-      parseCalendar: function() {
-        let events = this.$refs.calendar.fireMethod('clientEvents');
+      parseCalendar () {
+        let events = this.calendar.getEvents()
         let schedule = {
           'Monday': [],
           'Tuesday': [],
@@ -581,7 +649,22 @@ import moment from "moment";
           let day = moment(event.start).format('dddd')
           schedule[day] = schedule[day].concat(`${startTime}-${endTime}`)
         });
-        return schedule
+        return schedule;
+      },
+
+      clearCalendar () {
+        let events = this.calendar.getEvents()
+
+        events.forEach((event) => {
+          let findingID = null
+          if (event.id === "") {
+            findingID = event.el
+          } else {
+            findingID = event.id
+          }
+          let removeEvent = this.calendar.getEventById( findingID )
+          removeEvent.remove();
+        });
       }
     }
   }

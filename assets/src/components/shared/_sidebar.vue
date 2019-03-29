@@ -95,16 +95,16 @@
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/storage'">
+          <router-link class="nav-link" v-bind:to="'/share_requests'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Storage
+            Share Requests
           </router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/share_requests'">
+          <router-link class="nav-link" v-bind:to="'/storage'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Share Requests
+            Storage
           </router-link>
         </li>
 
@@ -137,16 +137,16 @@
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/vendor_models'">
+          <router-link class="nav-link" v-bind:to="'/vendors'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Vendor Models
+            Vendors
           </router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" v-bind:to="'/vendors'">
+          <router-link class="nav-link" v-bind:to="'/vendor_models'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
-            Vendors
+            Vendor Models
           </router-link>
         </li>
 

@@ -1,5 +1,5 @@
 export default {
   table: {
-    tableClass: "ui blue selectable unstackable celled table vendor-model-report",
+    tableClass: "ui blue selectable unstackable celled striped table vendor-model-report",
   }
 };

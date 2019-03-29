@@ -1,5 +1,5 @@
 export default {
   table: {
-    tableClass: "ui blue selectable unstackable celled table meta-datas-report",
+    tableClass: "ui blue selectable unstackable celled striped table meta-datas-report",
   }
 };

@@ -25,12 +25,12 @@
           :css="css.table"
         >
           <div slot="custom-actions" slot-scope="props">
-            <button class="ui compact icon button edit" @click="onActionClicked('edit-item', props.rowData)" data-toggle="modal" data-target="#addModel">
+            <span class="pointer-set" @click="onActionClicked('edit-item', props.rowData)" data-toggle="modal" data-target="#addModel">
               <i class="edit icon"></i>
-            </button>
-            <button class="ui compact icon button delete" @click="onActionClicked('delete-item', props.rowData)">
-              <i class="trash alternate icon"></i>
-            </button>
+            </span>
+            <span class="pointer-set" @click="onActionClicked('delete-item', props.rowData)">
+              <i class="trash alternate outline icon"></i>
+            </span>
           </div>
         </vuetable>
       </div>

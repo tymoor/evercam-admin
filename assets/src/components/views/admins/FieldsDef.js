@@ -1,7 +1,7 @@
 export default [
   {
     name: "custom-actions",
-    title: "Actions",
+    title: "",
     titleClass: "center aligned",
     dataClass: "center aligned"
   },
@@ -19,7 +19,7 @@ export default [
   },
   {
     name: 'created_at',
-    title: 'Created AT',
+    title: 'Created At',
     sortField: "created_at",
     togglable: true
   },

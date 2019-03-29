@@ -1,5 +1,5 @@
 export default {
   table: {
-    tableClass: "ui blue selectable unstackable celled table construction-nvr-report",
+    tableClass: "ui blue selectable unstackable celled striped table construction-nvr-report",
   }
 };

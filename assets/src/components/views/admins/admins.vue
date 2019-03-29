@@ -25,9 +25,9 @@
           :css="css.table"
         >
           <div slot="custom-actions" slot-scope="props">
-            <button class="ui compact icon button delete" @click="onActionClicked('delete-item', props.rowData)">
-              <i class="trash alternate icon"></i>
-            </button>
+            <span class="pointer-set" @click="onActionClicked('delete-item', props.rowData)">
+              <i class="trash alternate outline icon"></i>
+            </span>
           </div>
         </vuetable>
       </div>
@@ -67,6 +67,10 @@
 
 .ui.compact.icon.button {
   padding: 5px;
+  cursor: pointer;
+}
+
+.pointer-set {
   cursor: pointer;
 }
 </style>

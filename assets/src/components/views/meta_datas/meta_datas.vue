@@ -159,7 +159,9 @@ export default {
     syncStatMetaData() {
       this.$http.get(`/v1/sync_stat_metadata`).then(response => {
         this.$nextTick(() => {
-          this.$refs.vuetable.refresh();
+          if (this.$refs.vuetable) {
+            this.$refs.vuetable.refresh();
+          }
         });
       }, error => {
         console.log("something went wrong.")

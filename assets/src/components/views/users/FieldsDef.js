@@ -4,6 +4,7 @@ import accounting from "accounting"
 export default [
   {
     name: "checkbox-slot",
+    title: "",
     titleClass: "user-checkbox"
   },
   {

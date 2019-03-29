@@ -1,6 +1,7 @@
 export default [
   {
     name: "slot",
+    title: "",
     titleClass: "csr-checkbox"
   },
   {

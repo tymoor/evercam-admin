@@ -123,6 +123,9 @@ body {
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-schedule,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-td-licences,
 .vuetable-body-wrapper .cloud-recording-report .vuetable-slot,
+.vuetable-body-wrapper .user-report .vuetable-slot,
+.vuetable-body-wrapper .camera-report .vuetable-slot,
+.vuetable-body-wrapper .csr-report .vuetable-slot,
 .vuetable-body-wrapper .admin-report .vuetable-td-sign_in_count,
 .vuetable-body-wrapper .admin-report .vuetable-td-last_sign_in_ip,
 .vuetable-body-wrapper .snapmail-report .vuetable-td-notify_time,
@@ -424,6 +427,16 @@ body {
 
 .vuetable-body-wrapper .admin-report .vuetable-th-email {
   width: 183px;
+}
+
+.ui.table td,
+.ui.table th {
+  padding: 0px 5px !important;
+  text-align: inherit;
+}
+
+.ui.table {
+  font-size: 13px !important;
 }
 
 .vuetable-body-wrapper .admin-report .vuetable-th-created_at,
@@ -837,4 +850,8 @@ body {
 
 .vuetable-body-wrapper .storage-report .snapshot_date {
   width: 210px;
+}
+
+.pointer-set {
+  cursor: pointer;
 }

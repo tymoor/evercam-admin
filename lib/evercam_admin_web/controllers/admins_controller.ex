@@ -98,11 +98,11 @@ defmodule EvercamAdminWeb.AdminsController do
     from [admin] in query,
       order_by: [{^sort_order(order), admin.created_at}]
   end
-  defp add_sorting(query, "udpated_at", order) do
+  defp add_sorting(query, "updated_at", order) do
     from [admin] in query,
-      order_by: [{^sort_order(order), admin.udpated_at}]
+      order_by: [{^sort_order(order), admin.updated_at}]
   end
-  defp add_sorting(query, "last_sign_in_at", order) do
+  defp add_sorting(query, "last_login_at", order) do
     from [admin] in query,
       order_by: [{^sort_order(order), admin.last_login_at}]
   end

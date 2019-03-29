@@ -20,6 +20,12 @@ export default [
     togglable: true
   },
   {
+    name: 'status',
+    title: 'Status',
+    sortField: 'status',
+    togglable: true
+  },
+  {
     name: 'created_at',
     title: 'Created At',
     sortField: 'created_at',

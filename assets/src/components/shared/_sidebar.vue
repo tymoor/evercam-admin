@@ -60,6 +60,13 @@
         </li>
 
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/intercom_users'">
+            <i class="nav-icon icon-drop fa fa-users"></i>
+            Intercom Users
+          </router-link>
+        </li>
+
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/maps'">
             <i class="nav-icon icon-drop fa fa-map"></i>
             Maps

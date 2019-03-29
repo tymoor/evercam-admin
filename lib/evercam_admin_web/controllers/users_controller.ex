@@ -102,6 +102,40 @@ defmodule EvercamAdminWeb.UsersController do
     end
   end
 
+  def without_company_intercom_users(conn, _params) do
+    with {:ok, users} <- IntercomUsers.get_users() do
+      filtered_users = users_with_no_companies(users)
+      length = Enum.count(filtered_users)
+      data =
+        case length <= 0 do
+          true -> []
+          _ ->
+            Enum.reduce(0..length - 1, [], fn i, acc ->
+              user = Enum.at(filtered_users, i)
+              u = %{
+                id: user["id"],
+                email: user["email"],
+                username: user["user_id"],
+                created_at: user["created_at"],
+                name: user["name"]
+              }
+              acc ++ [u]
+            end)
+        end
+      json(conn, %{data: data})
+    else
+      _ ->
+        json(conn, %{data: []})
+    end
+  end
+
+  defp users_with_no_companies(users) do
+    Enum.filter(users, fn user ->
+      %{"companies" => %{"companies" => companies}} = user
+      length(companies) == 0
+    end)
+  end
+
   defp decide_sorting(true , column, order), do: sorting(column, order)
   defp decide_sorting(false , _column, _order), do: ""
 

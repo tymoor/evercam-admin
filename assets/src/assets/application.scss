@@ -171,6 +171,7 @@ body {
 .vuetable-body-wrapper .licences-report .vuetable-th-end_date,
 .vuetable-body-wrapper .licences-report .vuetable-th-start_date,
 .vuetable-body-wrapper .ic-report .vuetable-th-created_at,
+.vuetable-body-wrapper .ic-users-report .vuetable-th-created_at,
 .vuetable-body-wrapper .compares-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_online_at,
@@ -854,4 +855,17 @@ body {
 
 .pointer-set {
   cursor: pointer;
+}
+
+
+.vuetable-body-wrapper .ic-users-report .vuetable-th-name {
+  width: 260px;
+}
+
+.vuetable-body-wrapper .ic-users-report .vuetable-th-email {
+  width: 260px;
+}
+
+.vuetable-body-wrapper .ic-users-report .vuetable-th-username {
+  width: 260px;
 }

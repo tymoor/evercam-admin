@@ -20,6 +20,7 @@ defmodule EvercamAdminWeb.Router do
     get "/users", UsersController, :index
     get "/countries", UsersController, :countries
     patch "/update_multiple_users", UsersController, :update_multiple_users
+    get "/without_company_intercom_users", UsersController, :without_company_intercom_users
     get "/cameras", CamerasController, :index
     get "/construction_cameras", CamerasController, :construction_cameras
     get "/onvif_cameras", CamerasController, :onvif_cameras

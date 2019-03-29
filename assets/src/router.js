@@ -28,6 +28,7 @@ import Onvif from "./components/views/onvif/onvif";
 import ConstructionNvrs from "./components/views/nvrs/construction_nvrs/construction_nvrs";
 import ConstructionVHNvrs from "./components/views/nvrs/construction_nvrs_vh/construction_nvrs_vh";
 import IntercomCompanies from "./components/views/intercom_companies/intercom_companies";
+import IntercomUsers from "./components/views/intercom_users/intercom_users";
 import DuplicateCameras from "./components/views/duplicate_cameras/duplicate_cameras";
 import Storage from "./components/views/storage/storage";
 import Page404 from "./components/Page404";
@@ -146,6 +147,7 @@ const router = new VueRouter({
     { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Admin - Meta Datas"} },
     { path: "/onvif", component: Onvif, name: "onvif", meta: { title: "Onvif"} },
     { path: "/companies", component: IntercomCompanies, name: "companies", meta: { title: "Admin - Companies"} },
+    { path: "/intercom_users", component: IntercomUsers, name: "intercom_users", meta: { title: "Admin - Intercom Users"} },
     { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Admin - Duplicate Cameras"} },
     { path: "/nvrs", component: ConstructionNvrs, name: "nvrs", meta: { title: "Admin - NVRs"} },
     { path: "/nvr_vhs", component: ConstructionVHNvrs, name: "nvrs_vh", meta: { title: "Admin - NVR VHs"} },

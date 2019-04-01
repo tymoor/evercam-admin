@@ -6,6 +6,7 @@
     <div>
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
       <add-ic />
+      <v-update-company :showUpdateCompany="showUpdateCompany" :companyData="companyData" />
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -24,6 +25,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="company-name" slot-scope="props">
+            <span v-html="props.rowData.name"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="edit icon pointer-cursor" @click="editCompanyName($event, props.rowData)"></i>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -43,7 +47,7 @@
         ></component>
       </div>
     </div>
-</div>
+  </div>
 </template>
 
 <style scoped>
@@ -64,6 +68,10 @@
   padding: 5px;
   cursor: pointer;
 }
+
+.pointer-cursor {
+  cursor: pointer;
+}
 </style>
 
 <script>
@@ -75,12 +83,14 @@ import ICShowHide from "./ic_show_hide";
 import moment from "moment";
 import axios from "axios";
 import _ from "lodash";
+import UpdateCompany from "./update_company";
 
 export default {
   components: {
     "add-ic": AddIC,
     "v-ic-filters": ICFilters,
-    "v-ic-show-hide": ICShowHide
+    "v-ic-show-hide": ICShowHide,
+    "v-update-company": UpdateCompany
   },
   data: () => {
     return {
@@ -92,6 +102,8 @@ export default {
       fields: FieldsDef,
       data: [],
       filtered: [],
+      showUpdateCompany: false,
+      companyData: {},
       ajaxWait: true,
     }
   },
@@ -122,6 +134,7 @@ export default {
     });
     this.$events.$on('ic-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('ic-added', e => this.onICAdded())
+    this.$events.$on('hide-update-company', e => this.onHideUpdateComapny(e))
   },
 
   methods: {
@@ -133,6 +146,29 @@ export default {
           }
         }
       })
+    },
+
+    updateCompanyName (company_id, newCompanyName) {
+      let newData = this.filtered;
+      for (var i = 0; i < newData.length; i++) {
+        if (newData[i].company_id === company_id) {
+          newData[i].name = newCompanyName;
+        }
+      }
+      this.filtered = newData
+    },
+
+    onHideUpdateComapny(e) {
+      if (e != null) {
+        this.updateCompanyName(e.company_id, e.company_name)
+      }
+      this.showUpdateCompany = false,
+      this.companyData = null;
+    },
+
+    editCompanyName(e, data) {
+      this.showUpdateCompany = true,
+      this.companyData = data;
     },
 
     onICAdded () {

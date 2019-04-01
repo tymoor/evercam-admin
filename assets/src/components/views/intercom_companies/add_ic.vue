@@ -102,7 +102,7 @@ import jQuery from 'jquery'
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name}}).then(response => {
+          this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name, add_users: true}}).then(response => {
 
             this.$notify({
               group: "admins",

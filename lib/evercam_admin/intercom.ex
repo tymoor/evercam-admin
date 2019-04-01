@@ -3,7 +3,6 @@ defmodule Intercom do
   @intercom_scroll_url "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll?scroll_param="
   @intercom_base_url   "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll"
   @intercom_headers    ["Authorization": "Bearer #{System.get_env["INTERCOM_ACCESS_TOKEN"]}", "Accept": "Accept:application/json"]
-
   @max_retries 5
 
   alias HTTPoison.Response, as: Resp

@@ -8,7 +8,7 @@ export default [
     togglable: true
   },
   {
-    name: 'name',
+    name: "company-name",
     title: 'Name',
     sortField: 'name',
     togglable: true

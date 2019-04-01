@@ -8,9 +8,7 @@ defmodule EvercamAdminWeb.IntercomController do
   def create(conn, params) do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- create_company(params) do
       company = Jason.decode!(body)
-      spawn fn ->
-        add_users(company)
-      end
+      update_users_companies(params["add_users"], company)
       json(conn, %{success: true})
     else
       _->
@@ -43,6 +41,13 @@ defmodule EvercamAdminWeb.IntercomController do
         json(conn, %{data: []})
     end
   end
+
+  defp update_users_companies(value, company) when value in ["true", true] do
+    spawn fn ->
+      add_users(company)
+    end
+  end
+  defp update_users_companies(_value, _company), do: :noop
 
   defp add_users(company) do
     users = Ecto.Adapters.SQL.query!(Evercam.Repo, "select * from users where email like '%@#{company["company_id"]}'", [])

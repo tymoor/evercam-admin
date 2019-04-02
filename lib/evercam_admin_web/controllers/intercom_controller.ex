@@ -67,7 +67,7 @@ defmodule EvercamAdminWeb.IntercomController do
               companies: [%{company_id: company_id}]
             }
             |> Poison.encode!
-            HTTPoison.post(@intercom_url, intercom_new_user, headers)
+            HTTPoison.post(@intercom_url <> "/users", intercom_new_user, headers)
           _ -> ""
         end
       end)

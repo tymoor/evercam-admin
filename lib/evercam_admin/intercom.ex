@@ -2,7 +2,7 @@ defmodule Intercom do
 
   @intercom_scroll_url "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll?scroll_param="
   @intercom_base_url   "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll"
-  @intercom_url "#{System.get_env["INTERCOM_URL"]}"
+  @intercom_url "#{System.get_env["INTERCOM_URL"]}" <> "/users"
   @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
   @intercom_headers    ["Authorization": "Bearer #{System.get_env["INTERCOM_ACCESS_TOKEN"]}", "Accept": "Accept:application/json"]
   @max_retries 5

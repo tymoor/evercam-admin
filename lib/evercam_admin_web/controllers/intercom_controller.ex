@@ -42,6 +42,40 @@ defmodule EvercamAdminWeb.IntercomController do
     end
   end
 
+  def add_company_to_users(conn, params) do
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json", "Content-Type": "application/json"]
+    emails_list = String.split(params["emails"], ",")
+
+    spawn fn ->
+      Enum.each(emails_list, fn(email) ->
+        company_domain = String.split(email, "@") |> List.last
+        company_id =
+          case Intercom.get_company(company_domain) do
+            {:ok, company} -> company["company_id"]
+            _ ->
+              Logger.info "Company does not found for #{email}."
+              Intercom.create_company(company_domain, String.split(company_domain, ".") |> List.first)
+              company_domain
+          end
+
+        case Intercom.get_user(email) do
+          {:ok, response} ->
+            intercom_user = response.body |> Poison.decode!
+            Logger.info "Adding company for email: #{email}, intercom_id: #{intercom_user["id"]}, company_id: #{company_id}"
+            intercom_new_user = %{
+              id: intercom_user["id"],
+              companies: [%{company_id: company_id}]
+            }
+            |> Poison.encode!
+            HTTPoison.post(@intercom_url, intercom_new_user, headers)
+          _ -> ""
+        end
+      end)
+    end
+
+    json(conn, %{success: true})
+  end
+
   defp update_users_companies(value, company) when value in ["true", true] do
     spawn fn ->
       add_users(company)

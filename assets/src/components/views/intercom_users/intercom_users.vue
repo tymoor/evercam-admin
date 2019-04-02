@@ -5,7 +5,7 @@
     </div>
     <div>
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
-      <add-ic />
+      <button class="btn btn-secondary mb-1 link-to-company" @click="linkUserToCompany" type="button">Link to Company</button>
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -24,6 +24,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="link-to-company" slot-scope="props">
+            <input :value="props.rowData" type="checkbox" v-model="checkedIUsers" />
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -64,6 +67,12 @@
   padding: 5px;
   cursor: pointer;
 }
+
+.link-to-company {
+  float: right;
+  margin-top: -35px;
+  margin-right: 50px;
+}
 </style>
 
 <script>
@@ -90,6 +99,7 @@ export default {
       fields: FieldsDef,
       data: [],
       filtered: [],
+      checkedIUsers: [],
       ajaxWait: true,
     }
   },
@@ -131,6 +141,72 @@ export default {
           }
         }
       })
+    },
+
+    linkUserToCompany () {
+      if (Object.keys(this.checkedIUsers).length === 0) {
+        this.$notify({
+          group: "admins",
+          title: "Error",
+          type: "error",
+          text: "At least select one User!",
+        });
+      } else {
+        this.ajaxWait = true
+        let emails = ""
+        this.checkedIUsers.map((user) => {
+          if (emails === "") {
+            emails += "" + user.email + ""
+          } else {
+            emails += "," + user.email + ""
+          }
+        });
+
+        this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
+          this.$notify({
+            group: "admins",
+            title: "Info",
+            type: "success",
+            text: "Users have been updated on Intercom!",
+          });
+          this.checkedIUsers = []
+          this.removeUpdateUsers(emails)
+          this.ajaxWait = false
+        }, error => {
+          this.ajaxWait = false
+          this.$notify({
+            group: "admins",
+            title: "Error",
+            type: "error",
+            text: "Something went wrong!",
+          });
+        });
+      }
+    },
+
+    removeUpdateUsers(emails) {
+      let newData = this.data;
+      let filteredData = this.filtered
+      let email_array = emails.split(",");
+      for (var i = 0; i < newData.length; i++) {
+
+        email_array.forEach((email) => {
+          if (newData[i].email === email) {
+            newData.splice(i, 1)
+          }
+        })
+      }
+
+      for (var i = 0; i < filteredData.length; i++) {
+
+        email_array.forEach((email) => {
+          if (filteredData[i].email === email) {
+            filteredData.splice(i, 1)
+          }
+        })
+      }
+      this.data = newData
+      this.filtered = filteredData
     },
 
     onICAdded () {

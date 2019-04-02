@@ -2,6 +2,10 @@ import moment from "moment";
 
 export default [
   {
+    name: "link-to-company",
+    title: ""
+  },
+  {
     name: 'username',
     title: 'Username',
     sortField: 'name',

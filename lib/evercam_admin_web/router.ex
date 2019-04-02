@@ -47,6 +47,7 @@ defmodule EvercamAdminWeb.Router do
     get "/maps", MapsController, :index
     get "/intercom_companies", IntercomController, :index
     post "/intercom_companies", IntercomController, :create
+    post "/add_company_to_users", IntercomController, :add_company_to_users
     post "/snapshot_extractors", SnapshotExtractorsController, :create
     get "/snapshot_extractors", SnapshotExtractorsController, :index
     get "/meta_datas", MetaDatasController, :index

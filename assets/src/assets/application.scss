@@ -138,6 +138,7 @@ body {
 .vuetable-body-wrapper .archives-report .vuetable-td-duration,
 .vuetable-body-wrapper .compares-report .vuetable-slot,
 .vuetable-body-wrapper .snapmail-history-report .vuetable-slot,
+.vuetable-body-wrapper .ic-users-report .vuetable-slot,
 .vuetable-body-wrapper .se-report .vuetable-td-id,
 .vuetable-body-wrapper .se-report .vuetable-td-interval,
 .vuetable-body-wrapper .se-report .vuetable-td-status,
@@ -872,4 +873,8 @@ body {
 
 .vuetable-body-wrapper .ic-users-report .vuetable-th-status {
   width: 200px;
+}
+
+.vuetable-body-wrapper .ic-users-report .vuetable-th-slot-link-to-company {
+  width: 25px;
 }

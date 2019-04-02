@@ -2,10 +2,51 @@ defmodule Intercom do
 
   @intercom_scroll_url "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll?scroll_param="
   @intercom_base_url   "#{System.get_env["INTERCOM_URL"]}" <> "/companies/scroll"
+  @intercom_url "#{System.get_env["INTERCOM_URL"]}"
+  @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
   @intercom_headers    ["Authorization": "Bearer #{System.get_env["INTERCOM_ACCESS_TOKEN"]}", "Accept": "Accept:application/json"]
   @max_retries 5
 
   alias HTTPoison.Response, as: Resp
+
+  def get_user(user_id) do
+    url = "#{@intercom_url}?user_id=#{user_id}"
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
+    response = HTTPoison.get(url, headers) |> elem(1)
+    case response.status_code do
+      200 -> {:ok, response}
+      _ -> {:error, response}
+    end
+  end
+
+  def get_company(company_id) do
+    intercom_url = @intercom_url |> String.replace("users", "companies")
+    url = "#{intercom_url}?company_id=#{company_id}"
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
+    response = HTTPoison.get(url, headers) |> elem(1)
+    case response.status_code do
+      200 -> {:ok, response.body |> Poison.decode!}
+      _ -> {:error, response}
+    end
+  end
+
+  def create_company(company_id, company_name) do
+    intercom_url = @intercom_url |> String.replace("users", "companies")
+    url = "#{intercom_url}"
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json", "Content-Type": "application/json"]
+    company_changeset = %{
+      company_id: company_id,
+      name: company_name,
+      created_at: Calendar.DateTime.now_utc |> Calendar.DateTime.Format.unix
+    }
+
+    json =
+      case Poison.encode(company_changeset) do
+        {:ok, json} -> json
+        _ -> nil
+      end
+    HTTPoison.post(url, json, headers)
+  end
 
   def get_companies(acc \\ [], scroll_param \\ nil, errors \\ [], retries \\ 0)
   def get_companies(acc, scroll_param, errors, retries) when retries < @max_retries do

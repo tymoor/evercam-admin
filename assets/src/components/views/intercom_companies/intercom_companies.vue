@@ -149,13 +149,21 @@ export default {
     },
 
     updateCompanyName (company_id, newCompanyName) {
-      let newData = this.filtered;
+      let newData = this.data;
+      let filteredData = this.filtered;
       for (var i = 0; i < newData.length; i++) {
         if (newData[i].company_id === company_id) {
           newData[i].name = newCompanyName;
         }
       }
-      this.filtered = newData
+
+      for (var i = 0; i < filteredData.length; i++) {
+        if (filteredData[i].company_id === company_id) {
+          filteredData[i].name = newCompanyName;
+        }
+      }
+      this.data = newData
+      this.filtered = filteredData
     },
 
     onHideUpdateComapny(e) {

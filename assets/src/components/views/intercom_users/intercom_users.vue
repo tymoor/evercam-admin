@@ -6,6 +6,7 @@
     <div>
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
       <button class="btn btn-secondary mb-1 link-to-company" @click="linkUserToCompany" type="button">Link to Company</button>
+      <button class="btn btn-secondary mb-1 link-custom-domains" @click="linkCustomDomains" type="button">Link Cutsom Domains</button>
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -73,6 +74,13 @@
   margin-top: -35px;
   margin-right: 50px;
 }
+
+.link-custom-domains {
+  float: right;
+  margin-top: -35px;
+  margin-right: 170px;
+}
+
 </style>
 
 <script>
@@ -122,7 +130,7 @@ export default {
   },
 
   mounted() {
-    this.ajaxWait = true,
+    this.ajaxWait = true
     axios.get("/v1/without_company_intercom_users").then(response => {
       this.data = response.data.data;
       this.ajaxWait = false
@@ -133,6 +141,52 @@ export default {
   },
 
   methods: {
+
+
+    linkCustomDomains () {
+      this.ajaxWait = true
+      let emails = ""
+      let allData = this.data
+      let willLink = false
+      let nonCustomDomain = ["gmail.com", "ymail.com", "yahoo.com", "hotmail.com", "outlook.com", "live.com", "live.ie"]
+
+      allData.forEach((user) => {
+        let userEmail = user.email
+        nonCustomDomain.forEach((domain) => {
+          if (userEmail) {
+            if (this.emailDomainCheck(userEmail, domain) === "0") {
+              willLink = true
+            }
+          }
+        });
+
+        if (willLink === true) {
+          console.log(userEmail)
+          if (emails === "") {
+            emails += "" + userEmail + ""
+          } else {
+            emails += "," + userEmail + ""
+          }
+        }
+        willLink = false
+      });
+
+      if (emails != "") {
+        console.log(emails)
+      }
+      this.ajaxWait = false
+    },
+
+    emailDomainCheck(email, domain) {
+      var parts = email.split('@');
+      if (parts.length === 2) {
+          if (parts[1] === domain) {
+              return "1";
+          }
+      }
+      return "0";
+    },
+
     onFilterSet (filter) {
       this.filtered = this.data.filter(d => {
         for (let name in d) {

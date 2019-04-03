@@ -36,7 +36,7 @@ defmodule Intercom do
     headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json", "Content-Type": "application/json"]
     company_changeset = %{
       company_id: company_id,
-      name: company_name,
+      name: String.capitalize(company_name),
       created_at: Calendar.DateTime.now_utc |> Calendar.DateTime.Format.unix
     }
 

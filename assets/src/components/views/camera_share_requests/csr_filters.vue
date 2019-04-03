@@ -93,12 +93,23 @@ export default {
         });
         if (window.confirm("Are you sure you want to delete this event?")) {
           this.$http.delete(`/v1/camera_share_requests`, {params: {ids: ids}}).then(response => {
-            console.log(response.body)
+
+            this.$notify({
+              group: "admins",
+              title: "Success",
+              type: "success",
+              text: "Camera Share Request(s) has been deleted!",
+            });
+
+            this.$events.fire("csr-deleted", {})
           }, error => {
-            console.log(error)
+            this.$notify({
+              group: "admins",
+              title: "Error",
+              type: "error",
+              text: "Something went wrong!",
+            });
           });
-          this.$router.go()
-          // this.$events.fire("user-modify-refresh", true)
         }
       }
     }

@@ -250,8 +250,7 @@
 
         this.$http.patch("/v1/update_multiple_users", {...params, ...{ids: ids}}).then(response => {
           this.usersModify = false
-          this.$router.go()
-          // this.$events.fire("user-modify-refresh", true)
+          this.$events.fire("user-modify-refresh", true)
           this.$notify({
             group: "admins",
             title: "Info",
@@ -287,8 +286,7 @@
                 console.log(error)
               });
             });
-            this.$router.go()
-            // this.$events.fire("user-modify-refresh", true)
+            this.$events.fire("user-modify-refresh", true)
           }
         }
       }

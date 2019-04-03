@@ -26,7 +26,7 @@
           :css="css.table"
         >
         <div slot="slot" slot-scope="props">
-          <input type="checkbox" @click="onCheckBoxClick($event, props.rowData)" />
+          <input :value="props.rowData.id" type="checkbox" v-model="selectedCSR" />
         </div>
         </vuetable>
       </div>
@@ -114,9 +114,16 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('csr-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('csr-deleted', e => this.onCSRDelete(e))
   },
 
   methods: {
+
+    onCSRDelete (e) {
+      this.selectedCSR = []
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
     onFilterSet (filters) {
       this.moreParams = {
         "sharer": filters.sharer,
@@ -147,16 +154,6 @@ export default {
 
     hideLoader() {
       this.loading = "";
-    },
-
-    onCheckBoxClick(event, data) {
-      this.$nextTick(() => {
-        if(event.target.checked) {
-          this.selectedCSR.push(data.id);
-        } else {
-          this.selectedCSR = this.selectedCSR.filter(csr => csr !== data.id)
-        }      
-      })
     }
   }
 }

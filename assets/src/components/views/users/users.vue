@@ -26,7 +26,7 @@
           :css="css.table"
         >
         <div slot="checkbox-slot" slot-scope="props">
-          <input type="checkbox" @click="onCheckBoxClick($event, props.rowData)" />
+          <input type="checkbox" :value="props.rowData" v-model="selectedUsers" />
         </div>
         </vuetable>
       </div>
@@ -174,23 +174,6 @@ export default {
 
     hideLoader() {
       this.loading = "";
-    },
-
-    onCheckBoxClick(event, data) {
-      const userAttributes = {
-        id: data.id,
-        email: data.email,
-        api_key: data.api_key,
-        api_id: data.api_id
-      }
-
-      this.$nextTick(() => {
-        if(event.target.checked) {
-          this.selectedUsers.push(userAttributes);
-        } else {
-          this.selectedUsers = this.selectedUsers.filter(user => user.id !== data.id)
-        }      
-      })
     }
   }
 }

@@ -24,6 +24,15 @@ export default [
     togglable: true
   },
   {
+    name: 'email',
+    title: 'Domain',
+    sortField: 'domain',
+    togglable: true,
+    formatter: (email) => {
+      return email.replace(/.*@/, "");
+    }
+  },
+  {
     name: 'status',
     title: 'Status',
     sortField: 'status',

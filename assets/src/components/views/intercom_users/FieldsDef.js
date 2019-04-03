@@ -29,7 +29,7 @@ export default [
     sortField: 'domain',
     togglable: true,
     formatter: (email) => {
-      return email.replace(/.*@/, "");
+      return domainName(email);
     }
   },
   {
@@ -51,4 +51,12 @@ export default [
 
 var dateFormat = (value) => {
   return moment.unix(value).format("dddd, DD MMM YYYY h:mm A");
+}
+
+var domainName = (email) => {
+  if (email) {
+    return email.replace(/.*@/, "");
+  } else {
+    return "";
+  }
 }

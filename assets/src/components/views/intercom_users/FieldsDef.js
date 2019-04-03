@@ -24,13 +24,10 @@ export default [
     togglable: true
   },
   {
-    name: 'email',
+    name: 'domain',
     title: 'Domain',
     sortField: 'domain',
-    togglable: true,
-    formatter: (email) => {
-      return domainName(email);
-    }
+    togglable: true
   },
   {
     name: 'status',
@@ -51,12 +48,4 @@ export default [
 
 var dateFormat = (value) => {
   return moment.unix(value).format("dddd, DD MMM YYYY h:mm A");
-}
-
-var domainName = (email) => {
-  if (email) {
-    return email.replace(/.*@/, "");
-  } else {
-    return "";
-  }
 }

@@ -118,6 +118,7 @@ defmodule EvercamAdminWeb.UsersController do
                 username: user["user_id"],
                 created_at: user["created_at"],
                 name: user["name"],
+                domain: (if user["email"], do: String.split(user["email"], "@") |> List.last, else: ""),
                 status: (if user["custom_attributes"]["status"], do: user["custom_attributes"]["status"], else: "")
               }
               acc ++ [u]

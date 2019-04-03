@@ -97,7 +97,13 @@ export default {
                 console.log(error)
               });
             });
-            this.$router.go()
+            this.$notify({
+              group: "admins",
+              title: "Success",
+              type: "success",
+              text: "Camera(s) has been deleted!",
+            });
+            this.$events.fire('cameras-deleted', {})
           }
         }
     }

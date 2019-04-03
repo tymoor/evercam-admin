@@ -26,7 +26,7 @@
           :css="css.table"
         >
         <div slot="checkbox-slot" slot-scope="props">
-          <input type="checkbox" @click="onCheckBoxClick($event, props.rowData)" />
+          <input type="checkbox" v-model="selectedCameras" :value="props.rowData" />
         </div>
         </vuetable>
       </div>
@@ -114,6 +114,7 @@ export default {
       this.setScrollBar()
     });
     this.$events.$on('camera-filter-set', eventData => this.onFilterSet(eventData))
+    this.$events.$on('cameras-deleted', e => this.onCamerasDelete(e))
   },
 
   methods: {
@@ -128,6 +129,11 @@ export default {
         "model": filters.model,
         "vendor": filters.vendor
       }
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
+    onCamerasDelete (e) {
+      this.selectedCameras = []
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
@@ -150,23 +156,6 @@ export default {
 
     hideLoader() {
       this.loading = "";
-    },
-
-    onCheckBoxClick(event, data) {
-      console.log(data)
-      const cameraAttributes = {
-        exid: data.exid,
-        api_key: data.api_key,
-        api_id: data.api_id
-      }
-
-      this.$nextTick(() => {
-        if(event.target.checked) {
-          this.selectedCameras.push(cameraAttributes);
-        } else {
-          this.selectedCameras = this.selectedCameras.filter(camera => camera.exid !== data.exid)
-        }      
-      })
     }
   }
 }

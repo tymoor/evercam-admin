@@ -45,7 +45,7 @@ defmodule Intercom do
         {:ok, json} -> json
         _ -> nil
       end
-    IO.inspect HTTPoison.post(url, json, headers)
+    HTTPoison.post(url, json, headers)
   end
 
   def get_companies(acc \\ [], scroll_param \\ nil, errors \\ [], retries \\ 0)

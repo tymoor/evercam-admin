@@ -173,6 +173,7 @@ export default {
       });
 
       if (emails != "") {
+        console.log(emails)
         this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
           this.$notify({
             group: "admins",

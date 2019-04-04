@@ -10,7 +10,7 @@ defmodule Intercom do
   alias HTTPoison.Response, as: Resp
 
   def get_user(user_id) do
-    url = "#{@intercom_url}?user_id=#{user_id}"
+    url = "#{@intercom_url}?email=#{user_id}"
     headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
     response = HTTPoison.get(url, headers) |> elem(1)
     case response.status_code do

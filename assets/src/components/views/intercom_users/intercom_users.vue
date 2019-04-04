@@ -144,54 +144,56 @@ export default {
 
 
     linkCustomDomains () {
-      this.ajaxWait = true
-      let emails = ""
-      let allData = this.data
-      let willLink = true
-      let nonCustomDomain = ["gmail.com", "ymail.com", "yahoo.com", "hotmail.com", "outlook.com", "live.com", "live.ie", "yahoo.co.uk", "mail.com", "google.com"]
+      if (window.confirm("Are you sure?\nIt will link all users with their companies whom have custom domains.")) {
+        this.ajaxWait = true
+        let emails = ""
+        let allData = this.data
+        let willLink = true
+        let nonCustomDomain = ["gmail.com", "ymail.com", "yahoo.com", "hotmail.com", "outlook.com", "live.com", "live.ie", "yahoo.co.uk", "mail.com", "google.com"]
 
-      allData.forEach((user) => {
-        let userEmail = user.email
-        nonCustomDomain.forEach((domain) => {
-          if (userEmail != null) {
-            if (this.emailDomainCheck(userEmail, domain) === "1") {
-              willLink = false
+        allData.forEach((user) => {
+          let userEmail = user.email
+          nonCustomDomain.forEach((domain) => {
+            if (userEmail != null) {
+              if (this.emailDomainCheck(userEmail, domain) === "1") {
+                willLink = false
+              }
+            }
+          });
+
+          if (willLink === true) {
+            if (userEmail != null) {
+              if (emails === "") {
+                emails += "" + userEmail + ""
+              } else {
+                emails += "," + userEmail + ""
+              }
             }
           }
+          willLink = true
         });
 
-        if (willLink === true) {
-          if (userEmail != null) {
-            if (emails === "") {
-              emails += "" + userEmail + ""
-            } else {
-              emails += "," + userEmail + ""
-            }
-          }
+        if (emails != "") {
+          console.log(emails)
+          this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
+            this.$notify({
+              group: "admins",
+              title: "Info",
+              type: "success",
+              text: "Users have been updated on Intercom!",
+            });
+            this.removeUpdateUsers(emails)
+            this.ajaxWait = false
+          }, error => {
+            this.ajaxWait = false
+            this.$notify({
+              group: "admins",
+              title: "Error",
+              type: "error",
+              text: "Something went wrong!",
+            });
+          });
         }
-        willLink = true
-      });
-
-      if (emails != "") {
-        console.log(emails)
-        this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "success",
-            text: "Users have been updated on Intercom!",
-          });
-          this.removeUpdateUsers(emails)
-          this.ajaxWait = false
-        }, error => {
-          this.ajaxWait = false
-          this.$notify({
-            group: "admins",
-            title: "Error",
-            type: "error",
-            text: "Something went wrong!",
-          });
-        });
       }
     },
 

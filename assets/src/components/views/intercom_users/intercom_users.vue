@@ -6,7 +6,7 @@
     <div>
       <v-ic-show-hide :vuetable-fields="vuetableFields" />
       <button class="btn btn-secondary mb-1 link-to-company" @click="linkUserToCompany" type="button">Link to Company</button>
-      <button class="btn btn-secondary mb-1 link-custom-domains" @click="linkCustomDomains" type="button">Link Cutsom Domains</button>
+      <button class="btn btn-secondary mb-1 link-custom-domains" @click="linkCustomDomains" type="button" v-tooltip.left="'This will link all users with their companies whom have custom domains.'">Link Cutsom Domains</button>
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />

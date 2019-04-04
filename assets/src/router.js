@@ -3,11 +3,13 @@ import VueRouter from 'vue-router'
 import VueResource from "vue-resource"
 import VueEvents from "vue-events"
 import Notifications from "vue-notification"
+import Tooltip from "vue-directive-tooltip"
 
 Vue.use(Notifications)
 Vue.use(VueEvents)
 Vue.use(VueResource)
 Vue.use(VueRouter)
+Vue.use(Tooltip)
 
 import Users from "./components/views/users/users";
 import Cameras from "./components/views/cameras/cameras";

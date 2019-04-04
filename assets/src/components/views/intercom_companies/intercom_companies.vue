@@ -26,7 +26,7 @@
           :css="css.table"
         >
           <div slot="company-name" slot-scope="props">
-            <span v-html="props.rowData.name"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="edit icon pointer-cursor" @click="editCompanyName($event, props.rowData)"></i>
+            <span v-html="props.rowData.name"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="edit icon pointer-cursor" @click="editCompanyName($event, props.rowData)"></i>&nbsp;&nbsp;<i class="trash icon pointer-cursor" @click="deleteCompany($event, props.rowData)"></i>
           </div>
         </vuetable>
       </div>
@@ -177,6 +177,48 @@ export default {
     editCompanyName(e, data) {
       this.showUpdateCompany = true,
       this.companyData = data;
+    },
+
+    deleteCompany(e, data) {
+      if (window.confirm("Are you sure to delete this company?")) {
+        this.ajaxWait = true
+        this.$http.delete(`/v1/intercom_companies`, {params: {id: data.id, company_id: data.company_id}}).then(response => {
+          this.$notify({
+            group: "admins",
+            title: "Info",
+            type: "success",
+            text: "Company has been deleted.",
+          });
+          this.removeDeletedCompany(data.id)
+          this.ajaxWait = false
+        }, error => {
+          this.$notify({
+            group: "admins",
+            title: "Error",
+            type: "error",
+            text: "Something went wrong.",
+          });
+          this.ajaxWait = false
+        });
+      }
+    },
+
+    removeDeletedCompany(id) {
+      let newData = this.data
+      let filteredData = this.filtered
+      for (var i = 0; i < newData.length; i++) {
+        if (newData[i].id === id) {
+          newData.splice(i, 1)
+        }
+      }
+
+      for (var i = 0; i < filteredData.length; i++) {
+        if (filteredData[i].id === id) {
+          filteredData.splice(i, 1)
+        }
+      }
+      this.data = newData
+      this.filtered = filteredData
     },
 
     onICAdded () {

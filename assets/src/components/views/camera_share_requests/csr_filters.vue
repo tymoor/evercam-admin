@@ -51,6 +51,8 @@
 </style>
 
 <script>
+import VueNotifications from "vue-notifications";
+
 export default {
   props: ["selectedCSR"],
   data () {
@@ -63,6 +65,34 @@ export default {
       allParams: {}
     }
   },
+
+  notifications: {
+    showSuccessMsg: {
+      type: VueNotifications.types.success,
+      title: 'Hello there',
+      message: 'That\'s the success!',
+      position: "topCenter"
+    },
+    showInfoMsg: {
+      type: VueNotifications.types.info,
+      title: 'Hey you',
+      message: 'Here is some info for you',
+      position: "topCenter"
+    },
+    showWarnMsg: {
+      type: VueNotifications.types.warn,
+      title: 'Wow, man',
+      message: 'That\'s the kind of warning',
+      position: "topCenter"
+    },
+    showErrorMsg: {
+      type: VueNotifications.types.error,
+      title: 'Wow-wow',
+      message: 'That\'s the error',
+      position: "topCenter"
+    }
+  },
+
   methods: {
     CSRFilterGlobal () {
       this.allParams.sharer = this.sharer
@@ -76,6 +106,8 @@ export default {
     deleteCSRs () {
       let self = this
       if (Object.keys(self.selectedCSR).length === 0) {
+
+        this.showSuccessMsg();
         this.$notify({
           group: "admins",
           title: "Error",

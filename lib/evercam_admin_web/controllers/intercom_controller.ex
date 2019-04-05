@@ -2,8 +2,8 @@ defmodule EvercamAdminWeb.IntercomController do
   use EvercamAdminWeb, :controller
   require Logger
 
-  @intercom_url "#{System.get_env["INTERCOM_URL"]}"
-  @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
+  @intercom_url "https://api.intercom.io"
+  @intercom_token "dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA="
 
   def create(conn, params) do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- create_company(params) do
@@ -26,6 +26,7 @@ defmodule EvercamAdminWeb.IntercomController do
             Enum.reduce(0..length - 1, [], fn i, acc ->
               company = Enum.at(companies, i)
               comp = %{
+                id: company["id"],
                 company_id: company["company_id"],
                 name: company["name"],
                 session_count: company["session_count"],
@@ -40,6 +41,16 @@ defmodule EvercamAdminWeb.IntercomController do
       _ ->
         json(conn, %{data: []})
     end
+  end
+
+  def delete(conn, params) do
+    hash_company_id = params["id"]
+    company_id = params["company_id"]
+    spawn fn ->
+      company_users = get_company_users(hash_company_id)
+      unlink_users_from_company(company_users, company_id)
+    end
+    json(conn, %{success: true})
   end
 
   def add_company_to_users(conn, params) do
@@ -74,6 +85,35 @@ defmodule EvercamAdminWeb.IntercomController do
     end
 
     json(conn, %{success: true})
+  end
+
+  defp unlink_users_from_company(company_users, company_id) do
+    Enum.each(company_users, fn user ->
+      user = %{
+        id: user["id"],
+        companies: [
+          %{
+            company_id: "#{company_id}",
+            remove: true
+          }
+        ]
+      }
+
+      headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json", "Content-Type": "application/json"]
+      url = "#{@intercom_url}/users"
+      json = Jason.encode!(user)
+      HTTPoison.post(url, json, headers)
+    end)
+  end
+
+  defp get_company_users(id) do
+    url = "#{@intercom_url}/companies/#{id}/users"
+    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
+    response = HTTPoison.get(url, headers) |> elem(1)
+    case response.status_code do
+      200 -> Jason.decode!(response.body)["users"]
+      _ -> []
+    end
   end
 
   defp update_users_companies(value, company) when value in ["true", true] do

@@ -54,7 +54,7 @@ defmodule EvercamAdminWeb.IntercomController do
             {:ok, company} -> company["company_id"]
             _ ->
               Logger.info "Company does not found for #{email}."
-              Intercom.create_company(company_domain, String.split(company_domain, ".") |> List.first)
+              Intercom.create_company(company_domain, String.split(company_domain, ".") |> List.first |> String.capitalize)
               company_domain
           end
 
@@ -111,11 +111,8 @@ defmodule EvercamAdminWeb.IntercomController do
   end
 
   defp find_user(email) do
-    url = "#{@intercom_url}/users?email=#{email}"
-    headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
-    response = HTTPoison.get(url, headers) |> elem(1)
-    case response.status_code do
-      200 -> Jason.decode!(response.body)
+    case Intercom.get_user(email) do
+      {:ok, response} -> Jason.decode!(response.body)
       _ -> :not_found
     end
   end

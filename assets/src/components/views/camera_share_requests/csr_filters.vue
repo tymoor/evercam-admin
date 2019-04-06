@@ -66,33 +66,6 @@ export default {
     }
   },
 
-  notifications: {
-    showSuccessMsg: {
-      type: VueNotifications.types.success,
-      title: 'Hello there',
-      message: 'That\'s the success!',
-      position: "topCenter"
-    },
-    showInfoMsg: {
-      type: VueNotifications.types.info,
-      title: 'Hey you',
-      message: 'Here is some info for you',
-      position: "topCenter"
-    },
-    showWarnMsg: {
-      type: VueNotifications.types.warn,
-      title: 'Wow, man',
-      message: 'That\'s the kind of warning',
-      position: "topCenter"
-    },
-    showErrorMsg: {
-      type: VueNotifications.types.error,
-      title: 'Wow-wow',
-      message: 'That\'s the error',
-      position: "topCenter"
-    }
-  },
-
   methods: {
     CSRFilterGlobal () {
       this.allParams.sharer = this.sharer
@@ -107,12 +80,9 @@ export default {
       let self = this
       if (Object.keys(self.selectedCSR).length === 0) {
 
-        this.showSuccessMsg();
-        this.$notify({
-          group: "admins",
-          title: "Error",
-          type: "error",
-          text: "At least select one Share Request!",
+        this.showWarnMsg({
+          title: "Warning",
+          message: "At least select one Share Request!"
         });
       } else {
         let ids = ""
@@ -126,20 +96,16 @@ export default {
         if (window.confirm("Are you sure you want to delete this event?")) {
           this.$http.delete(`/v1/camera_share_requests`, {params: {ids: ids}}).then(response => {
 
-            this.$notify({
-              group: "admins",
+            this.showSuccessMsg({
               title: "Success",
-              type: "success",
-              text: "Camera Share Request(s) has been deleted!",
+              message: "Camera Share Request(s) has been deleted!"
             });
 
             this.$events.fire("csr-deleted", {})
           }, error => {
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: "Something went wrong!",
+              message: "Something went wrong."
             });
           });
         }

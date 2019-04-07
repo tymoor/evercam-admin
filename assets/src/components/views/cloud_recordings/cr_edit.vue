@@ -301,7 +301,7 @@ import momentPlugin from '@fullcalendar/moment';
 
           this.showSuccessMsg({
             title: "Success",
-            message: "Cloud Recordings has been updated!"
+            message: "Cloud Recordings have been updated!"
           })
 
           this.ajaxWait = false

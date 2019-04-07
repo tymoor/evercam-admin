@@ -3,7 +3,7 @@ defmodule EvercamAdminWeb.IntercomController do
   require Logger
 
   @intercom_url "https://api.intercom.io"
-  @intercom_token "dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA="
+  @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
 
   def create(conn, params) do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- create_company(params) do

@@ -144,6 +144,7 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-td-status,
 .vuetable-body-wrapper .ic-report .vuetable-td-user_count,
 .vuetable-body-wrapper .ic-report .vuetable-td-session_count,
+.vuetable-body-wrapper .ic-report .vuetable-slot,
 .vuetable-body-wrapper .dc-report .vuetable-td-is_recording,
 .vuetable-body-wrapper .dc-report .vuetable-td-online,
 .vuetable-body-wrapper .dc-report .vuetable-td-count,
@@ -653,8 +654,12 @@ body {
   width: 260px;
 }
 
-.vuetable-body-wrapper .ic-report .vuetable-th-slot-company-name {
-  width: 260px;
+.vuetable-body-wrapper .ic-report .vuetable-th-name {
+  width: 240px;
+}
+
+.vuetable-body-wrapper .ic-report .vuetable-th-slot-company-actions {
+  width: 60px;
 }
 
 .vuetable-body-wrapper .dc-report .vuetable-th-is_recording,

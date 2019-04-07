@@ -3,8 +3,8 @@ defmodule Intercom do
   @intercom_scroll_url "https://api.intercom.io" <> "/companies/scroll?scroll_param="
   @intercom_base_url   "https://api.intercom.io" <> "/companies/scroll"
   @intercom_url "https://api.intercom.io" <> "/users"
-  @intercom_token "dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA="
-  @intercom_headers    ["Authorization": "Bearer dG9rOmM3NDcyOGIyXzA2NDNfNDBkN185OWQzXzlmNzEzOWFlNDczNDoxOjA=", "Accept": "Accept:application/json"]
+  @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
+  @intercom_headers    ["Authorization": "Bearer #{System.get_env["INTERCOM_ACCESS_TOKEN"]}", "Accept": "Accept:application/json"]
   @max_retries 5
 
   alias HTTPoison.Response, as: Resp

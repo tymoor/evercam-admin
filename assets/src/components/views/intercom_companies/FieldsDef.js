@@ -2,13 +2,17 @@ import moment from "moment";
 
 export default [
   {
+    name: "company-actions",
+    title: 'Actions'
+  },
+  {
     name: 'company_id',
     title: 'Company ID',
     sortField: 'company_id',
     togglable: true
   },
   {
-    name: "company-name",
+    name: "name",
     title: 'Name',
     sortField: 'name',
     togglable: true

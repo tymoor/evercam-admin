@@ -25,8 +25,8 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
-          <div slot="company-name" slot-scope="props">
-            <span v-html="props.rowData.name"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="edit icon pointer-cursor" @click="editCompanyName($event, props.rowData)"></i>&nbsp;&nbsp;<i class="trash icon pointer-cursor" @click="deleteCompany($event, props.rowData)"></i>
+          <div slot="company-actions" slot-scope="props">
+            <i class="edit icon pointer-cursor" @click="editCompanyName($event, props.rowData)"></i>&nbsp;&nbsp;<i class="trash icon pointer-cursor" @click="deleteCompany($event, props.rowData)"></i>
           </div>
         </vuetable>
       </div>

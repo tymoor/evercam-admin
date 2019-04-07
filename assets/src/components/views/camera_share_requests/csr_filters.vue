@@ -51,6 +51,8 @@
 </style>
 
 <script>
+import VueNotifications from "vue-notifications";
+
 export default {
   props: ["selectedCSR"],
   data () {
@@ -63,6 +65,7 @@ export default {
       allParams: {}
     }
   },
+
   methods: {
     CSRFilterGlobal () {
       this.allParams.sharer = this.sharer
@@ -76,11 +79,10 @@ export default {
     deleteCSRs () {
       let self = this
       if (Object.keys(self.selectedCSR).length === 0) {
-        this.$notify({
-          group: "admins",
-          title: "Error",
-          type: "error",
-          text: "At least select one Share Request!",
+
+        this.showWarnMsg({
+          title: "Warning",
+          message: "At least select one Share Request!"
         });
       } else {
         let ids = ""
@@ -94,20 +96,16 @@ export default {
         if (window.confirm("Are you sure you want to delete this event?")) {
           this.$http.delete(`/v1/camera_share_requests`, {params: {ids: ids}}).then(response => {
 
-            this.$notify({
-              group: "admins",
+            this.showSuccessMsg({
               title: "Success",
-              type: "success",
-              text: "Camera Share Request(s) has been deleted!",
+              message: "Camera Share Request(s) has been deleted!"
             });
 
             this.$events.fire("csr-deleted", {})
           }, error => {
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: "Something went wrong!",
+              message: "Something went wrong."
             });
           });
         }

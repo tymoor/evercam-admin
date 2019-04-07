@@ -176,21 +176,17 @@ export default {
         if (emails != "") {
           console.log(emails)
           this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: "Users have been updated on Intercom!",
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Users have been updated on Intercom!"
             });
             this.removeUpdateUsers(emails)
             this.ajaxWait = false
           }, error => {
             this.ajaxWait = false
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: "Something went wrong!",
+              message: "Something went wrong!"
             });
           });
         }
@@ -219,11 +215,9 @@ export default {
 
     linkUserToCompany () {
       if (Object.keys(this.checkedIUsers).length === 0) {
-        this.$notify({
-          group: "admins",
+        this.showErrorMsg({
           title: "Error",
-          type: "error",
-          text: "At least select one User!",
+          message: "At least select one User!"
         });
       } else {
         this.ajaxWait = true
@@ -237,22 +231,18 @@ export default {
         });
 
         this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "success",
-            text: "Users have been updated on Intercom!",
+          this.showSuccessMsg({
+            title: "Success",
+            message: "Users have been updated on Intercom!"
           });
           this.checkedIUsers = []
           this.removeUpdateUsers(emails)
           this.ajaxWait = false
         }, error => {
           this.ajaxWait = false
-          this.$notify({
-            group: "admins",
+          this.showErrorMsg({
             title: "Error",
-            type: "error",
-            text: "Something went wrong!",
+            message: "Something went wrong!"
           });
         });
       }

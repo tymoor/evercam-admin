@@ -161,22 +161,18 @@ import jQuery from 'jquery'
             this.superCamera = ""
             this.forCameras = []
 
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: "Cameras has been merged!",
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Cameras has been merged!"
             });
             this.$router.go()
 
           }, error => {
             this.ajaxWait = false;
             this.$events.fire("close-dup-cameras", false)
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: "Something went wrong!",
+              message: "Something went wrong!"
             });
           });
 

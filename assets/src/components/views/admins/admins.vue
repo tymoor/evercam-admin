@@ -160,18 +160,14 @@ export default {
         case "delete-item":
           if (window.confirm("Are you sure you want to delete this admin?")) {
             this.$http.delete(`/v1/admins/${data.email}`).then(response => {
-              this.$notify({
-                group: "admins",
+              this.showSuccessMsg({
                 title: "Info",
-                type: "success",
-                text: "Admin has been deleted.",
+                message: "Admin has been deleted."
               });
             }, error => {
-              this.$notify({
-                group: "admins",
+              this.showErrorMsg({
                 title: "Error",
-                type: "error",
-                text: "Something went wrong.",
+                message: "Something went wrong."
               });
             });
             this.$nextTick( () => this.$refs.vuetable.refresh())

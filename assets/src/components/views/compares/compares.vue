@@ -145,11 +145,9 @@ export default {
     },
 
     onEmbedCodeClick() {
-      this.$notify({
-        group: "admins",
-        title: "Info",
-        type: "success",
-        text: "Emebed code has been copied.",
+      this.showSuccessMsg({
+        title: "Success",
+        message: "Emebed code has been copied."
       });
     }
   }

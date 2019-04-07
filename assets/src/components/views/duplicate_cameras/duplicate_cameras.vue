@@ -213,11 +213,9 @@ export default {
       }).then(response => {
         this.ajaxWait = false;
         if (Object.keys(response.data).length === 0) {
-          this.$notify({
-            group: "admins",
+          this.showErrorMsg({
             title: "Error",
-            type: "error",
-            text: "Something went wrong!",
+            message: "Something went wrong!"
           });
         } else {
           this.dup_cameras = response.data,

@@ -93,22 +93,16 @@ import jQuery from 'jquery'
 
           this.$http.patch(`/v1/admins/${this.email}`).then(response => {
 
-            this.$notify({
-              group: "admins",
+            this.showInfoMsg({
               title: "Info",
-              type: "success",
-              text: `${this.email} has been added as Admin.`,
+              message: `${this.email} has been added as Admin.`
             });
-
             this.$events.fire("admin-added", {})
             jQuery('#addModel').modal('hide')
           }, error => {
-            console.log(error)
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: error.body.message,
+              message: error.body.message
             });
           });
         }

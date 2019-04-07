@@ -548,21 +548,17 @@ import momentPlugin from '@fullcalendar/moment';
             }
             this.$http.post("/v1/snapshot_extractors", {...params}).then(response => {
 
-              this.$notify({
-                group: "admins",
-                title: "Info",
-                type: "success",
-                text: "Snapshot Extractor has been added (Cloud)!",
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Snapshot Extractor has been added (Cloud)!"
               });
 
               this.$events.fire('se-added', {})
               this.clearForm()
             }, error => {
-              this.$notify({
-                group: "admins",
+              this.showErrorMsg({
                 title: "Error",
-                type: "error",
-                text: "Something went wrong!",
+                message: "Something went wrong!"
               });
             });
           } else {
@@ -580,21 +576,17 @@ import momentPlugin from '@fullcalendar/moment';
             }
             this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/nvr/snapshots/extract`, {...params}).then(response => {
 
-              this.$notify({
-                group: "admins",
-                title: "Info",
-                type: "success",
-                text: "Snapshot Extractor has been added (Local)!",
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Snapshot Extractor has been added (Local)!"
               });
 
               this.$events.fire('se-added', {})
               this.clearForm()
             }, error => {
-              this.$notify({
-                group: "admins",
+              this.showErrorMsg({
                 title: "Error",
-                type: "error",
-                text: "Something went wrong!",
+                message: "Something went wrong!"
               });
             });
           }

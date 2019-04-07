@@ -297,14 +297,12 @@ import momentPlugin from '@fullcalendar/moment';
           api_id: this.api_id
         }
 
-        this.$http.post(`https://media.evercam.io/v2/cameras/${this.exid}/apps/cloud-recording`, {...params}).then(response => {
+        this.$http.post(`${this.$root.api_url}/v2/cameras/${this.exid}/apps/cloud-recording`, {...params}).then(response => {
 
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "success",
-            text: "Cloud Recordings has been updated!",
-          });
+          this.showSuccessMsg({
+            title: "Success",
+            message: "Cloud Recordings has been updated!"
+          })
 
           this.ajaxWait = false
           // clear all evenrts here
@@ -315,11 +313,9 @@ import momentPlugin from '@fullcalendar/moment';
         }, error => {
           console.log(error)
           this.ajaxWait = false
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "error",
-            text: `${error.statusText}`
+          this.showErrorMsg({
+            title: "Error",
+            message: `${error.statusText}`
           });
         });
       },

@@ -81,11 +81,9 @@ export default {
     deleteCameras () {
         let self = this
         if (Object.keys(self.selectedCameras).length === 0) {
-          this.$notify({
-            group: "admins",
-            title: "Error",
-            type: "error",
-            text: "At least select one Camera!",
+          this.showWarnMsg({
+            title: "Warning",
+            message: "At least select one Camera!"
           });
         } else {
           if (window.confirm("Are you sure you want to delete this event?")) {
@@ -97,11 +95,9 @@ export default {
                 console.log(error)
               });
             });
-            this.$notify({
-              group: "admins",
+            this.showSuccessMsg({
               title: "Success",
-              type: "success",
-              text: "Camera(s) has been deleted!",
+              message: "Camera(s) has been deleted!"
             });
             this.$events.fire('cameras-deleted', {})
           }

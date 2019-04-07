@@ -215,8 +215,8 @@ export default {
 
     linkUserToCompany () {
       if (Object.keys(this.checkedIUsers).length === 0) {
-        this.showErrorMsg({
-          title: "Error",
+        this.showWarnMsg({
+          title: "Warning",
           message: "At least select one User!"
         });
       } else {

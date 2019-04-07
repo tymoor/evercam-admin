@@ -93,11 +93,9 @@
 
           this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name}}).then(response => {
 
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: `${this.company_name} has been updated as a Company.`,
+            this.showSuccessMsg({
+              title: "Success",
+              message: `${this.company_name} has been updated as a Company.`
             });
 
             this.$events.fire("hide-update-company", {
@@ -106,12 +104,7 @@
             })
             this.clearForm()
           }, error => {
-            this.$notify({
-              group: "admins",
-              title: "Error",
-              type: "error",
-              text: this.error.push(error.body.message),
-            });
+            this.error.push(error.body.message)
           });
         }
       },

@@ -171,22 +171,17 @@ import jQuery from 'jquery'
           }
           this.$http.post("/v1/vendors", {...params}).then(response => {
 
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: "Vendor has been added!",
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Vendor has been added!"
             });
 
             this.clearForm()
             jQuery('#addModel').modal('hide')
           }, error => {
-            console.log(error)
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: error.body.message,
+              message: error.body.message
             });
           });
         }

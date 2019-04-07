@@ -183,20 +183,16 @@ export default {
       if (window.confirm("Are you sure to delete this company?")) {
         this.ajaxWait = true
         this.$http.delete(`/v1/intercom_companies`, {params: {id: data.id, company_id: data.company_id}}).then(response => {
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "success",
-            text: "Company has been deleted.",
+          this.showSuccessMsg({
+            title: "Success",
+            message: "Company has been deleted."
           });
           this.removeDeletedCompany(data.id)
           this.ajaxWait = false
         }, error => {
-          this.$notify({
-            group: "admins",
+          this.showErrorMsg({
             title: "Error",
-            type: "error",
-            text: "Something went wrong.",
+            message: "Something went wrong."
           });
           this.ajaxWait = false
         });

@@ -104,22 +104,18 @@ import jQuery from 'jquery'
 
           this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name, add_users: true}}).then(response => {
 
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: `${this.company_name} has been added as a Company.`,
+            this.showSuccessMsg({
+              title: "Success",
+              message: `${this.company_name} has been added as a Company.`
             });
 
             this.$events.fire("ic-added", {})
             this.clearForm()
             jQuery('#addModel').modal('hide')
           }, error => {
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: error.body.message,
+              message: error.body.message
             });
           });
         }

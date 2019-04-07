@@ -224,11 +224,9 @@
         let self = this
 
         if (Object.keys(self.selectedUsers).length === 0) {
-          this.$notify({
-            group: "admins",
-            title: "Error",
-            type: "error",
-            text: "At least select one user!",
+          this.showWarnMsg({
+            title: "Warning",
+            message: "At least select one user!"
           });
         } else {
           this.usersModify = true
@@ -251,18 +249,14 @@
         this.$http.patch("/v1/update_multiple_users", {...params, ...{ids: ids}}).then(response => {
           this.usersModify = false
           this.$events.fire("user-modify-refresh", true)
-          this.$notify({
-            group: "admins",
-            title: "Info",
-            type: "success",
-            text: "Users have been updated!",
+          this.showSuccessMsg({
+            title: "Success",
+            message: "Users have been updated!"
           });
         }, error => {
-          this.$notify({
-            group: "admins",
+          this.showErrorMsg({
             title: "Error",
-            type: "error",
-            text: "Something went wrong!",
+            message: "Something went wrong!"
           });
           this.usersModify = true
         });
@@ -270,11 +264,9 @@
       deleteUsers () {
         let self = this
         if (Object.keys(self.selectedUsers).length === 0) {
-          this.$notify({
-            group: "admins",
-            title: "Error",
-            type: "error",
-            text: "At least select one User!",
+          this.showWarnMsg({
+            title: "Warning",
+            message: "At least select one user!"
           });
         } else {
           if (window.confirm("Are you sure you want to delete this event?")) {

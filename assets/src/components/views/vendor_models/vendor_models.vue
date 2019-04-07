@@ -169,18 +169,14 @@ export default {
       if (action == "delete-item") {
         if (window.confirm("Are you sure you want to delete this model?")) {
           this.$http.delete(`/v1/vendor_models/${data.exid}`).then(response => {
-            this.$notify({
-              group: "admins",
-              title: "Info",
-              type: "success",
-              text: "Model has been deleted.",
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Model has been deleted."
             });
           }, error => {
-            this.$notify({
-              group: "admins",
+            this.showErrorMsg({
               title: "Error",
-              type: "error",
-              text: "Something went wrong.",
+              message: "Something went wrong."
             });
           });
           this.$nextTick( () => this.$refs.vuetable.refresh())

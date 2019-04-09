@@ -146,6 +146,7 @@ export default {
     },
 
     onHideUpdateComapny(e) {
+      this.$nextTick( () => this.$refs.vuetable.refresh())
       this.showUpdateCompany = false,
       this.companyData = null;
     },

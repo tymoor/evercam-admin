@@ -4,7 +4,7 @@ defmodule EvercamAdminWeb.UsersController do
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
 
-    first_sort = ["payment_method", "username", "name", "email", "api_id", "api_key", "cameras_owned", "camera_shares", "snapmail_count", "country", "created_at", "last_login_at", "referral_url"]
+    first_sort = ["payment_method", "username", "name", "email", "api_id", "api_key", "cameras_owned", "camera_shares", "snapmail_count", "country", "company_name", "created_at", "last_login_at", "referral_url"]
     second_sort = ["total_cameras"]
     sorting1 =
       Enum.any?(first_sort, fn(x) -> x == column end)

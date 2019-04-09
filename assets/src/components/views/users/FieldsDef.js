@@ -50,6 +50,12 @@ export default [
     visible: false
   },
   {
+    name: 'company_name',
+    title: "Company",
+    sortField: 'company_name',
+    togglable: true,
+  },
+  {
     name: 'cameras_owned',
     title: 'Cameras Owned',
     sortField: 'cameras_owned',

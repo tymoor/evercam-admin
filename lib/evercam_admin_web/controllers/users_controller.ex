@@ -22,6 +22,7 @@ defmodule EvercamAdminWeb.UsersController do
                  (select count(*) from camera_shares cs left join users uuuu on cs.user_id=uuuu.id where uuuu.id = u.id) camera_shares,
                  (select count(*) from snapmails sm left join users suser on sm.user_id=suser.id where suser.id = u.id) snapmail_count,
                  (select name from countries ct left join users uuuuu on ct.id=uuuuu.country_id where uuuuu.id=u.id) country,
+                 (select name from companies cp left join users uuuuuu on cp.id=uuuuuu.company_id where uuuuuu.id=u.id) company_name,
                  (select count(cs1.id) from camera_shares cs1 where cs1.user_id=u.id and cs1.camera_id = 279) share_id
                  from users u #{condition1} #{sorting1}
                 ) t #{condition2} #{sorting2}"
@@ -53,6 +54,7 @@ defmodule EvercamAdminWeb.UsersController do
           camera_shares: user[:camera_shares],
           total_cameras: user[:total_cameras],
           country: user[:country],
+          company_name: user[:company_name],
           payment_method: user[:payment_method],
           id: user[:id],
           referral_url: user[:referral_url],
@@ -226,6 +228,7 @@ defmodule EvercamAdminWeb.UsersController do
   defp sorting("total_cameras", order), do: "order by total_cameras #{order}"
   defp sorting("snapmail_count", order), do: "order by snapmail_count #{order}"
   defp sorting("country", order), do: "order by country #{order}"
+  defp sorting("company_name", order), do: "order by company_name #{order}"
   defp sorting("created_at", order), do: "order by created_at #{order}"
   defp sorting("last_login_at", order), do: "order by last_login_at #{order}"
   defp sorting("required_licence", order), do: "order by required_licence #{order}"

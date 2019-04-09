@@ -65,6 +65,7 @@
       return {
         company_name: "",
         company_id: "",
+        company_exid: "",
         ajaxWait: false,
         errors: []
       }
@@ -74,7 +75,8 @@
       companyData() {
         if (this.companyData != null) {
           this.company_name = this.companyData.name,
-          this.company_id = this.companyData.company_id
+          this.company_id = this.companyData.id,
+          this.company_exid = this.companyData.exid
         }
       }
     },
@@ -91,7 +93,7 @@
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name}}).then(response => {
+          this.$http.post(`/v1/intercom_companies`, {...{company_exid: this.company_exid, company_id: this.company_id, company_name: this.company_name}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -112,6 +114,8 @@
       clearForm() {
         this.ajaxWait = false
         this.company_name = ""
+        this.company_id = ""
+        this.company_exid = ""
         this.errors = []
         this.$events.fire("hide-update-company", null)
       }

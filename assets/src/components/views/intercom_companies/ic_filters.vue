@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     ICFilterGlobal () {
-      this.allParams.search = this.search.toLowerCase()
+      this.allParams.search = this.search
       this.$events.fire('ic-filter-set', this.allParams)
     }
   }

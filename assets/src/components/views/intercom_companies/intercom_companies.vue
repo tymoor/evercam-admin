@@ -14,11 +14,13 @@
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
         <vuetable ref="vuetable"
-          :api-mode="false"
+          api-url="/v1/intercom_companies"
           :fields="fields"
-          pagination-path="pagination"
+          pagination-path=""
+          data-path="data"
           :per-page="perPage"
-          :data-manager="dataManager"
+          :sort-order="sortOrder"
+          :append-params="moreParams"
           @vuetable:pagination-data="onPaginationData"
           @vuetable:initialized="onInitialized"
           @vuetable:loading="showLoader"
@@ -96,80 +98,54 @@ export default {
     return {
       loading: "",
       perPage: 60,
+      sortOrder: [
+        {
+          field: 'inserted_at',
+          direction: 'desc',
+        }
+      ],
       css: TableWrapper,
       moreParams: {},
+      vuetableFields: false,
       paginationComponent: "vuetable-pagination",
       fields: FieldsDef,
-      data: [],
-      filtered: [],
       showUpdateCompany: false,
       companyData: {},
-      ajaxWait: true,
+      moreParams: {},
+      ajaxWait: false,
     }
   },
   watch: {
-    data(newVal, oldVal) {
+    perPage(newVal, oldVal) {
       this.$nextTick(() => {
-        this.$refs.vuetable.setData(this.data);
+        this.$refs.vuetable.refresh();
       });
     },
-    filtered(newVal, oldVal) {
-      this.$nextTick(() => {
-        this.$refs.vuetable.setData(this.filtered);
-      });
-    },
+
     paginationComponent(newVal, oldVal) {
       this.$nextTick(() => {
-        this.$refs.pagination.setPaginationData(paginationData);
+        this.$refs.pagination.setPaginationData(
+          this.$refs.vuetable.tablePagination
+        );
       });
     }
   },
 
   mounted() {
-    this.ajaxWait = true,
-    axios.get("/v1/intercom_companies").then(response => {
-      this.data = response.data.data;
-      this.ajaxWait = false
-      this.filtered = response.data.data;
-    });
     this.$events.$on('ic-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('ic-added', e => this.onICAdded())
     this.$events.$on('hide-update-company', e => this.onHideUpdateComapny(e))
   },
 
   methods: {
-    onFilterSet (filter) {
-      this.filtered = this.data.filter(d => {
-        for (let name in d) {
-          if ((d[name] + '').toLowerCase().indexOf(filter.search.toLowerCase()) > -1){
-            return d;
-          }
-        }
-      })
-    },
-
-    updateCompanyName (company_id, newCompanyName) {
-      let newData = this.data;
-      let filteredData = this.filtered;
-      for (var i = 0; i < newData.length; i++) {
-        if (newData[i].company_id === company_id) {
-          newData[i].name = newCompanyName;
-        }
+    onFilterSet (filters) {
+      this.moreParams = {
+        "search": filters.search
       }
-
-      for (var i = 0; i < filteredData.length; i++) {
-        if (filteredData[i].company_id === company_id) {
-          filteredData[i].name = newCompanyName;
-        }
-      }
-      this.data = newData
-      this.filtered = filteredData
+      this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
     onHideUpdateComapny(e) {
-      if (e != null) {
-        this.updateCompanyName(e.company_id, e.company_name)
-      }
       this.showUpdateCompany = false,
       this.companyData = null;
     },
@@ -182,12 +158,12 @@ export default {
     deleteCompany(e, data) {
       if (window.confirm("Are you sure to delete this company?")) {
         this.ajaxWait = true
-        this.$http.delete(`/v1/intercom_companies`, {params: {id: data.id, company_id: data.company_id}}).then(response => {
+        this.$http.delete(`/v1/intercom_companies`, {params: {company_exid: data.exid}}).then(response => {
+          this.$nextTick( () => this.$refs.vuetable.refresh())
           this.showSuccessMsg({
             title: "Success",
             message: "Company has been deleted."
           });
-          this.removeDeletedCompany(data.id)
           this.ajaxWait = false
         }, error => {
           this.showErrorMsg({
@@ -199,63 +175,17 @@ export default {
       }
     },
 
-    removeDeletedCompany(id) {
-      let newData = this.data
-      let filteredData = this.filtered
-      for (var i = 0; i < newData.length; i++) {
-        if (newData[i].id === id) {
-          newData.splice(i, 1)
-        }
-      }
-
-      for (var i = 0; i < filteredData.length; i++) {
-        if (filteredData[i].id === id) {
-          filteredData.splice(i, 1)
-        }
-      }
-      this.data = newData
-      this.filtered = filteredData
-    },
-
     onICAdded () {
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },
 
-    onPaginationData(paginationData) {
-      this.$refs.pagination.setPaginationData(paginationData);
+    onPaginationData(tablePagination) {
+      this.$refs.paginationInfo.setPaginationData(tablePagination);
+      this.$refs.pagination.setPaginationData(tablePagination);
     },
 
     onChangePage(page) {
       this.$refs.vuetable.changePage(page);
-    },
-
-    dataManager(sortOrder, pagination) {
-      if (this.data.length < 1) return;
-
-      let local = this.data;
-
-      // sortOrder can be empty, so we have to check for that as well
-      if (sortOrder.length > 0) {
-        console.log("orderBy:", sortOrder[0].sortField, sortOrder[0].direction);
-        local = _.orderBy(
-          local,
-          sortOrder[0].sortField,
-          sortOrder[0].direction
-        );
-      }
-
-      pagination = this.$refs.vuetable.makePagination(
-        local.length,
-        this.perPage
-      );
-      console.log('pagination:', pagination)
-      let from = pagination.from - 1;
-      let to = from + this.perPage;
-
-      return {
-        pagination: pagination,
-        data: _.slice(local, from, to)
-      };
     },
 
     onInitialized(fields) {

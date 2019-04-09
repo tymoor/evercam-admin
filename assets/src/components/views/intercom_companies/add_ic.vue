@@ -18,7 +18,7 @@
                     <div class="form-group row">
                       <label class="col-sm-5 col-form-label">Company ID:</label>
                       <div class="col">
-                        <input type="text" class="form-control" placeholder="Company ID" v-model="company_id">
+                        <input type="text" class="form-control" placeholder="Company ID" v-model="company_exid">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -84,7 +84,7 @@ import jQuery from 'jquery'
       return {
         errors: [],
         company_name: "",
-        company_id: ""
+        company_exid: ""
       }
     },
     methods: {
@@ -96,13 +96,13 @@ import jQuery from 'jquery'
           this.errors.push("Company Name cannot be empty.")
         }
 
-        if (this.company_id == "") {
+        if (this.company_exid == "") {
           this.errors.push("Company ID cannot be empty.")
         }
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/intercom_companies`, {...{company_id: this.company_id, company_name: this.company_name, add_users: true}}).then(response => {
+          this.$http.post(`/v1/intercom_companies`, {...{company_exid: this.company_exid, company_name: this.company_name, add_users: true}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -123,7 +123,7 @@ import jQuery from 'jquery'
       clearForm () {
         this.errors = [],
         this.company_name = "",
-        this.company_id = ""
+        this.company_exid = ""
       }
     }
   }

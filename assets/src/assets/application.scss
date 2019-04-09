@@ -49,6 +49,10 @@ body {
   width: 35px;
 }
 
+.vuetable-body-wrapper .user-report .vuetable-th-company_name {
+  width: 225px;
+}
+
 .vuetable-body-wrapper .user-report .vuetable-th-payment_method {
   width: 115px;
 }
@@ -142,7 +146,7 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-td-id,
 .vuetable-body-wrapper .se-report .vuetable-td-interval,
 .vuetable-body-wrapper .se-report .vuetable-td-status,
-.vuetable-body-wrapper .ic-report .vuetable-td-user_count,
+.vuetable-body-wrapper .ic-report .vuetable-td-size,
 .vuetable-body-wrapper .ic-report .vuetable-td-session_count,
 .vuetable-body-wrapper .ic-report .vuetable-slot,
 .vuetable-body-wrapper .dc-report .vuetable-td-is_recording,
@@ -172,7 +176,7 @@ body {
 .vuetable-body-wrapper .licences-report .vuetable-th-created_at,
 .vuetable-body-wrapper .licences-report .vuetable-th-end_date,
 .vuetable-body-wrapper .licences-report .vuetable-th-start_date,
-.vuetable-body-wrapper .ic-report .vuetable-th-created_at,
+.vuetable-body-wrapper .ic-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .ic-users-report .vuetable-th-created_at,
 .vuetable-body-wrapper .compares-report .vuetable-th-inserted_at,
 .vuetable-body-wrapper .camera-report .vuetable-th-last_polled_at,
@@ -646,11 +650,11 @@ body {
   width: 150px;
 }
 
-.vuetable-body-wrapper .ic-report .vuetable-th-user_count {
+.vuetable-body-wrapper .ic-report .vuetable-th-size {
   width: 130px;
 }
 
-.vuetable-body-wrapper .ic-report .vuetable-th-company_id {
+.vuetable-body-wrapper .ic-report .vuetable-th-exid {
   width: 260px;
 }
 

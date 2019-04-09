@@ -6,9 +6,9 @@ export default [
     title: 'Actions'
   },
   {
-    name: 'company_id',
+    name: 'exid',
     title: 'Company ID',
-    sortField: 'company_id',
+    sortField: 'exid',
     togglable: true
   },
   {
@@ -18,9 +18,9 @@ export default [
     togglable: true
   },
   {
-    name: 'user_count',
+    name: 'size',
     title: 'Users Count',
-    sortField: 'user_count',
+    sortField: 'size',
     togglable: true
   },
   {
@@ -30,16 +30,9 @@ export default [
     togglable: true
   },
   {
-    name: 'created_at',
+    name: 'inserted_at',
     title: 'Created At',
-    sortField: 'created_at',
-    togglable: true,
-    formatter: (value) => {
-      return dateFormat(value)
-    }
+    sortField: 'inserted_at',
+    togglable: true
   }
 ]
-
-var dateFormat = (value) => {
-  return moment.unix(value).format("dddd, DD MMM YYYY h:mm A");
-}

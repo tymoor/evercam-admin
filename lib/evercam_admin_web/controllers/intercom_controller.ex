@@ -1,7 +1,6 @@
 defmodule EvercamAdminWeb.IntercomController do
   use EvercamAdminWeb, :controller
   require Logger
-  import Ecto.Query
 
   @intercom_url "https://api.intercom.io"
   @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
@@ -49,7 +48,7 @@ defmodule EvercamAdminWeb.IntercomController do
           id: company[:id],
           exid: company[:exid],
           inserted_at: (if company[:inserted_at], do: Calendar.Strftime.strftime!(company[:inserted_at], "%A, %d %b %Y %l:%M %p"), else: ""),
-          name: company[:name],
+          name: "#{company[:name]}#{linkedin_url(company[:linkedin_url])}",
           size: company[:size],
           session_count: company[:session_count],
           linkedin_url: company[:linkedin_url]
@@ -114,6 +113,11 @@ defmodule EvercamAdminWeb.IntercomController do
     end
 
     json(conn, %{success: true})
+  end
+
+  defp linkedin_url(value) when value in ["", nil], do: ""
+  defp linkedin_url(value) do
+    "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#{value}' target='_blank'><i class='linkedin icon'></i></a>"
   end
 
   defp unlink_users_from_company(company_users, company_id) do

@@ -25,7 +25,7 @@ defmodule EvercamAdminWeb.IntercomController do
 
     query = "select *
             from companies
-            where lower(exid) like lower('%#{search}%') or lower(name) like lower('%#{search}%')
+            where lower(exid) like lower('%#{search}%') or lower(name) like lower('%#{search}%') or lower(linkedin_url) like lower('%#{search}%')
             #{sorting(column, order)}"
 
     companies = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
@@ -51,7 +51,8 @@ defmodule EvercamAdminWeb.IntercomController do
           inserted_at: (if company[:inserted_at], do: Calendar.Strftime.strftime!(company[:inserted_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           name: company[:name],
           size: company[:size],
-          session_count: company[:session_count]
+          session_count: company[:session_count],
+          linkedin_url: company[:linkedin_url]
         }
         acc ++ [c]
       end)
@@ -202,4 +203,5 @@ defmodule EvercamAdminWeb.IntercomController do
   defp sorting("inserted_at", order), do: "order by inserted_at #{order}"
   defp sorting("size", order), do: "order by size #{order}"
   defp sorting("session_count", order), do: "order by session_count #{order}"
+  defp sorting("linkedin_url", order), do: "order by linkedin_url #{order}"
 end

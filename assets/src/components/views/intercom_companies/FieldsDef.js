@@ -18,6 +18,12 @@ export default [
     togglable: true
   },
   {
+    name: "linkedin_url",
+    title: 'LinkedIn URL',
+    sortField: 'linkedin_url',
+    togglable: true
+  },
+  {
     name: 'size',
     title: 'Users Count',
     sortField: 'size',

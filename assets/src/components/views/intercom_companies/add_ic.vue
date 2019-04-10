@@ -107,7 +107,7 @@ import jQuery from 'jquery'
           this.errors.push("Company ID cannot be empty.")
         }
 
-        if (this.linkedIn_URL != "") {
+        if (this.linkedIn_URL != "" && this.linkedIn_URL != null) {
 
           if ( /(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.linkedIn_URL)) {} else {
             this.errors.push("LinkedIn URL is not valid.")

@@ -84,7 +84,7 @@
           this.company_name = this.companyData.name,
           this.company_id = this.companyData.id,
           this.company_exid = this.companyData.exid,
-          this.linkedIn_URL = this.companyData.linkedIn_URL
+          this.linkedIn_URL = this.companyData.linkedin_url
         }
       }
     },
@@ -98,8 +98,8 @@
           this.errors.push("Company name cannot be empty.")
         }
 
-        if (this.linkedIn_URL != "") {
-
+        if (this.linkedIn_URL != "" && this.linkedIn_URL != null) {
+          console.log(this.linkedIn_URL)
           if ( /(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.linkedIn_URL)) {} else {
             this.errors.push("LinkedIn URL is not valid.")
           }

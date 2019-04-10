@@ -10,8 +10,8 @@ defmodule EvercamAdminWeb.IntercomController do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- create_company(params) do
       company = Jason.decode!(body)
       existing_company = Company.by_exid(params["company_exid"]) || %Company{}
-      Company.changeset(existing_company, %{linkedin_url: params["linkedIn_URL"], name: params["company_name"], exid: params["company_exid"]}) |> Evercam.Repo.insert_or_update
-      update_users_companies(params["add_users"], company)
+      {:ok, db_company} = Company.changeset(existing_company, %{linkedin_url: params["linkedIn_URL"], name: params["company_name"], exid: params["company_exid"]}) |> Evercam.Repo.insert_or_update
+      update_users_companies(params["add_users"], company, db_company.id)
       json(conn, %{success: true})
     else
       _->
@@ -166,14 +166,14 @@ defmodule EvercamAdminWeb.IntercomController do
     end
   end
 
-  defp update_users_companies(value, company) when value in ["true", true] do
+  defp update_users_companies(value, company, id) when value in ["true", true] do
     spawn fn ->
-      add_users(company)
+      add_users(company, id)
     end
   end
-  defp update_users_companies(_value, _company), do: :noop
+  defp update_users_companies(_value, _company, _id), do: :noop
 
-  defp add_users(company) do
+  defp add_users(company, id) do
     users = Ecto.Adapters.SQL.query!(Evercam.Repo, "select * from users where email like '%@#{company["company_id"]}'", [])
     cols = Enum.map users.columns, &(String.to_atom(&1))
     roles = Enum.map users.rows, fn(row) ->
@@ -181,6 +181,9 @@ defmodule EvercamAdminWeb.IntercomController do
     end
 
     Enum.each(roles, fn(db_user) ->
+
+      User.update_changeset(db_user, %{company_id: id}) |> Evercam.Repo.update!
+
       with :not_found <- find_user(db_user[:email]) do
         Logger.info "User not found."
       else

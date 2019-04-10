@@ -1,6 +1,7 @@
 defmodule EvercamAdminWeb.IntercomController do
   use EvercamAdminWeb, :controller
   require Logger
+  import Ecto.Query
 
   @intercom_url "https://api.intercom.io"
   @intercom_token "#{System.get_env["INTERCOM_ACCESS_TOKEN"]}"
@@ -68,6 +69,21 @@ defmodule EvercamAdminWeb.IntercomController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/companies?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def existing_companies(conn, params) do
+    search = if params["search"] in ["", nil], do: "", else: params["search"]
+    companies =
+      Company
+      |> where([comp], like(fragment("lower(?)", comp.name), ^("%#{String.downcase(search)}%")))
+      |> Evercam.Repo.all
+      |> Enum.reduce([], fn company, acc ->
+        comp = %{
+          name: company.name
+        }
+        acc ++ [comp]
+      end)
+    json(conn, companies)
   end
 
   def delete(conn, params) do

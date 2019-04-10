@@ -11,6 +11,7 @@
           </button>
           </div>
           <div class="modal-body">
+            <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
             <div class="form-group">
               <div class="row">
                 <div class="col">
@@ -18,7 +19,7 @@
                     <div class="form-group row">
                       <label class="col-sm-5 col-form-label">Company ID:</label>
                       <div class="col">
-                        <input type="text" class="form-control" placeholder="Company ID" v-model="company_exid">
+                        <input type="text" class="form-control" placeholder="Company ID" v-model="company_exid" @keyup="searchCompany">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -34,6 +35,12 @@
                       </div>
                     </div>
                   </form>
+                  <p v-if="items.length">
+                    <b>Few similar companies already exist.</b>
+                    <ul>
+                      <li v-for="company in items">{{ company.name }}</li>
+                    </ul>
+                  </p>
                   <p v-if="errors.length">
                     <b>Please correct the following error(s):</b>
                     <ul>
@@ -45,7 +52,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" @click="validateFormAndSave($event)">Save</button>
+            <button class="btn btn-secondary" type="button" @click="validateFormAndSave($event)" :disabled="items.length >= 1">Save</button>
             <button class="btn btn-secondary" type="button" data-dismiss="modal" @click="clearForm()">Close</button>
           </div>
         </div>
@@ -91,10 +98,45 @@ import jQuery from 'jquery'
         errors: [],
         company_name: "",
         company_exid: "",
-        linkedIn_URL: ""
+        linkedIn_URL: "",
+        search: "",
+        timeoutId: null,
+        noData: false,
+        ajaxWait: false,
+        items: []
       }
     },
     methods: {
+
+      async onSearch(search) {
+        const lettersLimit = 2;
+
+        this.noData = false;
+        if (search.length < lettersLimit) {
+          this.items = [];
+          this.ajaxWait = false;
+          return;
+        }
+        this.ajaxWait = true;
+
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(async () => {
+          const response = await fetch(
+            `/v1/existing_companies?search=${search}`
+          );
+
+          this.items = await response.json();
+          this.ajaxWait = false;
+
+          if (!this.items.length) this.noData = true;
+
+        }, 500);
+      },
+
+      searchCompany() {
+        this.onSearch(this.company_exid)
+      },
+
       validateFormAndSave (e) {
         e.preventDefault()
         this.errors = []

@@ -49,6 +49,7 @@ defmodule EvercamAdminWeb.Router do
     post "/intercom_companies", IntercomController, :create
     delete "/intercom_companies", IntercomController, :delete
     post "/add_company_to_users", IntercomController, :add_company_to_users
+    get "/existing_companies", IntercomController, :existing_companies
     post "/snapshot_extractors", SnapshotExtractorsController, :create
     get "/snapshot_extractors", SnapshotExtractorsController, :index
     get "/meta_datas", MetaDatasController, :index

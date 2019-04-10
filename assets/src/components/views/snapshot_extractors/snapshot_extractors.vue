@@ -78,7 +78,7 @@ export default {
       paginationComponent: "vuetable-pagination",
       loading: "",
       vuetableFields: false,
-      perPage: 60,
+      perPage: 100,
       sortOrder: [
         {
           field: 'id',

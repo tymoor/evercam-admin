@@ -100,7 +100,7 @@ export default {
   data: () => {
     return {
       loading: "",
-      perPage: 60,
+      perPage: 100,
       css: TableWrapper,
       moreParams: {},
       paginationComponent: "vuetable-pagination",

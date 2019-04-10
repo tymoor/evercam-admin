@@ -97,7 +97,7 @@ export default {
   data: () => {
     return {
       loading: "",
-      perPage: 60,
+      perPage: 100,
       sortOrder: [
         {
           field: 'inserted_at',

@@ -27,6 +27,12 @@
                         <input type="text" class="form-control" placeholder="Company Name" v-model="company_name">
                       </div>
                     </div>
+                    <div class="form-group row">
+                      <label class="col-sm-5 col-form-label">LinkedIn URL:</label>
+                      <div class="col">
+                        <input type="text" class="form-control" placeholder="LinkedIn URL" v-model="linkedIn_URL">
+                      </div>
+                    </div>
                   </form>
                   <p v-if="errors.length">
                     <b>Please correct the following error(s):</b>
@@ -84,7 +90,8 @@ import jQuery from 'jquery'
       return {
         errors: [],
         company_name: "",
-        company_exid: ""
+        company_exid: "",
+        linkedIn_URL: ""
       }
     },
     methods: {
@@ -100,9 +107,16 @@ import jQuery from 'jquery'
           this.errors.push("Company ID cannot be empty.")
         }
 
+        if (this.linkedIn_URL != "") {
+
+          if ( /(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.linkedIn_URL)) {} else {
+            this.errors.push("LinkedIn URL is not valid.")
+          }
+        }
+
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/intercom_companies`, {...{company_exid: this.company_exid, company_name: this.company_name, add_users: true}}).then(response => {
+          this.$http.post(`/v1/intercom_companies`, {...{linkedIn_URL: this.linkedIn_URL, company_exid: this.company_exid, company_name: this.company_name, add_users: true}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -123,7 +137,8 @@ import jQuery from 'jquery'
       clearForm () {
         this.errors = [],
         this.company_name = "",
-        this.company_exid = ""
+        this.company_exid = "",
+        this.linkedIn_URL = ""
       }
     }
   }

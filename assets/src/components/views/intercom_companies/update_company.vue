@@ -16,6 +16,12 @@
                     <input type="text" class="form-control" placeholder="Name" v-model="company_name">
                   </div>
                 </div>
+                <div class="form-group row">
+                  <label class="col-sm-4 col-form-label">LinkedIn URL</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" placeholder="LinkedIn URL" v-model="linkedIn_URL">
+                  </div>
+                </div>
               </form>
               <p v-if="errors.length">
                 <b>Please correct the following error(s):</b>
@@ -66,6 +72,7 @@
         company_name: "",
         company_id: "",
         company_exid: "",
+        linkedIn_URL: "",
         ajaxWait: false,
         errors: []
       }
@@ -76,7 +83,8 @@
         if (this.companyData != null) {
           this.company_name = this.companyData.name,
           this.company_id = this.companyData.id,
-          this.company_exid = this.companyData.exid
+          this.company_exid = this.companyData.exid,
+          this.linkedIn_URL = this.companyData.linkedIn_URL
         }
       }
     },
@@ -84,16 +92,22 @@
     methods: {
       validateFormAndSave(e) {
 
-        this.ajaxWait = true
         this.errors = []
 
         if (this.company_name == "") {
           this.errors.push("Company name cannot be empty.")
         }
 
-        if (Object.keys(this.errors).length === 0) {
+        if (this.linkedIn_URL != "") {
 
-          this.$http.post(`/v1/intercom_companies`, {...{company_exid: this.company_exid, company_id: this.company_id, company_name: this.company_name}}).then(response => {
+          if ( /(ftp|http|https):\/\/?(?:www\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/.test(this.linkedIn_URL)) {} else {
+            this.errors.push("LinkedIn URL is not valid.")
+          }
+        }
+
+        if (Object.keys(this.errors).length === 0) {
+          this.ajaxWait = true
+          this.$http.post(`/v1/intercom_companies`, {...{linkedIn_URL: this.linkedIn_URL, company_exid: this.company_exid, company_id: this.company_id, company_name: this.company_name}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -116,6 +130,7 @@
         this.company_name = ""
         this.company_id = ""
         this.company_exid = ""
+        this.linkedIn_URL = ""
         this.errors = []
         this.$events.fire("hide-update-company", null)
       }

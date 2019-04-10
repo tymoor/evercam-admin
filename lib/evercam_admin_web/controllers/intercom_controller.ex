@@ -10,7 +10,7 @@ defmodule EvercamAdminWeb.IntercomController do
     with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- create_company(params) do
       company = Jason.decode!(body)
       existing_company = Company.by_exid(params["company_exid"]) || %Company{}
-      Company.changeset(existing_company, %{name:  params["company_name"], exid: params["company_exid"]}) |> Evercam.Repo.insert_or_update
+      Company.changeset(existing_company, %{linkedin_url: params["linkedIn_URL"], name: params["company_name"], exid: params["company_exid"]}) |> Evercam.Repo.insert_or_update
       update_users_companies(params["add_users"], company)
       json(conn, %{success: true})
     else

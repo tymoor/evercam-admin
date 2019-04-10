@@ -49,7 +49,8 @@ defmodule EvercamAdminWeb.IntercomController do
           id: company[:id],
           exid: company[:exid],
           inserted_at: (if company[:inserted_at], do: Calendar.Strftime.strftime!(company[:inserted_at], "%A, %d %b %Y %l:%M %p"), else: ""),
-          name: "#{company[:name]}#{linkedin_url(company[:linkedin_url])}",
+          name: company[:name],
+          social: linkedin_url(company[:linkedin_url]),
           size: company[:size],
           session_count: company[:session_count],
           linkedin_url: company[:linkedin_url]
@@ -133,7 +134,7 @@ defmodule EvercamAdminWeb.IntercomController do
 
   defp linkedin_url(value) when value in ["", nil], do: ""
   defp linkedin_url(value) do
-    "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#{value}' target='_blank'><i class='linkedin icon'></i></a>"
+    "<a href='#{value}' target='_blank'><i class='linkedin icon'></i></a>"
   end
 
   defp unlink_users_from_company(company_users, company_id) do

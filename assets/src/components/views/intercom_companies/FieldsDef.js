@@ -6,15 +6,20 @@ export default [
     title: 'Actions'
   },
   {
-    name: 'exid',
-    title: 'Company ID',
-    sortField: 'exid',
-    togglable: true
-  },
-  {
     name: "name",
     title: 'Name',
     sortField: 'name',
+    togglable: true
+  },
+  {
+    name: "social",
+    title: 'Social',
+    togglable: true
+  },
+  {
+    name: 'exid',
+    title: 'Company ID',
+    sortField: 'exid',
     togglable: true
   },
   {

@@ -147,6 +147,7 @@ body {
 .vuetable-body-wrapper .se-report .vuetable-td-interval,
 .vuetable-body-wrapper .se-report .vuetable-td-status,
 .vuetable-body-wrapper .ic-report .vuetable-td-size,
+.vuetable-body-wrapper .ic-report .vuetable-td-social,
 .vuetable-body-wrapper .ic-report .vuetable-td-session_count,
 .vuetable-body-wrapper .ic-report .vuetable-slot,
 .vuetable-body-wrapper .dc-report .vuetable-td-is_recording,
@@ -650,8 +651,8 @@ body {
   width: 150px;
 }
 
-.vuetable-body-wrapper .ic-report .vuetable-th-linkedin_url {
-  width: 250px;
+.vuetable-body-wrapper .ic-report .vuetable-th-social {
+  width: 35px;
 }
 
 .vuetable-body-wrapper .ic-report .vuetable-th-size {

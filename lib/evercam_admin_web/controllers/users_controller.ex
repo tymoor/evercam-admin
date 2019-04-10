@@ -163,6 +163,8 @@ defmodule EvercamAdminWeb.UsersController do
 
   defp decide_condition2(params) do
     cond do
+      params["company_name"] != "" && params["company_name"] != nil ->
+        "where lower(company_name) like lower('%#{params["company_name"]}%')"
       params["total_cameras"] != "" && params["total_cameras"] != nil -> "where (cameras_owned + camera_shares) = #{params["total_cameras"]}"
       params["cameras_owned"] != "" && params["camera_shares"] != "" && params["cameras_owned"] != nil && params["camera_shares"] != nil && params["include_erc"] != "" && params["include_erc"] == "true" ->
         "where cameras_owned < #{params["cameras_owned"]} and camera_shares < #{params["camera_shares"]} and share_id > 0"
@@ -182,24 +184,6 @@ defmodule EvercamAdminWeb.UsersController do
         "where camera_shares < #{params["camera_shares"]}"
       params["cameras_owned"] != "" && params["cameras_owned"] != nil ->
         "where cameras_owned < #{params["cameras_owned"]}"
-      params["licREQ1"] != "" && params["licREQ2"] != "" && params["licREQ1"] != nil && params["licREQ2"] != nil ->
-        "where required_licence > #{params["licREQ1"]} and required_licence < #{params["licREQ2"]}"
-      params["licVALID1"] != "" && params["licVALID2"] != "" && params["licVALID1"] != nil && params["licVALID2"] != nil ->
-        "where valid_licence > #{params["licVALID1"]} and valid_licence < #{params["licVALID2"]}"
-      params["licDEF1"] != "" && params["licDEF2"] != "" && params["licDEF1"] != nil && params["licDEF2"] != nil ->
-        "where (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) > #{params["licDEF1"]} and (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) < #{params["licDEF2"]}"
-      params["licDEF1"] != "" && params["licDEF1"] != nil ->
-        "where (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) > #{params["licDEF1"]}"
-      params["licDEF2"] != "" && params["licDEF2"] != nil ->
-        "where (required_licence - (CASE WHEN valid_licence >=0 THEN valid_licence ELSE 0 END)) < #{params["licDEF2"]}"
-      params["licVALID1"] != "" && params["licVALID1"] != nil ->
-        "where valid_licence > #{params["licVALID1"]}"
-      params["licVALID2"] != "" && params["licVALID2"] != nil ->
-        "where valid_licence < #{params["licVALID2"]}"
-      params["licREQ1"] != "" && params["licREQ1"] != nil ->
-        "where required_licence > #{params["licREQ1"]}"
-      params["licREQ2"] != "" && params["licREQ2"] != nil ->
-        "where required_licence < #{params["licREQ2"]}"
       params["include_erc"] != "" && params["include_erc"] == "false" ->
         "where share_id = 0"
       params["include_erc"] != "" && params["include_erc"] == "true" ->

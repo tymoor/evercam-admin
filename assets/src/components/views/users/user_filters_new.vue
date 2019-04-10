@@ -8,7 +8,7 @@
               <label class="control-label">Search :</label>
             </div>
             <div class="col">
-              <input type="text" v-model="username" @keyup="userFilterGlobal" class="form-control" placeholder="Username">
+              <input type="text" v-model="company_name" @keyup="userFilterGlobal" class="form-control" placeholder="Company">
             </div>
             <div class="col">
               <input type="text" v-model="fullname" @keyup="userFilterGlobal" class="form-control" placeholder="Fullname">
@@ -144,7 +144,7 @@
       return {
         usersModify: false,
         usersDelete: false,
-        username: "",
+        company_name: "",
         fullname: "",
         email: "",
         payment_method: "",
@@ -180,7 +180,7 @@
       },
 
       userFilterGlobal () {
-        this.allParams.username = this.username
+        this.allParams.company_name = this.company_name
         this.allParams.fullname = this.fullname
         this.allParams.email = this.email
         this.allParams.payment_method = this.payment_method
@@ -191,17 +191,11 @@
         this.allParams.include_erc = this.include_erc
         this.allParams.cameras_owned = this.cameras_owned
         this.allParams.camera_shares = this.camera_shares
-        this.allParams.licREQ1 = this.licREQ1
-        this.allParams.licREQ2 = this.licREQ2
-        this.allParams.licVALID1 = this.licVALID1
-        this.allParams.licVALID2 = this.licVALID2
-        this.allParams.licDEF1 = this.licDEF1
-        this.allParams.licDEF2 = this.licDEF2
         this.$events.fire('user-filter-set', this.allParams)
       },
 
       resetUserFilter () {
-        this.username = ""
+        this.company_name = ""
         this.fullname = ""
         this.email = ""
         this.payment_method = ""
@@ -212,12 +206,6 @@
         this.include_erc = "whatever"
         this.cameras_owned = ""
         this.camera_shares = ""
-        this.licREQ1 = ""
-        this.licREQ2 = ""
-        this.licVALID1 = ""
-        this.licVALID2 = ""
-        this.licDEF1 = ""
-        this.licDEF2 = ""
         this.$events.fire('user-filter-reset')
       },
       onModifyClick () {

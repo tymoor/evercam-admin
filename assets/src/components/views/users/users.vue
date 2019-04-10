@@ -124,7 +124,7 @@ export default {
   methods: {
     onFilterSet (filters) {
       this.moreParams = {
-        "username": filters.username,
+        "company_name": filters.company_name,
         "fullname": filters.fullname,
         "email": filters.email,
         "payment_method": filters.payment_method,
@@ -135,12 +135,6 @@ export default {
         "include_erc": filters.include_erc,
         "cameras_owned": filters.cameras_owned,
         "camera_shares": filters.camera_shares,
-        "licREQ1": filters.licREQ1,
-        "licREQ2": filters.licREQ2,
-        "licVALID1": filters.licVALID1,
-        "licVALID2": filters.licVALID2,
-        "licDEF1": filters.licDEF1,
-        "licDEF2": filters.licDEF2
       }
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },

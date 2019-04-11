@@ -182,7 +182,7 @@ defmodule EvercamAdminWeb.IntercomController do
 
     Enum.each(roles, fn(db_user) ->
 
-      User.update_changeset(db_user, %{company_id: id}) |> Evercam.Repo.update!
+      User.update_changeset(struct(User, db_user), %{company_id: id}) |> Evercam.Repo.update!
 
       with :not_found <- find_user(db_user[:email]) do
         Logger.info "User not found."

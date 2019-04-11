@@ -89,8 +89,15 @@ defmodule EvercamAdminWeb.IntercomController do
 
   def delete(conn, params) do
     company_id = params["company_exid"]
-    Company.by_exid(company_id)
-    |> Evercam.Repo.delete!
+    company = Company.by_exid(company_id)
+    User
+    |> where(company_id: ^company.id)
+    |> Evercam.Repo.all
+    |> Enum.each(fn user ->
+      User.update_changeset(user, %{company_id: nil}) |> Evercam.Repo.update!
+    end)
+    company |> Evercam.Repo.delete!
+
     spawn fn ->
       company_users = get_company_users(company_id)
       unlink_users_from_company(company_users, company_id)

@@ -157,7 +157,7 @@ export default {
     },
 
     deleteCompany(e, data) {
-      if (window.confirm("Are you sure to delete this company?")) {
+      if (window.confirm("Are you sure to delete this company?\nIt will also remove reference of this company from it's users.")) {
         this.ajaxWait = true
         this.$http.delete(`/v1/intercom_companies`, {params: {company_exid: data.exid}}).then(response => {
           this.$nextTick( () => this.$refs.vuetable.refresh())

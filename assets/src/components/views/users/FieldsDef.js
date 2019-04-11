@@ -30,6 +30,11 @@ export default [
     togglable: true
   },
   {
+    name: 'social',
+    title: 'Social',
+    togglable: true
+  },
+  {
     name: 'email',
     title: 'Email',
     sortField: 'email',

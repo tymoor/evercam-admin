@@ -61,7 +61,8 @@ defmodule EvercamAdminWeb.UsersController do
           snapmail_count: user[:snapmail_count],
           created_at: (if user[:created_at], do: Calendar.Strftime.strftime!(user[:created_at], "%A, %d %b %Y %l:%M %p"), else: ""),
           confirmed_at: (if user[:confirmed_at], do: Calendar.Strftime.strftime!(user[:confirmed_at], "%A, %d %b %Y %l:%M %p"), else: ""),
-          last_login_at: (if user[:last_login_at], do: Calendar.Strftime.strftime!(user[:last_login_at], "%A, %d %b %Y %l:%M %p"), else: "")
+          last_login_at: (if user[:last_login_at], do: Calendar.Strftime.strftime!(user[:last_login_at], "%A, %d %b %Y %l:%M %p"), else: ""),
+          social: attach_social_icons(user[:linkedin_url], user[:twitter_url]),
         }
         acc ++ [u]
       end)
@@ -131,6 +132,13 @@ defmodule EvercamAdminWeb.UsersController do
       _ ->
         json(conn, %{data: []})
     end
+  end
+
+  defp attach_social_icons(linkedin_url, twitter_url) when linkedin_url and twitter_url in ["", nil], do: ""
+  defp attach_social_icons(linkedin_url, twitter_url) when linkedin_url in ["", nil], do: "<a href='#{twitter_url}' target='_blank'><i class='twitter icon'></i></a>"
+  defp attach_social_icons(linkedin_url, twitter_url) when twitter_url in ["", nil], do: "<a href='#{linkedin_url}' target='_blank'><i class='linkedin icon'></i></a>"
+  defp attach_social_icons(linkedin_url, twitter_url) do
+    "<a href='#{linkedin_url}' target='_blank'><i class='linkedin icon'></i></a>&nbsp;&nbsp;<a href='#{twitter_url}' target='_blank'><i class='twitter icon'></i></a>"
   end
 
   defp users_with_no_companies(users) do

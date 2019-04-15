@@ -4,6 +4,12 @@
       <user-filters-new :selectedUsers="selectedUsers" />
     </div>
     <div>
+      <div class="form-check advance-filters">
+        <input class="form-check-input" type="checkbox" :value="showAdvanceFilters" id="defaultCheck1" v-model="showAdvanceFilters">
+        <label class="form-check-label" for="defaultCheck1">
+          Advance Filters
+        </label>
+      </div>
       <v-user-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
@@ -61,6 +67,13 @@
 #table-wrapper {
   margin-top: 3px;
 }
+
+.advance-filters {
+  float: right;
+  margin-top: -21px;
+  margin-right: 55px;
+  position: relative;
+}
 </style>
 
 <script>
@@ -87,7 +100,8 @@ export default {
       ],
       css: TableWrapper,
       moreParams: {},
-      fields: FieldsDef
+      fields: FieldsDef,
+      showAdvanceFilters: false
     }
   },
   watch: {
@@ -103,6 +117,10 @@ export default {
           this.$refs.vuetable.tablePagination
         );
       });
+    },
+
+    showAdvanceFilters() {
+      this.$events.fire('show-advance-filters', this.showAdvanceFilters)
     }
   },
 

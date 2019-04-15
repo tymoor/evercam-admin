@@ -16,22 +16,22 @@
             <div class="col">
               <input type="text" v-model="email" @keyup="userFilterGlobal" class="form-control" placeholder="Email">
             </div>
-            <div class="col-0.5 label-top">
+            <div class="col-0.5 label-top" v-show="showAdvanced">
               <label class="control-label">Cameras Owned <</label>
             </div>
-            <div class="col-1">
+            <div class="col-1" v-show="showAdvanced">
               <input type="text" v-on:keypress="isNumber($event)" v-model="cameras_owned" @keyup="userFilterGlobal" class="form-control" placeholder="Cameras Owned <">
             </div>
-            <div class="col-0.5 label-top">
+            <div class="col-0.5 label-top" v-show="showAdvanced">
               <label class="control-label">Cameras Shared <</label>
             </div>
-            <div class="col-1">
+            <div class="col-1" v-show="showAdvanced">
               <input type="text" v-on:keypress="isNumber($event)" v-model="camera_shares" @keyup="userFilterGlobal" class="form-control" placeholder="Cameras Shared <">
             </div>
           </div>
         </form>
       </div>
-      <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
+      <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0" v-show="showAdvanced">
         <form class="form-inline">
             <div class="form-group">
               <label for="inputState">Type :&nbsp;</label>
@@ -64,7 +64,7 @@
         </form>
       </div>
     </div>
-    <div class="row user-filters_css margin-left-1">
+    <div class="row user-filters_css margin-left-1" v-show="showAdvanced">
       <div class="col-sm-5 col-md-6">
         <form>
           <div class="form-row">
@@ -155,18 +155,15 @@
         include_erc: "whatever",
         cameras_owned: "",
         camera_shares: "",
-        licREQ1: "",
-        licREQ2: "",
-        licVALID1: "",
-        licVALID2: "",
-        licDEF1: "",
-        licDEF2: "",
-        allParams: {}
+        allParams: {},
+        showAdvanced: false
       }
     },
     mounted() {
       this.$events.$on("close-user-modify", eventData => this.onModifyClose(eventData))
       this.$events.$on("users-modify", eventData => this.onModifySave(eventData))
+
+      this.$events.$on("show-advance-filters", eventData => this.showAdvancedFilters(eventData))
     },
     methods: {
       isNumber (evt) {
@@ -177,6 +174,10 @@
         } else {
           return true;
         }
+      },
+
+      showAdvancedFilters(bool) {
+        this.showAdvanced = bool;
       },
 
       userFilterGlobal () {

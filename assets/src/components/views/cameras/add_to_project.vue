@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" @click="onAddToProject()"><i class="fa fa-plus"></i> Add Company</button></div>
+    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" @click="onAddToProject()"><i class="fa fa-plus"></i> Add to Project</button></div>
     <div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static" data-keyboard="false" ref="vuemodal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

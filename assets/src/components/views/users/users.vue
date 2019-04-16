@@ -4,13 +4,13 @@
       <user-filters-new :selectedUsers="selectedUsers" />
     </div>
     <div>
-      <div class="form-check advance-filters">
-        <input class="form-check-input" type="checkbox" :value="showAdvanceFilters" id="defaultCheck1" v-model="showAdvanceFilters">
-        <label class="form-check-label" for="defaultCheck1">
-          Advance Filters
-        </label>
-      </div>
       <v-user-show-hide :vuetable-fields="vuetableFields" />
+      <div class="advance-filters">
+        <button class="btn btn-secondary mb-1" type="button" @click="toggleAdvanceFilters()">
+          <i class="fa fa-filter"></i>
+          Advanced
+        </button>
+      </div>
     </div>
 
     <v-horizontal-scroll />
@@ -70,8 +70,8 @@
 
 .advance-filters {
   float: right;
-  margin-top: -21px;
-  margin-right: 55px;
+  margin-top: -26px;
+  margin-right: 7px;
   position: relative;
 }
 </style>
@@ -139,6 +139,11 @@ export default {
   },
 
   methods: {
+
+    toggleAdvanceFilters () {
+      this.showAdvanceFilters = !this.showAdvanceFilters
+    },
+
     onFilterSet (filters) {
       this.moreParams = {
         "company_name": filters.company_name,

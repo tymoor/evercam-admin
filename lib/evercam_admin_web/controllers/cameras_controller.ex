@@ -32,10 +32,11 @@ defmodule EvercamAdminWeb.CamerasController do
         end
       end)
     query = "select * from (
-                select c.*,u.firstname || ' ' || u.lastname as fullname, u.email as owner_email, u.payment_method, u as user, u.id as user_id, u.api_id, u.api_key,
+                select c.*,p.name as project_name,u.firstname || ' ' || u.lastname as fullname, u.email as owner_email, u.payment_method, u as user, u.id as user_id, u.api_id, u.api_key,
                 v.name as vendor_name,vm.name as vendor_model_name, cr.status as is_recording, cr.storage_duration as cloud_recording_storage_duration,
                 (select count(id) as total from camera_shares cs where c.id=cs.camera_id) as total_share from cameras c
                 inner JOIN users u on c.owner_id = u.id
+                left JOIN projects p on c.project_id = p.id
                 left JOIN vendor_models vm on c.model_id = vm.id
                 left JOIN vendors v on vm.vendor_id = v.id
                 left JOIN cloud_recordings cr on c.id = cr.camera_id
@@ -60,8 +61,10 @@ defmodule EvercamAdminWeb.CamerasController do
       Enum.reduce(display_start..index_end, [], fn i, acc ->
         camera = Enum.at(roles, i)
         c = %{
+          project_id: camera[:project_id],
           exid: camera[:exid],
           fullname: camera[:fullname],
+          project_name: camera[:project_name],
           name: camera[:name],
           total_share: camera[:total_share],
           mac_address: cast_mac(camera[:mac_address]),
@@ -217,6 +220,15 @@ defmodule EvercamAdminWeb.CamerasController do
     end
   end
 
+  def add_to_project(conn, params) do
+    # query = "update cameras set project_id=#{params["project_id"]} where exid in (#{params["camera_exids"]})"
+    exids = params["camera_exids"] |> String.split(",")
+    Camera
+    |> where([c], c.exid in ^exids)
+    |> Evercam.Repo.update_all(set: [project_id: params["project_id"]])
+    json(conn, %{success: true})
+  end
+
   defp filter_camera(port, host, jpg) do
     Camera
     |> parse_through_fragment(port, host, jpg)
@@ -341,6 +353,7 @@ defmodule EvercamAdminWeb.CamerasController do
   end
 
   defp sorting("last_online_at", order), do: "order by c.last_online_at #{order}"
+  defp sorting("project_name", order), do: "order by project_name #{order}"
   defp sorting("exid", order), do: "order by c.exid #{order}"
   defp sorting("fullname", order), do: "order by fullname #{order}"
   defp sorting("owner_email", order), do: "order by owner_email #{order}"

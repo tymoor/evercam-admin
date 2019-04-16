@@ -79,29 +79,28 @@ export default {
       this.$events.fire('camera-filter-set', this.allParams)
     },
     deleteCameras () {
-        let self = this
-        if (Object.keys(self.selectedCameras).length === 0) {
-          this.showWarnMsg({
-            title: "Warning",
-            message: "At least select one Camera!"
+      let self = this
+      if (Object.keys(self.selectedCameras).length === 0) {
+        this.showWarnMsg({
+          title: "Warning",
+          message: "At least select one Camera!"
+        });
+      } else {
+        if (window.confirm("Are you sure you want to delete this event?")) {
+          self.selectedCameras.forEach((camera) => {
+            this.$http.delete(`${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
+              console.log(response.body)
+            }, error => {
+              console.log(error)
+            });
           });
-        } else {
-          if (window.confirm("Are you sure you want to delete this event?")) {
-            console.log(self.selectedCameras)
-            self.selectedCameras.forEach((camera) => {
-              this.$http.delete(`${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
-                console.log(response.body)
-              }, error => {
-                console.log(error)
-              });
-            });
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Camera(s) has been deleted!"
-            });
-            this.$events.fire('cameras-deleted', {})
-          }
+          this.showSuccessMsg({
+            title: "Success",
+            message: "Camera(s) has been deleted!"
+          });
+          this.$events.fire('cameras-deleted', {})
         }
+      }
     }
   }
 }

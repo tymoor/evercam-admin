@@ -4,6 +4,7 @@
       <v-camera-filters :selectedCameras="selectedCameras" />
     </div>
     <div>
+      <v-add-to-project :selectedCameras="selectedCameras" />
       <v-camera-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
@@ -67,14 +68,19 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import AddToProject from "./add_to_project";
 
 export default {
+  components: {
+    "v-add-to-project": AddToProject
+  },
   data: () => {
     return {
       selectedCameras: [],
       paginationComponent: "vuetable-pagination",
       loading: "",
       vuetableFields: false,
+      showAddToProject: false,
       perPage: 100,
       sortOrder: [
         {
@@ -114,6 +120,7 @@ export default {
     });
     this.$events.$on('camera-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('cameras-deleted', e => this.onCamerasDelete(e))
+    this.$events.$on('hide-add-to-project', e => this.onHideAddToProject(e))
   },
 
   methods: {
@@ -129,6 +136,11 @@ export default {
         "vendor": filters.vendor
       }
       this.$nextTick( () => this.$refs.vuetable.refresh())
+    },
+
+    onHideAddToProject(e) {
+      this.$nextTick( () => this.$refs.vuetable.refresh())
+      this.selectedCameras = []
     },
 
     onCamerasDelete (e) {

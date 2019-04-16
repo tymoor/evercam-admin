@@ -95,6 +95,13 @@
         </li>
 
         <li class="nav-item">
+          <router-link class="nav-link" v-bind:to="'/projects'">
+            <i class="nav-icon icon-drop fa fa-building"></i>
+            Projects
+          </router-link>
+        </li>
+
+        <li class="nav-item">
           <router-link class="nav-link" v-bind:to="'/shares'">
             <i class="nav-icon icon-drop fa fa-camera"></i>
             Shares

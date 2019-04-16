@@ -53,6 +53,12 @@ export default [
     togglable: true
   },
   {
+    name: 'project_name',
+    title: 'Project',
+    sortField: 'project_name',
+    togglable: true
+  },
+  {
     name: 'total_share',
     title: 'Shares',
     sortField: 'total_share',

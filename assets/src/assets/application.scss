@@ -151,6 +151,8 @@ body {
 .vuetable-body-wrapper .user-report .vuetable-td-social,
 .vuetable-body-wrapper .ic-report .vuetable-td-session_count,
 .vuetable-body-wrapper .ic-report .vuetable-slot,
+.vuetable-body-wrapper .projects-report .vuetable-slot,
+.vuetable-body-wrapper .projects-report .vuetable-td-cameras,
 .vuetable-body-wrapper .dc-report .vuetable-td-is_recording,
 .vuetable-body-wrapper .dc-report .vuetable-td-online,
 .vuetable-body-wrapper .dc-report .vuetable-td-count,
@@ -175,6 +177,7 @@ body {
 }
 
 .vuetable-body-wrapper .camera-report .vuetable-th-created_at,
+.vuetable-body-wrapper .camera-report .vuetable-th-project_name,
 .vuetable-body-wrapper .licences-report .vuetable-th-created_at,
 .vuetable-body-wrapper .licences-report .vuetable-th-end_date,
 .vuetable-body-wrapper .licences-report .vuetable-th-start_date,
@@ -672,8 +675,15 @@ body {
   width: 240px;
 }
 
-.vuetable-body-wrapper .ic-report .vuetable-th-slot-company-actions {
+.vuetable-body-wrapper .ic-report .vuetable-th-slot-company-actions,
+.vuetable-body-wrapper .projects-report .vuetable-th-slot-project-actions {
   width: 60px;
+  text-align: center;
+}
+
+.vuetable-body-wrapper .projects-report .vuetable-th-cameras {
+  width: 130px;
+  text-align: center;
 }
 
 .vuetable-body-wrapper .dc-report .vuetable-th-is_recording,

@@ -27,6 +27,7 @@ import CameraShareRequests from "./components/views/camera_share_requests/camera
 import SnapshotExtractors from "./components/views/snapshot_extractors/snapshot_extractors";
 import MetaDatas from "./components/views/meta_datas/meta_datas";
 import Onvif from "./components/views/onvif/onvif";
+import Projects from "./components/views/projects/projects";
 import ConstructionNvrs from "./components/views/nvrs/construction_nvrs/construction_nvrs";
 import ConstructionVHNvrs from "./components/views/nvrs/construction_nvrs_vh/construction_nvrs_vh";
 import IntercomCompanies from "./components/views/intercom_companies/intercom_companies";
@@ -148,6 +149,7 @@ const router = new VueRouter({
     { path: "/snapshot_extractors", component: SnapshotExtractors, name: "snapshot_extractors", meta: { title: "Admin - Snapshot Extractors"} },
     { path: "/meta_datas", component: MetaDatas, name: "meta_datas", meta: { title: "Admin - Meta Datas"} },
     { path: "/onvif", component: Onvif, name: "onvif", meta: { title: "Onvif"} },
+    { path: "/projects", component: Projects, name: "projects", meta: { title: "Projects"} },
     { path: "/companies", component: IntercomCompanies, name: "companies", meta: { title: "Admin - Companies"} },
     { path: "/intercom_users", component: IntercomUsers, name: "intercom_users", meta: { title: "Admin - Intercom Users"} },
     { path: "/duplicate_cameras", component: DuplicateCameras, name: "duplicate_cameras", meta: { title: "Admin - Duplicate Cameras"} },

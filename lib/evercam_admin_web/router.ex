@@ -58,6 +58,14 @@ defmodule EvercamAdminWeb.Router do
     get "/licences", LicencesController, :index
     delete "/licences", LicencesController, :delete
     get "/storage", StorageController, :index
+
+    get "/projects", ProjectsController, :index
+    get "/projects/owner", ProjectsController, :get_owner
+    patch "/projects", ProjectsController, :update
+    post "/projects", ProjectsController, :create
+    delete "/projects", ProjectsController, :delete
+    get "/search_project", ProjectsController, :search_project
+    post "/add_to_project", CamerasController, :add_to_project
   end
 
   scope "/", EvercamAdminWeb do

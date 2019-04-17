@@ -11,7 +11,6 @@
           </button>
           </div>
           <div class="modal-body">
-            <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
             <div class="form-group">
               <div class="row">
                 <div class="col">
@@ -114,8 +113,8 @@
         search: "",
         timeoutId: null,
         noData: false,
-        ajaxWait: false,
         items: [],
+        loading: false,
         camera_exids: [],
         invalidate_urls: []
       }
@@ -128,10 +127,10 @@
         this.noData = false;
         if (search.length < lettersLimit) {
           this.items = [];
-          this.ajaxWait = false;
+          this.loading = false;
           return;
         }
-        this.ajaxWait = true;
+        this.loading = true;
 
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(async () => {
@@ -140,7 +139,7 @@
           );
 
           this.items = await response.json();
-          this.ajaxWait = false;
+          this.loading = false;
 
           if (!this.items.length) this.noData = true;
 
@@ -173,8 +172,7 @@
             this.invalidate_urls.push(`/${camera.exid}/invalidate/cache?api_id=${camera.api_id}&api_key=${camera.api_key}`)
             this.camera_exids.push(camera.exid)
           });
-          console.log(this.camera_exids.join(","))
-          this.$http.post(`/v1/add_to_project`, {...{project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")}}).then(response => {
+          this.$http.post(`/v1/add_to_project`, {...{owner_id: this.$root.user.user_id, project_name: this.selected.name, project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",

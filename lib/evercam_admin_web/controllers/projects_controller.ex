@@ -93,13 +93,19 @@ defmodule EvercamAdminWeb.ProjectsController do
 
   def search_project(conn, params) do
     search = if params["search"] in ["", nil], do: "", else: params["search"]
-    projects =
+    projects_list =
       Project
       |> where([p], like(fragment("lower(?)", p.name), ^"%#{String.downcase(search)}%"))
       |> Evercam.Repo.all
       |> Enum.reduce([], fn project, acc ->
         acc ++ [%{id: project.id, name: project.name}]
       end)
+    
+    projects =
+      case Enum.count(projects_list) do
+        0 -> [%{id: 0, name: params["search"]}]
+        _ -> projects_list
+      end
     json(conn, projects)
   end
 

@@ -222,9 +222,17 @@ defmodule EvercamAdminWeb.CamerasController do
 
   def add_to_project(conn, params) do
     exids = params["camera_exids"] |> String.split(",")
+    project_id =
+      case params["project_id"] do
+        0 ->
+          {:ok, project} = Project.changeset(%Project{}, %{user_id: params["owner_id"], name: params["project_name"]}) |> Evercam.Repo.insert
+          project.id
+        pid -> pid
+      end
+    IO.inspect project_id
     Camera
     |> where([c], c.exid in ^exids)
-    |> Evercam.Repo.update_all(set: [project_id: params["project_id"]])
+    |> Evercam.Repo.update_all(set: [project_id: project_id])
     invalidate_urls = params["invalidate_urls"] |> String.split(",") |> Enum.dedup
     spawn fn -> invalidate_cache(invalidate_urls) end
     json(conn, %{success: true})

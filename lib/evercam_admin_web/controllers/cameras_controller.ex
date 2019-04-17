@@ -221,13 +221,20 @@ defmodule EvercamAdminWeb.CamerasController do
   end
 
   def add_to_project(conn, params) do
-    # query = "update cameras set project_id=#{params["project_id"]} where exid in (#{params["camera_exids"]})"
     exids = params["camera_exids"] |> String.split(",")
     Camera
     |> where([c], c.exid in ^exids)
     |> Evercam.Repo.update_all(set: [project_id: params["project_id"]])
+    invalidate_urls = params["invalidate_urls"] |> String.split(",") |> Enum.dedup
+    spawn fn -> invalidate_cache(invalidate_urls) end
     json(conn, %{success: true})
   end
+
+  defp invalidate_cache([head | tail]) do
+    HTTPoison.delete("https://api.evercam.io/v2/cameras#{head}")
+    invalidate_cache(tail)
+  end
+  defp invalidate_cache([]), do: :noop
 
   defp filter_camera(port, host, jpg) do
     Camera

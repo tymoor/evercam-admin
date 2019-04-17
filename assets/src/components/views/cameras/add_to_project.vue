@@ -116,7 +116,8 @@
         noData: false,
         ajaxWait: false,
         items: [],
-        camera_exids: []
+        camera_exids: [],
+        invalidate_urls: []
       }
     },
     methods: {
@@ -169,10 +170,11 @@
 
         if (Object.keys(this.errors).length === 0) {
           self.selectedCameras.forEach((camera) => {
+            this.invalidate_urls.push(`/${camera.exid}/invalidate/cache?api_id=${camera.api_id}&api_key=${camera.api_key}`)
             this.camera_exids.push(camera.exid)
           });
           console.log(this.camera_exids.join(","))
-          this.$http.post(`/v1/add_to_project`, {...{project_id: this.selected.id, camera_exids: this.camera_exids.join(",")}}).then(response => {
+          this.$http.post(`/v1/add_to_project`, {...{project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -193,6 +195,7 @@
       clearForm () {
         this.errors = []
         this.camera_exids = []
+        this.invalidate_urls = []
         this.selected = null
         this.selectEventEmitter.emit("hide-add-to-project", "")
       }

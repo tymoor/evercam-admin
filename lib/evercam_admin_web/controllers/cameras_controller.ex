@@ -229,7 +229,7 @@ defmodule EvercamAdminWeb.CamerasController do
           project.id
         pid -> pid
       end
-    IO.inspect project_id
+    
     Camera
     |> where([c], c.exid in ^exids)
     |> Evercam.Repo.update_all(set: [project_id: project_id])

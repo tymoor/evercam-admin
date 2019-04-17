@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" @click="onAddToProject()"><i class="fa fa-plus"></i> Add to Project</button></div>
+    <div class="add-modal"><button class="btn btn-secondary mb-1" type="button" data-toggle="modal" @click="onAddToProject()"><i class="fa fa-plus"></i> Add to Project</button></div>
     <div class="modal fade" id="addModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true" data-backdrop="static" data-keyboard="false" ref="vuemodal">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -159,18 +159,18 @@
       },
 
       validateFormAndSave (e) {
-        e.preventDefault()
-        let self = this
-        this.errors = []
+        e.preventDefault();
+        let self = this;
+        this.errors = [];
         
         if (this.selected == null) {
-          this.errors.push("Please select project.")
+          this.errors.push("Please select project.");
         }
 
         if (Object.keys(this.errors).length === 0) {
           self.selectedCameras.forEach((camera) => {
-            this.invalidate_urls.push(`/${camera.exid}/invalidate/cache?api_id=${camera.api_id}&api_key=${camera.api_key}`)
-            this.camera_exids.push(camera.exid)
+            this.invalidate_urls.push(`/${camera.exid}/invalidate/cache?api_id=${camera.api_id}&api_key=${camera.api_key}`);
+            this.camera_exids.push(camera.exid);
           });
           this.$http.post(`/v1/add_to_project`, {...{owner_id: this.$root.user.user_id, project_name: this.selected.name, project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")}}).then(response => {
 
@@ -179,9 +179,9 @@
               message: `Camera(s) added to Project ${this.selected.name}.`
             });
 
-            this.$events.fire("hide-add-to-project", {})
-            jQuery('#addModel').modal('hide')
-            this.clearForm()
+            this.$events.fire("hide-add-to-project", {});
+            jQuery('#addModel').modal('hide');
+            this.clearForm();
           }, error => {
             this.showErrorMsg({
               title: "Error",
@@ -190,12 +190,13 @@
           });
         }
       },
+
       clearForm () {
-        this.errors = []
-        this.camera_exids = []
-        this.invalidate_urls = []
-        this.selected = null
-        this.selectEventEmitter.emit("hide-add-to-project", "")
+        this.errors = [];
+        this.camera_exids = [];
+        this.invalidate_urls = [];
+        this.selected = null;
+        this.selectEventEmitter.emit("hide-add-to-project", "");
       }
     }
   }

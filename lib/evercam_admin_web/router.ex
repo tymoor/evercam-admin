@@ -66,6 +66,8 @@ defmodule EvercamAdminWeb.Router do
     delete "/projects", ProjectsController, :delete
     get "/search_project", ProjectsController, :search_project
     post "/add_to_project", CamerasController, :add_to_project
+    get "/project_cameras", CamerasController, :project_cameras
+    delete "/camera_from_project", CamerasController, :delete_camera_from_project
   end
 
   scope "/", EvercamAdminWeb do

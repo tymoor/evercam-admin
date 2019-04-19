@@ -23,7 +23,7 @@ export default [
     togglable: true
   },
   {
-    name: 'cameras',
+    name: 'cameras-count-slot',
     title: 'Cameras Count',
     sortField: 'cameras',
     togglable: true

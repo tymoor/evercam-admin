@@ -220,6 +220,57 @@ defmodule EvercamAdminWeb.CamerasController do
     end
   end
 
+  def project_cameras(conn, params) do
+    project_cameras =
+      Camera
+      |> where(project_id: ^params["project_id"])
+      |> preload(:owner)
+      |> order_by(asc: :name)
+      |> Evercam.Repo.all
+      |> Enum.reduce([], fn camera, acc ->
+        c = %{
+          project_id: camera.project_id,
+          id: camera.id,
+          exid: camera.exid,
+          name: camera.name,
+          timezone: camera.timezone,
+          is_public: camera.is_public,
+          is_online: camera.is_online,
+          payment_method: camera.owner.payment_method,
+          owner_email: camera.owner.email,
+          external_host: Util.deep_get(camera.config, ["external_host"], ""),
+          external_http_port: Util.deep_get(camera.config, ["external_http_port"], ""),
+          username: Util.deep_get(camera.config, ["auth", "basic", "username"], ""),
+          password: Util.deep_get(camera.config, ["auth", "basic", "password"], ""),
+          camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera.exid}?api_id=#{camera.owner.api_id}&api_key=#{camera.owner.api_key}' target='_blank'>#{User.get_fullname(camera.owner)} <i class='fa fa-external-link'></i></a>",
+          created_at: Calendar.Strftime.strftime!(camera.created_at, "%A, %d %b %Y %l:%M %p")
+        }
+        acc ++ [c]
+      end)
+
+    records = %{
+      data: project_cameras,
+      total: Enum.count(project_cameras),
+      per_page: String.to_integer(params["per_page"]),
+      from: 0,
+      to: Enum.count(project_cameras),
+      current_page: String.to_integer(params["page"]),
+      last_page: 0.0,
+      next_page_url: "",
+      prev_page_url: ""
+    }
+
+    json(conn, records)
+  end
+
+  def delete_camera_from_project(conn, params) do
+    camera_id = params["camera_id"]
+    Camera
+    |> where(id: ^camera_id)
+    |> Evercam.Repo.update_all(set: [project_id: nil])
+    json(conn, %{success: true})
+  end
+
   def add_to_project(conn, params) do
     exids = params["camera_exids"] |> String.split(",")
     project_id =

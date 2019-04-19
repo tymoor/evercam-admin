@@ -73,7 +73,6 @@
 
     watch: {
       projectData() {
-        console.log(this.projectData)
         if (this.projectData != null) {
           this.project_name = this.projectData.name,
           this.project_id = this.projectData.id,

@@ -5,6 +5,7 @@
     </div>
     <div>
       <v-add-project />
+      <v-cameras-list :showCamerasList="showCamerasList" :projectData="projectData"/>
       <v-update-project :showUpdateProject="showUpdateProject" :projectData="projectData" />
     </div>
 
@@ -26,6 +27,10 @@
         >
           <div slot="project-actions" slot-scope="props">
             <i class="edit icon pointer-cursor" @click="editProject($event, props.rowData)"></i>&nbsp;&nbsp;<i class="trash icon pointer-cursor" @click="deleteProject($event, props.rowData)"></i>
+          </div>
+          <div slot="cameras-count-slot" slot-scope="props">
+            <div v-if="props.rowData.cameras == 0">0</div>
+            <div v-else><span class="cameras-count" @click="openCameras($event, props.rowData)">{{ props.rowData.cameras }}</span></div>
           </div>
         </vuetable>
       </div>
@@ -55,6 +60,10 @@
   .pointer-cursor {
     cursor: pointer;
   }
+  .cameras-count {
+    color: #4183c4;
+    cursor: pointer;
+  }
 </style>
 
 <script>
@@ -63,12 +72,14 @@
   import ProjectFilters from "./project_filters";
   import UpdateProject from "./update_project";
   import AddProject from "./add_project";
+  import CamerasList from "./CamerasList";
 
   export default {
     components: {
       "v-project-filters": ProjectFilters,
       "v-update-project": UpdateProject,
-      "v-add-project": AddProject
+      "v-add-project": AddProject,
+      "v-cameras-list": CamerasList
     },
     data: () => {
       return {
@@ -87,8 +98,8 @@
         fields: FieldsDef,
         showUpdateProject: false,
         projectData: {},
-        moreParams: {},
         ajaxWait: false,
+        showCamerasList: false
       }
     },
     watch: {
@@ -110,18 +121,30 @@
     mounted() {
       this.$events.$on('hide-update-project', e => this.onHideUpdateProject(e))
       this.$events.$on('project-added', e => this.onProjectAdded())
+      this.$events.$on('hide-cameras-list-modal', e => this.hideCamerasListModal())
     },
     methods:{
 
       editProject(e, data) {
-        this.showUpdateProject = true,
+        this.showUpdateProject = true;
         this.projectData = data;
       },
 
       onHideUpdateProject(e) {
         this.$nextTick( () => this.$refs.vuetable.refresh())
-        this.showUpdateProject = false,
+        this.showUpdateProject = false;
         this.projectData = null;
+      },
+
+      hideCamerasListModal(e) {
+        this.showCamerasList = false;
+        this.projectData = null;
+        this.$nextTick( () => this.$refs.vuetable.refresh())
+      },
+
+      openCameras (e, data) {
+        this.showCamerasList = true;
+        this.projectData = data;
       },
 
       deleteProject(e, data) {

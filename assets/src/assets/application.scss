@@ -21,6 +21,23 @@ body {
   margin-right: 6px;
 }
 
+.IZ-select__input,
+input {
+  border-color: #e4e7ea !important;
+}
+
+::placeholder {
+    color: #c8ced3 !important;
+}
+
+:-ms-input-placeholder {
+    color: #c8ced3 !important;
+}
+
+::-ms-input-placeholder {
+    color: #c8ced3 !important;
+}
+
 .vuetable-body-wrapper {
   overflow-x: scroll;
 }

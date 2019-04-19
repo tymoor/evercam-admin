@@ -38,6 +38,10 @@ input {
     color: #c8ced3 !important;
 }
 
+#tb_camera_list .vuetable-body-wrapper {
+  overflow-x: hidden;
+}
+
 .vuetable-body-wrapper {
   overflow-x: scroll;
 }

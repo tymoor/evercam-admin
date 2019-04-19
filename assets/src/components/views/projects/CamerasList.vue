@@ -92,9 +92,6 @@
 #tb_camera_list .vuetable-pagination {
   display: none;
 }
-#tb_camera_list .vuetable-body-wrapper {
-  overflow-x: hidden;
-}
 </style>
 
 <script>

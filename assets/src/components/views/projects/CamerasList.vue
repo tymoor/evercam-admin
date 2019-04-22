@@ -27,7 +27,7 @@
                     :css="css.table"
                   >
                     <div slot="cameras-list-action" slot-scope="props">
-                      <i class="trash icon pointer-cursor" @click="deleteCameraFromProject($event, props.rowData)"></i>
+                      <span class="remove-camera" @click="deleteCameraFromProject($event, props.rowData)">Remove</span>
                     </div>
                   </vuetable>
                 </div>
@@ -62,36 +62,40 @@
 </template>
 
 <style scoped>
-.modal-mask {
-   position: fixed;
-   z-index: 9998;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, .5);
-   display: table;
-   transition: opacity .3s ease;
-}
+  .remove-camera {
+    color: #4183c4;
+    cursor: pointer;
+  }
+  .modal-mask {
+     position: fixed;
+     z-index: 9998;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, .5);
+     display: table;
+     transition: opacity .3s ease;
+  }
 
-.modal-dialog {
-  width: 95%;
-  max-width: 100%;
-  margin-top: 114.5px;
-}
+  .modal-dialog {
+    width: 95%;
+    max-width: 100%;
+    margin-top: 114.5px;
+  }
 
-.modal-body .cntry {
-  text-align: left;
-}
-.perPage-margin {
-  margin-top: 5px;
-}
-#tb_camera_list {
-  padding: 0;
-}
-#tb_camera_list .vuetable-pagination {
-  display: none;
-}
+  .modal-body .cntry {
+    text-align: left;
+  }
+  .perPage-margin {
+    margin-top: 5px;
+  }
+  #tb_camera_list {
+    padding: 0;
+  }
+  #tb_camera_list .vuetable-pagination {
+    display: none;
+  }
 </style>
 
 <script>

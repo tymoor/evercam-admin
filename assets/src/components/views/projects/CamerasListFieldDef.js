@@ -1,11 +1,10 @@
 import moment from "moment";
-import accounting from "accounting"
 
 export default [
   {
     name: "cameras-list-action",
     title: '',
-    width: '30px'
+    width: '70px'
   },
   {
     name: 'created_at',
@@ -32,15 +31,6 @@ export default [
     togglable: true
   },
   {
-    name: 'payment_method',
-    title: 'Type',
-    sortField: 'payment_method',
-    togglable: true,
-    formatter: (value) => {
-      return paymentMethod(value)
-    }
-  },
-  {
     name: 'name',
     title: 'Name',
     sortField: 'name',
@@ -58,7 +48,7 @@ export default [
   }
 ]
 
-var paymentMethod, booleans;
+var booleans;
 
 booleans = (name) => {
   switch (name) {
@@ -70,20 +60,3 @@ booleans = (name) => {
       return ""
   }
 }
-
-paymentMethod = function(name) {
-  switch (name) {
-    case 0:
-      return "Stripe";
-    case 1:
-      return "Custom";
-    case 2:
-      return "Construction";
-    case 3:
-      return "Gardai";
-    case 4:
-      return "Smart Cities";
-    default:
-      return "Unknown";
-  }
-};

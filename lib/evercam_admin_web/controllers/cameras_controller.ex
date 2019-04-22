@@ -236,7 +236,6 @@ defmodule EvercamAdminWeb.CamerasController do
           timezone: camera.timezone,
           is_public: camera.is_public,
           is_online: camera.is_online,
-          payment_method: camera.owner.payment_method,
           owner_email: camera.owner.email,
           external_host: Util.deep_get(camera.config, ["external_host"], ""),
           external_http_port: Util.deep_get(camera.config, ["external_http_port"], ""),

@@ -87,9 +87,18 @@ input {
 }
 
 .vuetable-body-wrapper .user-report .vuetable-th-cameras_owned,
-.vuetable-body-wrapper .user-report .vuetable-th-camera_shares,
-.vuetable-body-wrapper .user-report .vuetable-th-total_cameras,
-.vuetable-body-wrapper .user-report .vuetable-th-snapmail_count,
+.vuetable-body-wrapper .user-report .vuetable-th-camera_shares {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .user-report .vuetable-th-total_cameras {
+  width: 100px;
+}
+
+.vuetable-body-wrapper .user-report .vuetable-th-snapmail_count {
+  width: 130px;
+}
+
 .vuetable-body-wrapper .user-report .vuetable-th-country {
   width: 150px;
 }

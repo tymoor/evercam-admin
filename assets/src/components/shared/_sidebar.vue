@@ -168,7 +168,6 @@
 
       </ul>
     </nav>
-    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
   </div>
 </template>
 

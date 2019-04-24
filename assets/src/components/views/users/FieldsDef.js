@@ -61,21 +61,21 @@ export default [
     togglable: true,
   },
   {
+    name: 'total_cameras',
+    title: 'Total Cams',
+    sortField: 'total_cameras',
+    togglable: true
+  },
+  {
     name: 'cameras_owned',
-    title: 'Cameras Owned',
+    title: '# Owned',
     sortField: 'cameras_owned',
     togglable: true
   },
   {
     name: 'camera_shares',
-    title: 'Cameras Shared',
+    title: '# Shared',
     sortField: 'camera_shares',
-    togglable: true
-  },
-  {
-    name: 'total_cameras',
-    title: 'Total Cameras',
-    sortField: 'total_cameras',
     togglable: true
   },
   {

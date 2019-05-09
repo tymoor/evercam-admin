@@ -137,6 +137,8 @@ input {
 .vuetable-body-wrapper .camera-report .vuetable-td-cloud_recording_storage_duration,
 .vuetable-body-wrapper .camera-report .vuetable-td-is_recording,
 .vuetable-body-wrapper .camera-share-report .vuetable-td-kind,
+.vuetable-body-wrapper .camera-share-report .vuetable-td-shared_cams_sharee,
+.vuetable-body-wrapper .camera-share-report .vuetable-td-owned_cams_sharee,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-poe,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-wifi,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-onvif,
@@ -293,6 +295,18 @@ input {
 
 .vuetable-body-wrapper .camera-share-report .vuetable-th-kind {
   width: 150px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-shared_cams_sharee {
+  width: 155px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-owned_cams_sharee {
+  width: 155px;
+}
+
+.vuetable-body-wrapper .camera-share-report .vuetable-th-sharee_email {
+  width: 225px;
 }
 
 .vuetable-body-wrapper .camera-share-report .vuetable-th-camera_sharer_link,

@@ -24,6 +24,24 @@ export default [
     togglable: true
   },
   {
+    name: 'sharee_email',
+    title: 'Sharee Email',
+    sortField: 'sharee_email',
+    togglable: true
+  },
+  {
+    name: 'shared_cams_sharee',
+    title: 'Sharee Shared Cams',
+    sortField: 'shared_cams_sharee',
+    togglable: true
+  },
+  {
+    name: 'owned_cams_sharee',
+    title: 'Sharee Owned Cams',
+    sortField: 'owned_cams_sharee',
+    togglable: true
+  },
+  {
     name: 'kind',
     title: 'Kind',
     sortField: 'kind',

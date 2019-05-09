@@ -105,7 +105,8 @@ export default {
       this.moreParams = {
         "camera_exid": filters.camera_exid,
         "sharer_fullname": filters.sharer_fullname,
-        "sharee_fullname": filters.sharee_fullname
+        "sharee_fullname": filters.sharee_fullname,
+        "sharee_email": filters.sharee_email
       }
       this.$nextTick( () => this.$refs.vuetable.refresh())
     },

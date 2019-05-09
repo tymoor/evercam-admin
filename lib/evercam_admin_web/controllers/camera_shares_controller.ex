@@ -57,32 +57,38 @@ defmodule EvercamAdminWeb.CameraSharesController do
   end
 
   def index(conn, params) do
-    {camera_exid, sharer_fullname, sharee_fullname, sorting} =
-      Enum.reduce(params, {"", "", "", ""}, fn param, {camera_exid, sharer_fullname, sharee_fullname, sorting} = _acc ->
+    {camera_exid, sharer_fullname, sharee_fullname, sharee_email, sorting} =
+      Enum.reduce(params, {"", "", "", "", ""}, fn param, {camera_exid, sharer_fullname, sharee_fullname, sharee_email, sorting} = _acc ->
         {name, value} = param
         cond do
           name == "camera_exid" && value != "" ->
-            {" and lower(exid) like lower('%#{value}%')", sharer_fullname, sharee_fullname, sorting}
+            {" and lower(exid) like lower('%#{value}%')", sharer_fullname, sharee_fullname, sharee_email, sorting}
           name == "sharer_fullname" && value != "" ->
-            {camera_exid, " and lower(sharer.firstname || ' ' || sharer.lastname) like lower('%#{value}%')", sharee_fullname, sorting}
+            {camera_exid, " and lower(sharer.firstname || ' ' || sharer.lastname) like lower('%#{value}%')", sharee_fullname, sharee_email, sorting}
           name == "sharee_fullname" && value != "" ->
-            {camera_exid, sharer_fullname, " and lower(sharee.firstname || ' ' || sharee.lastname) like lower('%#{value}%')", sorting}
-            name == "sort" ->
-              [column, order] =  String.split(value, "|")
-            {camera_exid, sharer_fullname, sharee_fullname, sorting(column, order)}  
+            {camera_exid, sharer_fullname, " and lower(sharee.firstname || ' ' || sharee.lastname) like lower('%#{value}%')", sharee_email, sorting}
+          name == "sharee_email" && value != "" ->
+            {camera_exid, sharer_fullname, sharee_fullname, " and lower(sharee.email) like lower('%#{value}%')", sorting}
+          name == "sort" ->
+            [column, order] =  String.split(value, "|")
+            {camera_exid, sharer_fullname, sharee_fullname, sharee_email, sorting(column, order)}
           true ->
-            {camera_exid, sharer_fullname, sharee_fullname, sorting}
+            {camera_exid, sharer_fullname, sharee_fullname, sharee_email, sorting}
         end
       end)
 
     query = "SELECT sharer.id sharer_id, sharer.firstname || ' ' || sharer.lastname sharer_fullname,
             sharer.api_id sharer_api_id, sharer.api_key sharer_api_key,
             sharee.id sharee_id, sharee.firstname || ' ' || sharee.lastname sharee_fullname,
+            sharee.email as sharee_email,
+            sharee.last_login_at as sharee_last_login,
             sharee.api_id sharee_api_id, sharee.api_key sharee_api_key,
+            (select count(*) from camera_shares where user_id=sharee.id) as shared_cams_sharee,
+            (select count(*) from cameras where owner_id=sharee.id) as owned_cams_sharee,
             c.id camera_id, c.exid, c.name, cs.id, cs.kind, cs.message, cs.created_at FROM camera_shares cs
             left JOIN users sharee on cs.user_id = sharee.id
             left JOIN users sharer on cs.sharer_id = sharer.id
-            left JOIN cameras c on cs.camera_id = c.id where 1=1#{camera_exid}#{sharer_fullname}#{sharee_fullname} #{sorting}"
+            left JOIN cameras c on cs.camera_id = c.id where 1=1#{camera_exid}#{sharer_fullname}#{sharee_fullname}#{sharee_email} #{sorting}"
     camera_shares = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
     cols = Enum.map camera_shares.columns, &(String.to_atom(&1))
     roles = Enum.map camera_shares.rows, fn(row) ->
@@ -108,6 +114,9 @@ defmodule EvercamAdminWeb.CameraSharesController do
           exid: (if camera_share[:exid] == nil, do: "Deleted", else: camera_share[:exid]),
           sharer_fullname: camera_share[:sharer_fullname],
           sharee_fullname: camera_share[:sharee_fullname],
+          sharee_email: (if camera_share[:sharee_email] == nil, do: "Deleted", else: camera_share[:sharee_email]),
+          shared_cams_sharee: camera_share[:shared_cams_sharee],
+          owned_cams_sharee: camera_share[:owned_cams_sharee],
           kind: camera_share[:kind]
         }
         acc ++ [c]
@@ -130,6 +139,9 @@ defmodule EvercamAdminWeb.CameraSharesController do
   defp sorting("exid", order), do: "order by exid #{order}"
   defp sorting("sharer_fullname", order), do: "order by sharer_fullname #{order}"
   defp sorting("sharee_fullname", order), do: "order by sharee_fullname #{order}"
+  defp sorting("sharee_email", order), do: "order by sharee_email #{order}"
+  defp sorting("shared_cams_sharee", order), do: "order by shared_cams_sharee #{order}"
+  defp sorting("owned_cams_sharee", order), do: "order by owned_cams_sharee #{order}"
   defp sorting("kind", order), do: "order by kind #{order}"
   defp sorting("created_at", order), do: "order by created_at #{order}"
   defp sorting(_column, _order), do: "order by created_at desc"

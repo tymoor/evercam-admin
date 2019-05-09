@@ -14,6 +14,9 @@
         <div class="col">
           <input class="form-control" type="text" placeholder="Sharee" id="camera-id" autocomplete="off" v-model="sharee_fullname" @keyup="cameraShareFilterGlobal">
         </div>
+        <div class="col">
+          <input class="form-control" type="text" placeholder="Sharee Email" id="camera-id" autocomplete="off" v-model="sharee_email" @keyup="cameraShareFilterGlobal">
+        </div>
       </div>
     </form>
   </div>
@@ -39,6 +42,7 @@ export default {
       camera_exid: "",
       sharer_fullname: "",
       sharee_fullname: "",
+      sharee_email: "",
       allParams: {}
     }
   },
@@ -47,6 +51,7 @@ export default {
       this.allParams.camera_exid = this.camera_exid
       this.allParams.sharer_fullname = this.sharer_fullname
       this.allParams.sharee_fullname = this.sharee_fullname
+      this.allParams.sharee_email = this.sharee_email
 
       this.$events.fire('camera-shares-filter-set', this.allParams)
     }

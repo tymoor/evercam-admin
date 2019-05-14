@@ -7,13 +7,13 @@
             <div class="col-0.5 search-label">
               <label class="control-label">Search :</label>
             </div>
-            <div class="col">
+            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
               <input type="text" v-model="company_name" @keyup="userFilterGlobal" class="form-control" placeholder="Company">
             </div>
-            <div class="col">
+            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
               <input type="text" v-model="fullname" @keyup="userFilterGlobal" class="form-control" placeholder="Fullname">
             </div>
-            <div class="col">
+            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
               <input type="text" v-model="email" @keyup="userFilterGlobal" class="form-control" placeholder="Email">
             </div>
             <div class="col-0.5 label-top" v-show="showAdvanced">

@@ -1,5 +1,11 @@
 export default [
   {
+    name: "delete-share-slot",
+    title: "",
+    titleClass: "center aligned delete-share",
+    dataClass: "center aligned"
+  },
+  {
     name: 'created_at',
     title: 'Created At',
     sortField: 'created_at',

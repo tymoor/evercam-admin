@@ -137,6 +137,7 @@ input {
 .vuetable-body-wrapper .camera-report .vuetable-td-cloud_recording_storage_duration,
 .vuetable-body-wrapper .camera-report .vuetable-td-is_recording,
 .vuetable-body-wrapper .camera-share-report .vuetable-td-kind,
+.vuetable-body-wrapper .camera-share-report .vuetable-slot,
 .vuetable-body-wrapper .camera-share-report .vuetable-td-shared_cams_sharee,
 .vuetable-body-wrapper .camera-share-report .vuetable-td-owned_cams_sharee,
 .vuetable-body-wrapper .vendor-model-report .vuetable-td-poe,
@@ -303,6 +304,10 @@ input {
 
 .vuetable-body-wrapper .camera-share-report .vuetable-th-owned_cams_sharee {
   width: 155px;
+}
+
+.vuetable-body-wrapper .camera-share-report .delete-share {
+  width: 30px;
 }
 
 .vuetable-body-wrapper .camera-share-report .vuetable-th-sharee_email {

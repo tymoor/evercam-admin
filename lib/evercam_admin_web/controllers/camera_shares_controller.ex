@@ -117,7 +117,10 @@ defmodule EvercamAdminWeb.CameraSharesController do
           sharee_email: (if camera_share[:sharee_email] == nil, do: "Deleted", else: camera_share[:sharee_email]),
           shared_cams_sharee: camera_share[:shared_cams_sharee],
           owned_cams_sharee: camera_share[:owned_cams_sharee],
-          kind: camera_share[:kind]
+          sharer_api_id: camera_share[:sharer_api_id],
+          sharer_api_key: camera_share[:sharer_api_key],
+          kind: camera_share[:kind],
+          share_id: camera_share[:id]
         }
         acc ++ [c]
       end)
@@ -134,6 +137,15 @@ defmodule EvercamAdminWeb.CameraSharesController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/camera_shares?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def delete(conn, %{"share_id" => share_id} = _params) do
+    CameraShare
+    |> where(id: ^share_id)
+    |> Evercam.Repo.one
+    |> Evercam.Repo.delete
+
+    json(conn, %{success: true})
   end
 
   defp sorting("exid", order), do: "order by exid #{order}"

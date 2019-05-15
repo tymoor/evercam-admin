@@ -135,6 +135,8 @@
 </style>
 <script>
   import Modal from './modify_users';
+  import _ from "lodash";
+
   export default {
     components: {
       Modal
@@ -192,8 +194,13 @@
         this.allParams.include_erc = this.include_erc
         this.allParams.cameras_owned = this.cameras_owned
         this.allParams.camera_shares = this.camera_shares
-        this.$events.fire('user-filter-set', this.allParams)
+        let that = this;
+        this.fireFilter(that);
       },
+
+      fireFilter: _.debounce((self) => {
+        self.$events.fire('user-filter-set', self.allParams)
+      }, 100),
 
       resetUserFilter () {
         this.company_name = ""

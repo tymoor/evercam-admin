@@ -94,3 +94,10 @@ config :evercam_admin, EvercamAdminWeb.Endpoint,
 
 config :evercam_admin,
   evercam_server: System.get_env("EVERCAM_SERVER")
+
+config :evercam_admin,
+  seaweedfs_new: System.get_env("SEAWEEDFS_NEW"),
+  seaweedfs_old: System.get_env("SEAWEEDFS_OLD"),
+  seaweedfs_oldest: System.get_env("SEAWEEDFS_OLDEST"),
+  proxy_host: System.get_env("PROXY_HOST"),
+  proxy_pass: System.get_env("PROXY_PASS")

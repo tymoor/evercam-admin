@@ -24,4 +24,12 @@ config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
+
+config :evercam_admin,
+  seaweedfs_new: "http://localhost:8888",
+  seaweedfs_old: "http://localhost:8888",
+  seaweedfs_oldest: "http://localhost:8888",
+  proxy_host: "",
+  proxy_pass: ""
+
 import_config "#{Mix.env()}.exs"

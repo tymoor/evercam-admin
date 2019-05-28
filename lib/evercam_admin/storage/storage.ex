@@ -27,7 +27,7 @@ defmodule EvercamAdmin.Storage do
   defp whats_next(:start, _args) do
     construction_cameras =
       Camera
-      |> where([cam], cam.owner_id == 11172)
+      |> where([cam], cam.owner_id == 13959)
       |> preload(:owner)
       |> Evercam.Repo.all
 
@@ -117,11 +117,8 @@ defmodule EvercamAdmin.Storage do
 
   def seaweedfs_save(_data, _tries = 4), do: :noop
   def seaweedfs_save(data, tries) do
-    IO.inspect data
-    IO.inspect "http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json"
     hackney = [pool: :seaweedfs_upload_pool]
-    IO.inspect HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney)
-    case HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney) do
+    case HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney, proxy: {@proxy_host, 80}, proxy_auth: {"fixie", @proxy_pass}) do
       {:ok, response} -> response
       {:error, error} ->
         seaweedfs_save(data, tries + 1)

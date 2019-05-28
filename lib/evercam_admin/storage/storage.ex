@@ -16,8 +16,6 @@ defmodule EvercamAdmin.Storage do
   end
 
   def init(args) do
-    Logger.info args
-    Logger.info "Starting to create storage.json."
     spawn(fn ->
       check_for_online_json_file()
       |> whats_next(args)
@@ -28,9 +26,10 @@ defmodule EvercamAdmin.Storage do
   defp whats_next(:ok, "refresh"), do: whats_next(:start, "refresh")
   defp whats_next(:ok, _), do: :noop
   defp whats_next(:start, _args) do
+    Logger.info "Starting to create storage.json."
     construction_cameras =
       Camera
-      |> where([cam], cam.owner_id  in [13959, 109148])
+      |> where([cam], cam.owner_id == 13959)
       |> preload(:owner)
       |> Evercam.Repo.all
 

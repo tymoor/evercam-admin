@@ -41,12 +41,9 @@ defmodule EvercamAdmin.Storage do
             type = seaweefs_type(server)
             attribute = seaweedfs_attribute(server)
             url = "http://" <> server <> ":8888" <> "/#{camera.exid}/snapshots/recordings/"
-            IO.inspect url
             year_values =
               Enum.map(years, fn year ->
                 final_url = url <> year <> "/"
-                IO.inspect final_url
-                IO.inspect request_from_seaweedfs(final_url, type, attribute)
                 %{
                   "#{year}" => request_from_seaweedfs(final_url, type, attribute)
                 }
@@ -64,7 +61,6 @@ defmodule EvercamAdmin.Storage do
           servers: servers
         }
       end)
-    IO.inspect big_data
     File.write("storage.json", Poison.encode!(big_data), [:binary])
     seaweedfs_save(big_data, 1)
   end
@@ -122,6 +118,7 @@ defmodule EvercamAdmin.Storage do
   def seaweedfs_save(_data, _tries = 4), do: :noop
   def seaweedfs_save(data, tries) do
     hackney = [pool: :seaweedfs_upload_pool]
+    IO.inspect HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney)
     case HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney) do
       {:ok, response} -> response
       {:error, error} ->

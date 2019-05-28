@@ -34,4 +34,11 @@ defmodule EvercamAdminWeb.StorageController do
 
     json(conn, %{data: data})
   end
+
+  def refresh(conn, _params) do
+    spawn(fn ->
+      EvercamAdmin.Storage.start_link("refresh")
+    end)
+    json(conn, %{success: true})
+  end
 end

@@ -87,6 +87,7 @@ defmodule EvercamAdmin.Storage do
   end
 
   def check_for_online_json_file do
+    Logger.info "Checking for online file."
     with {:ok, %HTTPoison.Response{status_code: 200}} <- HTTPoison.get(
                               "http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json",
                               ["Accept": "application/json"],

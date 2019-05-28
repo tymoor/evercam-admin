@@ -46,6 +46,7 @@ defmodule EvercamAdmin.Storage do
               Enum.map(years, fn year ->
                 final_url = url <> year <> "/"
                 IO.inspect final_url
+                IO.inspect request_from_seaweedfs(final_url, type, attribute)
                 %{
                   "#{year}" => request_from_seaweedfs(final_url, type, attribute)
                 }
@@ -63,6 +64,7 @@ defmodule EvercamAdmin.Storage do
           servers: servers
         }
       end)
+    IO.inspect big_data
     File.write("storage.json", Poison.encode!(big_data), [:binary])
     seaweedfs_save(big_data, 1)
   end

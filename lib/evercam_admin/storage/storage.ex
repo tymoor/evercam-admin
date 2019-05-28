@@ -117,6 +117,8 @@ defmodule EvercamAdmin.Storage do
 
   def seaweedfs_save(_data, _tries = 4), do: :noop
   def seaweedfs_save(data, tries) do
+    IO.inspect data
+    IO.inspect "http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json"
     hackney = [pool: :seaweedfs_upload_pool]
     IO.inspect HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney)
     case HTTPoison.post("http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json", {:multipart, [{"/evercam-admin3/storage.json", Jason.encode!(data), []}]}, [], hackney: hackney) do

@@ -16,6 +16,7 @@ defmodule EvercamAdmin.Storage do
   end
 
   def init(args) do
+    Logger.info "Starting to create storage.json."
     check_for_online_json_file()
     |> whats_next(args)
     {:ok, 1}

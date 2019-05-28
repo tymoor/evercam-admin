@@ -11,23 +11,26 @@ defmodule EvercamAdmin.Storage do
   @proxy_host Application.get_env(:evercam_admin, :proxy_host)
   @proxy_pass Application.get_env(:evercam_admin, :proxy_pass)
 
-  def start_link(args) do
-    GenServer.start_link(__MODULE__, [args])
+  def start_link(args \\ []) do
+    GenServer.start_link(__MODULE__, args)
   end
 
   def init(args) do
+    Logger.info args
     Logger.info "Starting to create storage.json."
-    check_for_online_json_file()
-    |> whats_next(args)
+    spawn(fn ->
+      check_for_online_json_file()
+      |> whats_next(args)
+    end)
     {:ok, 1}
   end
 
-  defp whats_next(:ok, ["refresh"]), do: whats_next(:start, ["refresh"])
+  defp whats_next(:ok, "refresh"), do: whats_next(:start, "refresh")
   defp whats_next(:ok, _), do: :noop
   defp whats_next(:start, _args) do
     construction_cameras =
       Camera
-      |> where([cam], cam.owner_id == 13959)
+      |> where([cam], cam.owner_id  in [13959, 109148])
       |> preload(:owner)
       |> Evercam.Repo.all
 
@@ -97,7 +100,6 @@ defmodule EvercamAdmin.Storage do
       _ ->
         :start
     end
-
   end
 
   def request_from_seaweedfs(url, type, attribute) do

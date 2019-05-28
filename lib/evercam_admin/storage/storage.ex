@@ -27,7 +27,7 @@ defmodule EvercamAdmin.Storage do
   defp whats_next(:start, _args) do
     construction_cameras =
       Camera
-      |> where([cam], cam.owner_id == 13959)
+      |> where([cam], cam.owner_id == 11172)
       |> preload(:owner)
       |> Evercam.Repo.all
 
@@ -41,9 +41,11 @@ defmodule EvercamAdmin.Storage do
             type = seaweefs_type(server)
             attribute = seaweedfs_attribute(server)
             url = "http://" <> server <> ":8888" <> "/#{camera.exid}/snapshots/recordings/"
+            IO.inspect url
             year_values =
               Enum.map(years, fn year ->
                 final_url = url <> year <> "/"
+                IO.inspect final_url
                 %{
                   "#{year}" => request_from_seaweedfs(final_url, type, attribute)
                 }

@@ -31,6 +31,7 @@ defmodule EvercamAdmin.Storage do
       Camera
       |> where([cam], cam.owner_id == 13959)
       |> preload(:owner)
+      |> order_by(desc: :created_at)
       |> Evercam.Repo.all
 
     years = ["2015", "2016", "2017", "2018", "2019"]

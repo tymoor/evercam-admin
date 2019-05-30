@@ -4,12 +4,12 @@ defmodule EvercamAdmin.Storage do
   require Logger
   import Ecto.Query
 
-  @seaweedfs_new  "159.69.136.31"#Application.get_env(:evercam_admin, :seaweedfs_new)
-  @seaweedfs_old "94.130.139.38"#Application.get_env(:evercam_admin, :seaweedfs_old)
-  @seaweedfs_oldest "94.130.217.56"#Application.get_env(:evercam_admin, :seaweedfs_oldest)
+  @seaweedfs_new  Application.get_env(:evercam_admin, :seaweedfs_new)
+  @seaweedfs_old Application.get_env(:evercam_admin, :seaweedfs_old)
+  @seaweedfs_oldest Application.get_env(:evercam_admin, :seaweedfs_oldest)
 
-  @proxy_host "velodrome.usefixie.com"#Application.get_env(:evercam_admin, :proxy_host)
-  @proxy_pass "P2qrQEYZDtWwJzX"#Application.get_env(:evercam_admin, :proxy_pass)
+  @proxy_host Application.get_env(:evercam_admin, :proxy_host)
+  @proxy_pass Application.get_env(:evercam_admin, :proxy_pass)
 
   def start_link(args \\ []) do
     GenServer.start_link(__MODULE__, args)

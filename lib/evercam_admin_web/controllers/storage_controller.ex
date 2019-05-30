@@ -1,10 +1,10 @@
 defmodule EvercamAdminWeb.StorageController do
   use EvercamAdminWeb, :controller
 
-  @seaweedfs_new  "159.69.136.31"#Application.get_env(:evercam_admin, :seaweedfs_new)
+  @seaweedfs_new Application.get_env(:evercam_admin, :seaweedfs_new)
 
-  @proxy_host "velodrome.usefixie.com"#Application.get_env(:evercam_admin, :proxy_host)
-  @proxy_pass "P2qrQEYZDtWwJzX"#Application.get_env(:evercam_admin, :proxy_pass)
+  @proxy_host Application.get_env(:evercam_admin, :proxy_host)
+  @proxy_pass Application.get_env(:evercam_admin, :proxy_pass)
 
   def index(conn, _params) do
 

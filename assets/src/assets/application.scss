@@ -925,11 +925,11 @@ input {
 .vuetable-body-wrapper .storage-report .vuetable-th-jan,
 .vuetable-body-wrapper .storage-report .vuetable-td-jan {
   text-align: center;
-  width: 30px;
+  width: 45px;
 }
 
 .vuetable-body-wrapper .storage-report .snapshot_date {
-  width: 210px;
+  width: 235px;
 }
 
 .pointer-set {
@@ -959,4 +959,21 @@ input {
 
 .vuetable-body-wrapper .ic-users-report .vuetable-th-slot-link-to-company {
   width: 25px;
+}
+
+.input-color {
+  position: relative;
+}
+.input-color input {
+  padding-left: 20px;
+}
+
+.input-color .color-box {
+  width: 25px;
+  height: 16px;
+  display: inline-block;
+  background-color: #ccc;
+  position: absolute;
+  left: 5px;
+  top: 2px;
 }

@@ -17,6 +17,9 @@
                 <option value="2019">2019</option>
               </select>
             </div>
+            <div>
+              <button class="btn btn-light" @click="refreshJsonData($event)"><i class="fa fa-refresh" aria-hidden="true"></i></span> Refresh Data</button>
+            </div>
           </div>
         </form>
       </div>
@@ -116,6 +119,7 @@ export default {
       fields: FieldsDef,
       data: [],
       filtered: [],
+      orgData: [],
       ajaxWait: true,
       year: "2016"
     }
@@ -149,162 +153,59 @@ export default {
     });
     this.ajaxWait = true,
     axios.get("/v1/storage").then(response => {
-      this.data = response.data.data;
+      this.orgData = response.data.data;
+      this.data = this.formatDataWithYear(response.data.data);
       this.ajaxWait = false;
-      this.filtered = response.data.data;
+      this.filtered = this.formatDataWithYear(response.data.data);
     });
   },
 
   updated() {
     document.addEventListener("resize", this.setScrollBar());
-    this.appendOtherData(this.data, true);
   },
 
   methods: {
 
-    clearTable(data) {
-
-      NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
-      HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
-
-      let allTableRows = document.getElementsByTagName("table")[0].rows;
-
-      if (allTableRows.length > 3) {
-        data.forEach((camera, i) => {
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-may').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').css('background-color', 'white');
-          Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').css('background-color', 'white');
+    refreshJsonData(event) {
+      event.preventDefault();
+      axios.get("/v1/storage_refresh").then(response => {
+        this.showSuccessMsg({
+          title: "Success",
+          message: "This may take a while, Please sit back and relax!"
         });
-      }
-
+      });
     },
 
-    appendOtherData(data, oldestLatest) {
-
-      NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
-      HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
-
-      let allTableRows = document.getElementsByTagName("table")[0].rows;
-
-      let storage = []
-      if (allTableRows.length > 3) {
-        data.forEach((camera, i) => {
-          let cameraAPID = camera.api_id
-          let cameraAPIKey = camera.api_key
-          let cameraExid = camera.exid
-
-          if (oldestLatest) {
-            let latest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/latest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
-            let oldest = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/oldest?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
-
-            axios.get(latest).then(response => {
-              let data = response.data;
-              Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(`${data.created_at}`);
-            }).catch(error => {
-              Jquery(allTableRows[i + 1]).find('.vuetable-td-latest-image-date').text(``);
-            });
-
-            axios.get(oldest).then(response => {
-              let data = response.data;
-              Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(`${data.created_at}`);
-            }).catch(error => {
-              Jquery(allTableRows[i + 1]).find('.vuetable-td-oldest-image-date').text(``);
-            });
-          } else {
-            console.log("No new OldestLatest.")
-          }
-
-          let months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-          let january = ""
-          let feburary = ""
-          let march = ""
-          let april = ""
-          let may = ""
-          let june = ""
-          let july = ""
-          let august = ""
-          let september = ""
-          let october = ""
-          let november = ""
-          let december = ""
-
-          months.forEach((month) => {
-            let httpURL = `https://media.evercam.io/v2/cameras/${cameraExid}/recordings/snapshots/${this.year}/${month}/days?api_id=${cameraAPID}&api_key=${cameraAPIKey}`
-
-            axios.get(httpURL).then(response => {
-              let monthData = response.data.days
-
-              if (monthData.length > 0) {
-                if (month == "01") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jan').css('background-color', 'black');
-                }
-
-                if (month == "02") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-feb').css('background-color', 'black');
-                }
-                
-                if (month == "03") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-mar').css('background-color', 'black');
-                }
-                
-                if (month == "04") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-apr').css('background-color', 'black');
-                }
-                
-                if (month == "05") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-may').css('background-color', 'black');
-                }
-                
-                if (month == "06") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jun').css('background-color', 'black');
-                }
-                
-                if (month == "07") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-jul').css('background-color', 'black');
-                }
-                
-                if (month == "08") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-aug').css('background-color', 'black');
-                }
-
-                if (month == "09") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-sep').css('background-color', 'black');
-                }
-
-                if (month == "10") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-oct').css('background-color', 'black');
-                }
-
-                if (month == "11") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-nov').css('background-color', 'black');
-                }
-
-                if (month == "12") {
-                  Jquery(allTableRows[i + 1]).find('.vuetable-td-dec').css('background-color', 'black');
-                }
-              } else {
-                console.log("do nothing");
-              }
-
-            }).catch(error => {});
-          });
-        });
+    formatDataWithYear(cameras) {
+      let months_chars = {
+        "01":"jan", 
+        "02":"feb", 
+        "03":"mar",
+        "04":"apr",
+        "05":"may",
+        "06":"jun",
+        "07":"jul",
+        "08":"aug",
+        "09":"sep",
+        "10":"oct",
+        "11":"nov",
+        "12":"dec"
       }
+      let year = this.year;
+      var obj = cameras.map(({years, ...obj}) => {
+        var months = years[year]
+        for(var i in months_chars) {
+          months.includes(i) ? obj[months_chars[i]] = 1 : obj[months_chars[i]] = 0
+        }
+        return obj
+      });
+      return obj;
     },
 
     storageYearChange () {
       this.ajaxWait = true;
-      this.clearTable(this.data)
-      this.appendOtherData(this.data, false)
+      this.data = this.formatDataWithYear(this.orgData);
+      this.filtered = this.formatDataWithYear(this.orgData);
       this.ajaxWait = false;
     },
 

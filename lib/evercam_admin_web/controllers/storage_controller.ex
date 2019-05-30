@@ -1,38 +1,45 @@
 defmodule EvercamAdminWeb.StorageController do
   use EvercamAdminWeb, :controller
 
-  def index(conn, _param) do
-    query = "select c.*, u.api_id, u.api_key
-            from cameras as c
-            inner JOIN users u on c.owner_id = u.id
-            where owner_id in (13959, 109148) order by c.name asc"
+  @seaweedfs_new  "159.69.136.31"#Application.get_env(:evercam_admin, :seaweedfs_new)
 
-    cameras = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
-    cols = Enum.map cameras.columns, &(String.to_atom(&1))
-    roles = Enum.map cameras.rows, fn(row) ->
-      Enum.zip(cols, row)
+  @proxy_host "velodrome.usefixie.com"#Application.get_env(:evercam_admin, :proxy_host)
+  @proxy_pass "P2qrQEYZDtWwJzX"#Application.get_env(:evercam_admin, :proxy_pass)
+
+  def index(conn, _params) do
+
+    with {:ok, %HTTPoison.Response{status_code: 200, body: body}} <- HTTPoison.get(
+                              "http://#{@seaweedfs_new}:8888/evercam-admin3/storage.json",
+                              ["Accept": "application/json"],
+                              hackney: [pool: :seaweedfs_download_pool],
+                              proxy: {@proxy_host, 80},
+                              proxy_auth: {"fixie", @proxy_pass}
+                            )
+    do
+      total_data = Jason.decode!(body)
+      length = Enum.count(total_data)
+
+      data =
+        case length <= 0 do
+          true -> []
+          _ ->
+            Enum.reduce(0..length - 1, [], fn i, acc ->
+              cam_info = Enum.at(total_data, i)
+              u = %{
+                exid: cam_info["camera_exid"],
+                camera_name: cam_info["camera_name"],
+                oldest_snapshot_date: cam_info["oldest_snapshot_date"],
+                latest_snapshot_date: cam_info["latest_snapshot_date"],
+                years: cam_info["years"]
+              }
+              acc ++ [u]
+            end)
+        end
+      json(conn, %{data: data})
+    else
+      _ ->
+        json(conn, %{data: []})
     end
-
-    length = cameras.num_rows
-
-    data =
-      case length <= 0 do
-        true -> []
-        _ ->
-          Enum.reduce(0..length - 1, [], fn i, acc ->
-            camera = Enum.at(roles, i)
-            c = %{
-              exid: camera[:exid],
-              name: camera[:name],
-              camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:name]} <i class='fa fa-external-link'></i></a>",
-              api_key: camera[:api_key],
-              api_id: camera[:api_id]
-            }
-            acc ++ [c]
-          end)
-      end
-
-    json(conn, %{data: data})
   end
 
   def refresh(conn, _params) do

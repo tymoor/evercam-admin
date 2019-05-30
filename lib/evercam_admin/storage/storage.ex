@@ -4,12 +4,12 @@ defmodule EvercamAdmin.Storage do
   require Logger
   import Ecto.Query
 
-  @seaweedfs_new Application.get_env(:evercam_admin, :seaweedfs_new)
-  @seaweedfs_old Application.get_env(:evercam_admin, :seaweedfs_old)
-  @seaweedfs_oldest Application.get_env(:evercam_admin, :seaweedfs_oldest)
+  @seaweedfs_new  "159.69.136.31"#Application.get_env(:evercam_admin, :seaweedfs_new)
+  @seaweedfs_old "94.130.139.38"#Application.get_env(:evercam_admin, :seaweedfs_old)
+  @seaweedfs_oldest "94.130.217.56"#Application.get_env(:evercam_admin, :seaweedfs_oldest)
 
-  @proxy_host Application.get_env(:evercam_admin, :proxy_host)
-  @proxy_pass Application.get_env(:evercam_admin, :proxy_pass)
+  @proxy_host "velodrome.usefixie.com"#Application.get_env(:evercam_admin, :proxy_host)
+  @proxy_pass "P2qrQEYZDtWwJzX"#Application.get_env(:evercam_admin, :proxy_pass)
 
   def start_link(args \\ []) do
     GenServer.start_link(__MODULE__, args)
@@ -39,29 +39,26 @@ defmodule EvercamAdmin.Storage do
 
     big_data =
       Enum.map(construction_cameras, fn camera ->
-        servers =
+        years_data =
           Enum.map(servers, fn server ->
             type = seaweefs_type(server)
             attribute = seaweedfs_attribute(server)
             url = "http://" <> server <> ":8888" <> "/#{camera.exid}/snapshots/recordings/"
-            year_values =
-              Enum.map(years, fn year ->
-                final_url = url <> year <> "/"
-                %{
-                  "#{year}" => request_from_seaweedfs(final_url, type, attribute)
-                }
-              end)
-
-            %{
-              "#{server}" => year_values
-            }
-          end)
+            Enum.map(years, fn year ->
+              final_url = url <> year <> "/"
+              %{
+                "#{year}" => request_from_seaweedfs(final_url, type, attribute)
+              }
+            end)
+          end) |> Enum.flat_map(& &1) |> Enum.reduce(&Map.merge(&1, &2, fn _, v1, v2 ->
+            v1 ++ v2
+          end))
         %{
           camera_name: camera.name,
           camera_exid: camera.exid,
           oldest_snapshot_date: _snapshot_date(:oldest, camera),
           latest_snapshot_date: _snapshot_date(:latest, camera),
-          servers: servers
+          years: years_data
         }
       end)
     File.write("storage.json", Poison.encode!(big_data), [:binary])

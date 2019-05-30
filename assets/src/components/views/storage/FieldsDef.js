@@ -1,82 +1,157 @@
+import moment from "moment";
+
 export default [
   {
     name: 'exid',
     title: 'ID',
+    sortField: 'exid',
     togglable: true
   },
   {
-    name: 'camera_link',
+    name: 'camera_name',
     title: 'Camera',
+    sortField: 'camera_name',
     togglable: true
   },
   {
-    name: 'latest-image-date',
-    title: "Latest Snapshot",
-    titleClass: "snapshot_date"
+    name: 'oldest_snapshot_date',
+    title: "Oldest Snapshot",
+    titleClass: "snapshot_date",
+    formatter: (value) => {
+      return dateFormat(value)
+    }
   },
   {
-    name: 'oldest-image-date',
-    title: "Oldest Snapshot",
-    titleClass: "snapshot_date"
+    name: 'latest_snapshot_date',
+    title: "Latest Snapshot",
+    titleClass: "snapshot_date",
+    formatter: (value) => {
+      return dateFormat(value)
+    }
   },
   {
     name: 'jan',
     title: 'J',
-    togglable: true
+    sortField: "jan",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'feb',
     title: 'F',
-    togglable: true
+    sortField: "feb",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'mar',
     title: 'M',
-    togglable: true
+    sortField: "mar",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'apr',
     title: 'A',
-    togglable: true
+    sortField: "apr",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'may',
     title: 'M',
-    togglable: true
+    sortField: "may",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'jun',
     title: 'J',
-    togglable: true
+    sortField: "jun",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'jul',
     title: 'J',
-    togglable: true
+    sortField: "jul",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'aug',
     title: 'A',
-    togglable: true
+    sortField: "aug",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'sep',
     title: 'S',
-    togglable: true
+    sortField: "sep",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'oct',
     title: 'O',
-    togglable: true
+    sortField: "oct",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'nov',
     title: 'N',
-    togglable: true
+    sortField: "nov",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
   {
     name: 'dec',
     title: 'D',
-    togglable: true
+    sortField: "dec",
+    togglable: true,
+    formatter: (value) => {
+      return boxStoragePresence(value)
+    }
   },
 ]
+
+var boxStoragePresence;
+
+boxStoragePresence = function(value) {
+  if (value === 1) {
+    return `<div class="input-color">
+               <div class="color-box" style="background-color: #000000;"></div>
+            </div>
+            `;
+  } else {
+    return "";
+  }
+};
+
+var dateFormat = (value) => {
+  return moment(value).format("dddd, DD MMM YYYY h:mm A");
+}

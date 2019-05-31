@@ -52,7 +52,7 @@ defmodule EvercamAdmin.Storage do
             end)
           end) |> Enum.flat_map(& &1) |> Enum.reduce(&Map.merge(&1, &2, fn _, v1, v2 ->
             v1 ++ v2
-          end))
+          end)) |> Enum.map(fn {k, v} -> {k, Enum.uniq(v)} end) |> Map.new
         %{
           camera_name: camera.name,
           camera_exid: camera.exid,

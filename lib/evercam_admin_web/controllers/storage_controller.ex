@@ -30,7 +30,8 @@ defmodule EvercamAdminWeb.StorageController do
                 camera_name: cam_info["camera_name"],
                 oldest_snapshot_date: cam_info["oldest_snapshot_date"],
                 latest_snapshot_date: cam_info["latest_snapshot_date"],
-                years: cam_info["years"]
+                years: cam_info["years"],
+                total_months: total_months(cam_info["years"])
               }
               acc ++ [u]
             end)
@@ -47,5 +48,12 @@ defmodule EvercamAdminWeb.StorageController do
       EvercamAdmin.Storage.start_link("refresh")
     end)
     json(conn, %{success: true})
+  end
+
+  defp total_months(years) do
+    Enum.reduce(years, 0, fn year, total_months = _acc ->
+      {_year, months} = year
+      Enum.count(months) + total_months
+    end)
   end
 end

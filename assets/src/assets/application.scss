@@ -197,7 +197,8 @@ input {
 .vuetable-body-wrapper .licences-report .vuetable-td-auto_renew,
 .vuetable-body-wrapper .licences-report .vuetable-td-payment_method,
 .vuetable-body-wrapper .licences-report .vuetable-td-expiry,
-.vuetable-body-wrapper .compares-report .vuetable-td-download {
+.vuetable-body-wrapper .compares-report .vuetable-td-download,
+.vuetable-body-wrapper .storage-report .vuetable-td-total_months {
   text-align: center;
 }
 
@@ -976,4 +977,8 @@ input {
   position: absolute;
   left: 5px;
   top: 2px;
+}
+
+.vuetable-body-wrapper .storage-report .vuetable-th-total_months {
+  width: 155px;
 }

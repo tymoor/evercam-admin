@@ -14,6 +14,12 @@ export default [
     togglable: true
   },
   {
+    name: 'total_months',
+    title: '# Recording Months',
+    sortField: 'total_months',
+    togglable: true
+  },
+  {
     name: 'oldest_snapshot_date',
     title: "Oldest Snapshot",
     titleClass: "snapshot_date",

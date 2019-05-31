@@ -926,11 +926,11 @@ input {
 .vuetable-body-wrapper .storage-report .vuetable-th-jan,
 .vuetable-body-wrapper .storage-report .vuetable-td-jan {
   text-align: center;
-  width: 45px;
+  width: 25px;
 }
 
 .vuetable-body-wrapper .storage-report .snapshot_date {
-  width: 235px;
+  width: 155px;
 }
 
 .pointer-set {
@@ -970,15 +970,15 @@ input {
 }
 
 .input-color .color-box {
-  width: 25px;
-  height: 16px;
+  width: 20px;
+  height: 14px;
   display: inline-block;
   background-color: #ccc;
   position: absolute;
-  left: 5px;
-  top: 2px;
+  left: -2px;
+  top: 3px;
 }
 
 .vuetable-body-wrapper .storage-report .vuetable-th-total_months {
-  width: 155px;
+  width: 60px;
 }

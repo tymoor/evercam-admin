@@ -15,7 +15,7 @@ export default [
   },
   {
     name: 'total_months',
-    title: '# Recording Months',
+    title: '# No',
     sortField: 'total_months',
     togglable: true
   },
@@ -38,7 +38,6 @@ export default [
   {
     name: 'jan',
     title: 'J',
-    sortField: "jan",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -47,7 +46,6 @@ export default [
   {
     name: 'feb',
     title: 'F',
-    sortField: "feb",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -56,7 +54,6 @@ export default [
   {
     name: 'mar',
     title: 'M',
-    sortField: "mar",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -65,7 +62,6 @@ export default [
   {
     name: 'apr',
     title: 'A',
-    sortField: "apr",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -74,7 +70,6 @@ export default [
   {
     name: 'may',
     title: 'M',
-    sortField: "may",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -83,7 +78,6 @@ export default [
   {
     name: 'jun',
     title: 'J',
-    sortField: "jun",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -92,7 +86,6 @@ export default [
   {
     name: 'jul',
     title: 'J',
-    sortField: "jul",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -101,7 +94,6 @@ export default [
   {
     name: 'aug',
     title: 'A',
-    sortField: "aug",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -110,7 +102,6 @@ export default [
   {
     name: 'sep',
     title: 'S',
-    sortField: "sep",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -119,7 +110,6 @@ export default [
   {
     name: 'oct',
     title: 'O',
-    sortField: "oct",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -128,7 +118,6 @@ export default [
   {
     name: 'nov',
     title: 'N',
-    sortField: "nov",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)
@@ -137,7 +126,6 @@ export default [
   {
     name: 'dec',
     title: 'D',
-    sortField: "dec",
     togglable: true,
     formatter: (value) => {
       return boxStoragePresence(value)

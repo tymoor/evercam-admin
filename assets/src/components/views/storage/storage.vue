@@ -17,9 +17,6 @@
                 <option value="2019">2019</option>
               </select>
             </div>
-            <div>
-              <button class="btn btn-light" @click="refreshJsonData($event)"><i class="fa fa-refresh" aria-hidden="true"></i></span> Refresh Data</button>
-            </div>
           </div>
         </form>
       </div>
@@ -46,6 +43,9 @@
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
+        <div>
+          <button class="button-margin btn btn-light" @click="refreshJsonData($event)"><i class="fa fa-refresh" aria-hidden="true"></i></span> Refresh Data</button>
+        </div>
         <div class="field perPage-margin">
           <label>Per Page:</label>
           <select class="ui simple dropdown" v-model="perPage">
@@ -97,6 +97,10 @@
 .search-label {
   margin-top: 4px;
   margin-left: 15px;
+}
+
+.button-margin {
+  margin-top: 9px
 }
 
 </style>
@@ -168,12 +172,14 @@ export default {
 
     refreshJsonData(event) {
       event.preventDefault();
-      axios.get("/v1/storage_refresh").then(response => {
-        this.showSuccessMsg({
-          title: "Success",
-          message: "This may take a while, Please sit back and relax!"
+      if (window.confirm("Are you sure you want to do this? \nThis should be clicked once in 3 or 4 months?")) {
+        axios.get("/v1/storage_refresh").then(response => {
+          this.showSuccessMsg({
+            title: "Success",
+            message: "This may take a while, Please sit back and relax!"
+          });
         });
-      });
+      }
     },
 
     formatDataWithYear(cameras) {

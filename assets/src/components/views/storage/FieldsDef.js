@@ -159,5 +159,5 @@ boxStoragePresence = function(value) {
 };
 
 var dateFormat = (value) => {
-  return moment(value).format("dddd, DD MMM YYYY h:mm A");
+  return moment(value).format("DD MMM YYYY h:mm A");
 }

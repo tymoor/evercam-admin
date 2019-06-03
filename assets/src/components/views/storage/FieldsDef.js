@@ -130,7 +130,7 @@ export default [
     formatter: (value) => {
       return boxStoragePresence(value)
     }
-  },
+  }
 ]
 
 var boxStoragePresence;

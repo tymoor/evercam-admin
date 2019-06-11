@@ -18,6 +18,13 @@
                 <option value="all">All</option>
               </select>
             </div>
+            <div class="col-6">
+              <select v-model="owner" @change="selectedCameras" class="form-control">
+                <option value="13959">Construction</option>
+                <option value="109148">Non Construction</option>
+                <option value="">All</option>
+              </select>
+            </div>
           </div>
         </form>
       </div>
@@ -161,11 +168,15 @@ export default {
       fields: FieldsDef,
       all_year: FieldsDefYear,
       data: [],
+      completeData: [],
+      completeDataYear: [],
       filtered: [],
+      allYearFiltered: [],
       orgData: [],
       yearData: [],
       ajaxWait: true,
-      year: "all"
+      year: "all",
+      owner: "13959"
     }
   },
   watch: {
@@ -177,6 +188,11 @@ export default {
     filtered(newVal, oldVal) {
       this.$nextTick(() => {
         this.$refs.vuetables.setData(this.filtered);
+      });
+    },
+    allYearFiltered(newVal, oldVal) {
+      this.$nextTick(() => {
+        this.$refs.vuetable.setData(this.allYearFiltered);
       });
     },
     yearData(newVal, oldVal) {
@@ -204,6 +220,7 @@ export default {
     axios.get("/v1/storage").then(response => {
       this.orgData = response.data.data;
       this.yearData = this.formatDataWithAllYear(response.data.data);
+      this.allYearFiltered = this.formatDataWithAllYear(response.data.data);
       this.ajaxWait = false;
     });
   },
@@ -214,10 +231,42 @@ export default {
 
   methods: {
 
+    selectedCameras() {
+      if (this.year == "all") {}
+      // if (this.year == "all") {
+      //   if (this.owner == "") {
+      //     this.allYearFiltered = this.yearData;
+      //     return;
+      //   }
+      this.allYearFiltered = this.allYearFiltered.filter(d => {
+        for (let name in d) {
+          if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+            return d;
+          }
+        }
+      })
+      //   console.log(this.allYearFiltered)
+      // }
+      // } else {
+      //   if (this.owner == "") {
+      //     this.filtered = this.formatDataWithYear(this.orgData);
+      //     return;
+      //   }
+      //   this.filtered = this.completeDataYear.filter(d => {
+      //     for (let name in d) {
+      //       if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+      //         return d;
+      //       }
+      //     }
+      //   })
+      //   console.log(this.filtered)
+      // }
+    },
+
     refreshJsonData(event) {
       event.preventDefault();
       if (window.confirm("Are you sure you want to do this? \nThis should be clicked once in 3 or 4 months?")) {
-        axios.get("/v1/storage_refresh").then(response => {
+        axios.get(`${this.$root.api_url}/v2/storage/stats`).then(response => {
           this.showSuccessMsg({
             title: "Success",
             message: "This may take a while, Please sit back and relax!"

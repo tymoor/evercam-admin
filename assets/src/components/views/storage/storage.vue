@@ -22,7 +22,7 @@
               <select v-model="owner" @change="selectedCameras" class="form-control">
                 <option value="13959">Construction</option>
                 <option value="109148">Non Construction</option>
-                <option value="">All</option>
+                <option value="-1">All</option>
               </select>
             </div>
           </div>
@@ -195,11 +195,6 @@ export default {
         this.$refs.vuetable.setData(this.allYearFiltered);
       });
     },
-    yearData(newVal, oldVal) {
-      this.$nextTick(() => {
-        this.$refs.vuetable.setData(this.yearData);
-      });
-    },
     paginationComponent(newVal, oldVal) {
       this.$nextTick(() => {
         this.$refs.pagination.setPaginationData(paginationData);
@@ -220,7 +215,15 @@ export default {
     axios.get("/v1/storage").then(response => {
       this.orgData = response.data.data;
       this.yearData = this.formatDataWithAllYear(response.data.data);
-      this.allYearFiltered = this.formatDataWithAllYear(response.data.data);
+
+      let filteredData = this.orgData.filter(d => {
+        for (let name in d) {
+          if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+            return d;
+          }
+        }
+      })
+      this.allYearFiltered = this.formatDataWithAllYear(filteredData);
       this.ajaxWait = false;
     });
   },
@@ -232,35 +235,36 @@ export default {
   methods: {
 
     selectedCameras() {
-      if (this.year == "all") {}
-      // if (this.year == "all") {
-      //   if (this.owner == "") {
-      //     this.allYearFiltered = this.yearData;
-      //     return;
-      //   }
-      this.allYearFiltered = this.allYearFiltered.filter(d => {
-        for (let name in d) {
-          if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
-            return d;
-          }
+      if (this.year == "all") {
+        // handle full table only right now
+        if (this.owner == "-1") {
+          this.allYearFiltered = this.yearData;
+        } else {
+          let filteredData = this.orgData.filter(d => {
+            for (let name in d) {
+              if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+                return d;
+              }
+            }
+          })
+          this.allYearFiltered = this.formatDataWithAllYear(filteredData);
         }
-      })
-      //   console.log(this.allYearFiltered)
-      // }
-      // } else {
-      //   if (this.owner == "") {
-      //     this.filtered = this.formatDataWithYear(this.orgData);
-      //     return;
-      //   }
-      //   this.filtered = this.completeDataYear.filter(d => {
-      //     for (let name in d) {
-      //       if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
-      //         return d;
-      //       }
-      //     }
-      //   })
-      //   console.log(this.filtered)
-      // }
+      }
+
+      if (this.year != "all") {
+        if (this.owner == "-1") {
+          this.filtered = this.formatDataWithYear(this.orgData);
+        } else {
+          let filteredData = this.orgData.filter(d => {
+            for (let name in d) {
+              if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+                return d;
+              }
+            }
+          })
+          this.filtered = this.formatDataWithYear(filteredData);
+        }
+      }
     },
 
     refreshJsonData(event) {
@@ -332,7 +336,32 @@ export default {
     storageYearChange () {
       this.ajaxWait = true;
       if (this.year != 'all') {
-        this.data = this.formatDataWithYear(this.orgData);
+        let filteredData;
+        if (this.owner == "-1") {
+          filteredData = this.orgData;
+        } else {
+          filteredData = this.orgData.filter(d => {
+            for (let name in d) {
+              if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+                return d;
+              }
+            }
+          })
+        }
+        this.data = this.formatDataWithYear(filteredData);
+      } else {
+        if (this.owner == "-1") {
+          this.allYearFiltered = this.yearData;
+        } else {
+          let filteredData = this.orgData.filter(d => {
+            for (let name in d) {
+              if ((d[name] + '').toLowerCase().indexOf(this.owner.toLowerCase()) > -1){
+                return d;
+              }
+            }
+          })
+          this.allYearFiltered = this.formatDataWithAllYear(filteredData);
+        }
       }
       this.ajaxWait = false;
     },

@@ -1,10 +1,10 @@
 defmodule EvercamAdminWeb.StorageController do
   use EvercamAdminWeb, :controller
 
-  @seaweedfs_new Application.get_env(:evercam_admin, :seaweedfs_new)
+  @seaweedfs_new  "159.69.136.31"#Application.get_env(:evercam_admin, :seaweedfs_new)
 
-  @proxy_host Application.get_env(:evercam_admin, :proxy_host)
-  @proxy_pass Application.get_env(:evercam_admin, :proxy_pass)
+  @proxy_host "velodrome.usefixie.com"#Application.get_env(:evercam_admin, :proxy_host)
+  @proxy_pass "P2qrQEYZDtWwJzX"#Application.get_env(:evercam_admin, :proxy_pass)
 
   def index(conn, _params) do
 
@@ -27,6 +27,7 @@ defmodule EvercamAdminWeb.StorageController do
               cam_info = Enum.at(total_data, i)
               u = %{
                 exid: cam_info["camera_exid"],
+                owner_id: "#{cam_info["owner_id"]}",
                 camera_name: cam_info["camera_name"],
                 oldest_snapshot_date: cam_info["oldest_snapshot_date"],
                 latest_snapshot_date: cam_info["latest_snapshot_date"],
@@ -41,13 +42,6 @@ defmodule EvercamAdminWeb.StorageController do
       _ ->
         json(conn, %{data: []})
     end
-  end
-
-  def refresh(conn, _params) do
-    spawn(fn ->
-      EvercamAdmin.Storage.start_link("refresh")
-    end)
-    json(conn, %{success: true})
   end
 
   defp total_months(years) do

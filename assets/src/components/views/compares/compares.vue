@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-compares-filters />
+      <compares-filters />
     </div>
     <div>
-      <v-compares-show-hide :vuetable-fields="vuetableFields" />
+      <compares-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -74,8 +74,14 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import ComparesFilters from "./compares_filters";
+import ComparesShowHide from "./compares_show_hide"
+
 
 export default {
+  components: {
+    ComparesFilters, ComparesShowHide
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",

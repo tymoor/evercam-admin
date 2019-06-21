@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-admin-filters />
+      <admin-filters />
     </div>
     <div>
-      <v-admin-show-hide :vuetable-fields="vuetableFields" />
+      <admin-show-hide :vuetable-fields="vuetableFields" />
       <add-admin />
     </div>
 
@@ -78,10 +78,12 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import AddAdmin from "./add_admin";
+import AdminFilters from "./admin_filters";
+import AdminShowHide from "./admin_show_hide";
 
 export default {
   components: {
-    AddAdmin
+    AddAdmin, AdminFilters, AdminShowHide
   },
   data: () => {
     return {

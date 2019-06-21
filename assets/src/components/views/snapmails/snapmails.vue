@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-snapmail-filters />
+      <snapmail-filters />
     </div>
     <div>
-      <v-snapmail-show-hide :vuetable-fields="vuetableFields" />
+      <snapmail-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <v-horizontal-scroll />
@@ -67,8 +67,13 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import SnapmailFilters from "./snapmail_filters"
+import SnapmailShowHide from "./snapmail_show_hide"
 
 export default {
+  components: {
+    SnapmailFilters, SnapmailShowHide
+  },
   data: () => {
     return {
       selectedCameras: [],

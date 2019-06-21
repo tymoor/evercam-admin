@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-csr-filters :selectedCSR="selectedCSR"/>
+      <CSR-filters :selectedCSR="selectedCSR"/>
     </div>
     <div>
-      <v-csr-show-hide :vuetable-fields="vuetableFields" />
+      <CSR-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <v-horizontal-scroll />
@@ -67,8 +67,13 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import CSRFilters from "./csr_filters";
+import CSRShowHide from "./csr_show_hide";
 
 export default {
+  components: {
+    CSRFilters, CSRShowHide
+  },
   data: () => {
     return {
       selectedCSR: [],

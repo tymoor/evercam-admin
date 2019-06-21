@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-snapmail-history-filters />
+      <snapmail-history-filters />
     </div>
     <div>
-      <v-snapmail-history-show-hide :vuetable-fields="vuetableFields" />
+      <snapmail-history-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -76,12 +76,18 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import SnapmailHistoryFilters from "./snapmail_history_filters"
+import SnapmailHistoryShowHide from "./snapmail_history_show_hide"
+
 
 import moment from "moment";
 import axios from "axios";
 import _ from "lodash";
 
 export default {
+  components: {
+    SnapmailHistoryFilters, SnapmailHistoryShowHide
+  },
   data: () => {
     return {
       loading: "",

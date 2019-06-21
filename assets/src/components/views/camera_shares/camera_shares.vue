@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-camera-share-filters />
+      <camera-share-filters />
     </div>
     <div>
-      <v-camera-show-hide :vuetable-fields="vuetableFields" />
+      <camera-share-show-hide :vuetable-fields="vuetableFields" />
     </div>
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
@@ -66,8 +66,13 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import CameraShareFilters from "./camera_share_filters";
+import CameraShareShowHide from "./camera_shares_show_hide"
 
 export default {
+  components: {
+    CameraShareFilters, CameraShareShowHide
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",

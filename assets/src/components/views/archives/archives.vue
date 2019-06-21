@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-archives-filters />
+      <archives-filters />
     </div>
     <div>
-      <v-archives-show-hide :vuetable-fields="vuetableFields" />
+      <archives-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -63,8 +63,13 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
+import ArchivesFilters from "./archives_filters";
+import ArchivesShowHide from "./archives_show_hide";
 
 export default {
+  components: {
+    ArchivesFilters, ArchivesShowHide
+  },
   data: () => {
     return {
       paginationComponent: "vuetable-pagination",

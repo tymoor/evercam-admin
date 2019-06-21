@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-camera-filters :selectedCameras="selectedCameras" />
+      <camera-filters :selectedCameras="selectedCameras" />
     </div>
     <div>
-      <v-add-to-project :selectedCameras="selectedCameras" />
-      <v-camera-show-hide :vuetable-fields="vuetableFields" />
+      <add-to-project :selectedCameras="selectedCameras" />
+      <camera-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <v-horizontal-scroll />
@@ -69,10 +69,12 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import AddToProject from "./add_to_project";
+import CameraFilters from "./camera_filters"
+import CameraShowHide from "./cameras_show_hide"
 
 export default {
   components: {
-    "v-add-to-project": AddToProject
+    AddToProject, CameraFilters, CameraShowHide
   },
   data: () => {
     return {

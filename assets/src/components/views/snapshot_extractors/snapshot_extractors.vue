@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-se-filters />
+      <SE-filters />
     </div>
     <div>
-      <v-se-show-hide :vuetable-fields="vuetableFields" />
+      <SE-show-hide :vuetable-fields="vuetableFields" />
       <add-extractor />
     </div>
 
@@ -67,10 +67,12 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import AddExtractor from "./add_extractor";
+import SEFilters from "./se_filters";
+import SEShowHide from "./se_show_hide"
 
 export default {
   components: {
-    AddExtractor
+    AddExtractor, SEFilters, SEShowHide
   },
   data: () => {
     return {

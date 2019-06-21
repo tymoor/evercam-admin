@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-vendor-model-filters />
+      <vendor-model-filters />
     </div>
     <div>
-      <v-vendor-model-show-hide :vuetable-fields="vuetableFields" />
+      <vendor-model-show-hide :vuetable-fields="vuetableFields" />
       <add-vendor-model :vendorModelData="vendorModelData"/>
     </div>
 
@@ -79,10 +79,12 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import AddVendorModel from "./add_vendor_model";
+import VendorModelFilters from "./vendor_model_filters"
+import VendorModelShowHide from "./vendor_model_show_hide"
 
 export default {
   components: {
-    AddVendorModel
+    AddVendorModel, VendorModelFilters, VendorModelShowHide
   },
   data: () => {
     return {

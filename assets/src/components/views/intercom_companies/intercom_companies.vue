@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-ic-filters />
+      <IC-filters />
     </div>
     <div>
-      <v-ic-show-hide :vuetable-fields="vuetableFields" />
+      <IC-show-hide :vuetable-fields="vuetableFields" />
       <add-ic />
-      <v-update-company :showUpdateCompany="showUpdateCompany" :companyData="companyData" />
+      <update-company :showUpdateCompany="showUpdateCompany" :companyData="companyData" />
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -78,7 +78,7 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
-import AddIC from "./add_ic";
+import AddIc from "./add_ic";
 import ICFilters from "./ic_filters";
 import ICShowHide from "./ic_show_hide";
 import moment from "moment";
@@ -88,10 +88,7 @@ import UpdateCompany from "./update_company";
 
 export default {
   components: {
-    "add-ic": AddIC,
-    "v-ic-filters": ICFilters,
-    "v-ic-show-hide": ICShowHide,
-    "v-update-company": UpdateCompany
+    AddIc, ICFilters, ICShowHide, UpdateCompany
   },
   data: () => {
     return {

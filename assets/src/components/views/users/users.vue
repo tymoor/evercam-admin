@@ -4,7 +4,7 @@
       <user-filters-new :selectedUsers="selectedUsers" />
     </div>
     <div>
-      <v-user-show-hide :vuetable-fields="vuetableFields" />
+      <user-show-hide :vuetable-fields="vuetableFields" />
       <div class="advance-filters">
         <button class="btn btn-secondary mb-1" type="button" @click="toggleAdvanceFilters()">
           <i class="fa fa-filter"></i>
@@ -80,10 +80,11 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import UserFiltersNew from "./user_filters_new";
+import UserShowHide from "./users_show_hide";
 
 export default {
   components: {
-    UserFiltersNew
+    UserFiltersNew, UserShowHide
   },
   data: () => {
     return {

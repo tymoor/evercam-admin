@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-cr-filters />
+      <CR-filters />
     </div>
     <div>
-      <v-cr-show-hide :vuetable-fields="vuetableFields" />
+      <CR-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
-    <cr-edit-modal :showCRModal="showCRModal" :crSettings="crSettings"/>
+    <CR-edit-modal :showCRModal="showCRModal" :crSettings="crSettings"/>
   
     <v-horizontal-scroll />
 
@@ -73,11 +73,13 @@
 <script>
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
-import CRModal from "./cr_edit";
+import CREditModal from "./cr_edit";
+import CRFilters from "./cr_filters";
+import CRShowHide from "./cr_show_hide";
 
 export default {
   components: {
-    "cr-edit-modal": CRModal
+    CREditModal, CRShowHide, CRFilters
   },
   data: () => {
     return {

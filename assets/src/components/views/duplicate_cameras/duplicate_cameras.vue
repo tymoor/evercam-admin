@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="overflow-forms">
-      <v-dc-filters />
+      <DC-filters />
     </div>
     <div>
-      <v-dc-show-hide :vuetable-fields="vuetableFields" />
+      <DC-show-hide :vuetable-fields="vuetableFields" />
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
 
-    <dup-modal :duplicateCameras="dup_cameras" :showModal="merge_modal" />
+    <dup-camera-modal :duplicateCameras="dup_cameras" :showModal="merge_modal" />
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
       <div class="handle">
@@ -79,7 +79,7 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import DCFilters from "./dc_filters";
-import DCShowAndHide from "./dc_show_hide";
+import DCShowHide from "./dc_show_hide";
 import DupCameraModal from "./dup_cameras"
 
 import axios from "axios";
@@ -87,9 +87,7 @@ import _ from "lodash";
 
 export default {
   components: {
-    "v-dc-filters": DCFilters,
-    "v-dc-show-hide": DCShowAndHide,
-    "dup-modal": DupCameraModal
+    DCFilters, DCShowHide, DupCameraModal
   },
   data: () => {
     return {

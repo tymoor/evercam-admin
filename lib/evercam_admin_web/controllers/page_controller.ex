@@ -23,6 +23,7 @@ defmodule EvercamAdminWeb.PageController do
   def create(conn, params) do
     user = User.by_username_or_email(params["user"]["email"])
     with true <- user?(user),
+         true <- is_admin_user(user.is_admin, user.email),
          true <- password(params["user"]["password"], user)
     do
       conn
@@ -33,6 +34,10 @@ defmodule EvercamAdminWeb.PageController do
       {:wrong, username_or_password} ->
         conn
         |> put_flash(:danger, "#{username_or_password} is wrong.")
+        |> redirect(to: "/users/sign_in")
+      {:forbidden, message} ->
+        conn
+        |> put_flash(:danger, message)
         |> redirect(to: "/users/sign_in")
     end
   end
@@ -47,6 +52,9 @@ defmodule EvercamAdminWeb.PageController do
       {:wrong, "Password"}
     end
   end
+
+  defp is_admin_user(true, _), do: true
+  defp is_admin_user(_, email), do: {:forbidden, "#{email} is not an admin."}
 
   defp current_user_for_vue(conn) do
     user = Evercam.Repo.get!(User, get_session(conn, :user_id))

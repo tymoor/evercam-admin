@@ -23,8 +23,8 @@ defmodule EvercamAdminWeb.PageController do
   def create(conn, params) do
     user = User.by_username_or_email(params["user"]["email"])
     with true <- user?(user),
-         true <- is_admin_user(user.is_admin, user.email),
-         true <- password(params["user"]["password"], user)
+         true <- password(params["user"]["password"], user),
+         true <- is_admin_user(user.is_admin, user.email)
     do
       conn
       |> put_session(:user_id, user.id)

@@ -159,14 +159,39 @@ export default {
     },
 
     deleteExtraction(event, data) {
-      if (data.status == 1 || data.status == 0) {
-        console.log(data.status)
-        // its cloud extraction
-        console.log("cloud extraction")
-      } else {
-        console.log(data.status)
-        // its local extraction
-        console.log("local extraction")
+      if (window.confirm("Are you sure you want to delete this event?")) {
+        if (data.status == 1 || data.status == 0) {
+          this.$http.delete("/v1/snapshot_extractors", {params: {extraction_id: data.id}}).then(response => {
+
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Snapshot Extractor has been added (Cloud)!"
+            });
+
+            this.$events.fire('se-added', {})
+          }, error => {
+            this.showErrorMsg({
+              title: "Error",
+              message: "Something went wrong!"
+            });
+          });
+        } else {
+          this.$http.post(`${this.$root.api_url}/v2/cameras/${data.exid}/nvr/snapshots/extract`, {...{extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
+
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Snapshot Extractor has been deleted (Local)!"
+            });
+
+            this.$events.fire('se-added', {})
+            this.clearForm()
+          }, error => {
+            this.showErrorMsg({
+              title: "Error",
+              message: "Something went wrong!"
+            });
+          });
+        }
       }
     }
   }

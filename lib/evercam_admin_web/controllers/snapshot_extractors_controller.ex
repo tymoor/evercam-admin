@@ -1,5 +1,9 @@
 defmodule EvercamAdminWeb.SnapshotExtractorsController do
   use EvercamAdminWeb, :controller
+  import Ecto.Query
+
+  @extractor_ip "#{System.get_env["EXTRACTOR_IP"]}"
+  @extractor_password "#{System.get_env["EXTRATOR_PASSWORD"]}"
 
   def create(conn, params) do
     SnapshotExtractor.changeset(%SnapshotExtractor{}, %{
@@ -21,8 +25,9 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
   def index(conn, params) do
     [column, order] = params["sort"] |> String.split("|")
     search = if params["search"] in ["", nil], do: "", else: params["search"]
-    query = "select se.*, cam.name, cam.exid from snapshot_extractors se
+    query = "select se.*, cam.name, cam.exid, u.api_key, u.api_id from snapshot_extractors se
             left join cameras as cam on se.camera_id = cam.id
+            left join users as u on cam.owner_id = u.id
             where lower(cam.name) like lower('%#{search}%') or lower(se.requestor) like lower('%#{search}%')
             #{sorting(column, order)}"
 
@@ -52,7 +57,10 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
           notes: snapshot_extractor[:notes],
           status: snapshot_extractor[:status],
           interval: snapshot_extractor[:interval],
-          requestor: snapshot_extractor[:requestor]
+          requestor: snapshot_extractor[:requestor],
+          exid: snapshot_extractor[:exid],
+          api_key: snapshot_extractor[:api_key],
+          api_id: snapshot_extractor[:api_id]
         }
         acc ++ [se]
       end)
@@ -69,6 +77,24 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
       prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/snapshot_extractors?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
     }
     json(conn, records)
+  end
+
+  def delete(conn, params) do
+    extraction_id = params["extraction_id"]
+    SnapshotExtractor
+    |> where(id: ^extraction_id)
+    |> Evercam.Repo.one
+    |> Evercam.Repo.delete
+
+    start_stop_extractor()
+
+    json(conn, %{success: true})
+  end
+
+  defp start_stop_extractor do
+    {:ok, conn} = SSHEx.connect ip: "#{@extractor_ip}", user: 'root', password: "#{@extractor_password}"
+    {:ok, _, 0} = SSHEx.run conn, 'stop extractor'
+    {:ok, _, 0} = SSHEx.run conn, 'start extractor'
   end
 
   defp sorting("id", order), do: "order by se.id #{order}"

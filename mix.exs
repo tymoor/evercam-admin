@@ -45,7 +45,8 @@ defmodule EvercamAdmin.MixProject do
       {:calendar, "~> 0.17.4"},
       {:floki, "~> 0.20.4"},
       {:httpoison, "~> 1.5"},
-      {:sweet_xml, "~> 0.6.6"}
+      {:sweet_xml, "~> 0.6.6"},
+      {:sshex, "~> 2.2"}
     ]
   end
 end

@@ -77,7 +77,7 @@ config :evercam_models, Evercam.Repo,
   url: System.get_env("DATABASE_URL"),
   socket_options: [keepalive: true],
   timeout: 60_000,
-  pool_size: 20,
+  pool_size: 10,
   lazy: false,
   ssl: true
 

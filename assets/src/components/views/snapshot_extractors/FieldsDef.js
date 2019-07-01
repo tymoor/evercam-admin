@@ -1,5 +1,11 @@
 export default [
   {
+    name: "delete-extraction",
+    title: "",
+    titleClass: "center aligned delete-extraction",
+    dataClass: "center aligned"
+  },
+  {
     name: 'id',
     title: 'ID',
     sortField: 'id',

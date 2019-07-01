@@ -26,6 +26,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="delete-extraction" slot-scope="props">
+            <span v-if='props.rowData.status != 2 && props.rowData.status != 12' @click="deleteExtraction($event, props.rowData)"> <i class="trash alternate outline icon"></i> </span>
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -153,6 +156,18 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    deleteExtraction(event, data) {
+      if (data.status == 1 || data.status == 0) {
+        console.log(data.status)
+        // its cloud extraction
+        console.log("cloud extraction")
+      } else {
+        console.log(data.status)
+        // its local extraction
+        console.log("local extraction")
+      }
     }
   }
 }

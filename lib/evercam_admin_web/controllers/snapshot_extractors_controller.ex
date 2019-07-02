@@ -81,17 +81,22 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
 
   def delete(conn, params) do
     extraction_id = params["extraction_id"]
-    SnapshotExtractor
-    |> where(id: ^extraction_id)
-    |> Evercam.Repo.one
+    extractor =
+      SnapshotExtractor
+      |> where(id: ^extraction_id)
+      |> Evercam.Repo.one
+
+    extractor
     |> Evercam.Repo.delete
 
-    start_stop_extractor()
+    start_stop_extractor(extractor.status)
 
     json(conn, %{success: true})
   end
 
-  defp start_stop_extractor do
+  defp start_stop_extractor(0), do: :noop
+  defp start_stop_extractor(2), do: :noop
+  defp start_stop_extractor(_) do
     {:ok, conn} = SSHEx.connect ip: "#{@extractor_ip}", user: 'root', password: "#{@extractor_password}"
     {:ok, _, 0} = SSHEx.run conn, 'stop extractor'
     {:ok, _, 0} = SSHEx.run conn, 'start extractor'

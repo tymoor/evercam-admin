@@ -2,8 +2,8 @@ export default [
   {
     name: "delete-extraction",
     title: "",
-    titleClass: "center aligned delete-extraction",
-    dataClass: "center aligned"
+    titleClass: "center aligned",
+    dataClass: "center aligned delete-extraction"
   },
   {
     name: 'id',

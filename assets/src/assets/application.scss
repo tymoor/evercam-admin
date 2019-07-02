@@ -651,7 +651,12 @@ input {
 
 
 .vuetable-body-wrapper .se-report .vuetable-th-slot-delete-extraction {
-  width: 25px
+  width: 25px;
+  cursor: pointer;
+}
+
+.vuetable-body-wrapper .se-report .delete-extraction {
+  cursor: pointer;
 }
 
 .vuetable-body-wrapper .se-report .vuetable-th-camera {

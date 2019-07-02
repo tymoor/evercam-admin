@@ -3,7 +3,7 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
   import Ecto.Query
 
   @extractor_ip "#{System.get_env["EXTRACTOR_IP"]}"
-  @extractor_password "#{System.get_env["EXTRATOR_PASSWORD"]}"
+  @extractor_password "#{System.get_env["EXTRACTOR_PASSWORD"]}"
 
   def create(conn, params) do
     SnapshotExtractor.changeset(%SnapshotExtractor{}, %{

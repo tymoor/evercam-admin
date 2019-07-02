@@ -176,7 +176,7 @@ export default {
             });
           });
         } else {
-          this.$http.post(`${this.$root.api_url}/v2/cameras/${data.exid}/nvr/snapshots/extract`, {...{extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
+          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/nvr/snapshots/extract`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",

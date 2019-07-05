@@ -518,8 +518,8 @@ import momentPlugin from '@fullcalendar/moment';
       },
 
       deleteJpegs(start, end) {
-        let from_date = moment(start).unix();
-        let to_date = moment(end).unix();
+        let from_date = moment(start).unix() - 2;
+        let to_date = moment(end).unix() + 2;
 
         let params = {
           api_id: this.api_id,

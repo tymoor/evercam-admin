@@ -442,6 +442,7 @@ import momentPlugin from '@fullcalendar/moment';
         this.startURL = "",
         this.endURL = "",
         this.imageCount = -1,
+        this.ajaxWait = false,
         this.$events.fire("close-cr-modal", false)
       },
 

@@ -495,8 +495,8 @@ import momentPlugin from '@fullcalendar/moment';
           this.ajaxWait = false
           if (this.imageCount > 0) {
             if (window.confirm(`Are you sure you want to delete ${this.imageCount} images?`)) {
-              this.hideCRDModal();
               this.deleteJpegs(from_date, to_date);
+              this.hideCRDModal();
             }
           }
         });

@@ -539,7 +539,8 @@ import momentPlugin from '@fullcalendar/moment';
           from_date: from_date,
           to_date: to_date,
           admin_email: this.$root.user.email,
-          admin_fullname: `${this.$root.user.firstname} ${this.$root.user.lastname}`
+          admin_fullname: `${this.$root.user.firstname} ${this.$root.user.lastname}`,
+          image_count: this.imageCount
         }
 
         this.$http.delete(`https://media.evercam.io/v2/cameras/${this.exid}/recordings/snapshots`, {params: params}).then(response => {

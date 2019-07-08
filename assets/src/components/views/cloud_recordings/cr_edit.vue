@@ -6,7 +6,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">
-              Cloud Recordings
+              Cloud Recordings - {{ camera_name }}
             </h3>
           </div>
           <div class="modal-body">
@@ -70,6 +70,14 @@
 
               </div>
               <div class="tab-pane" id="delete" role="tabpanel">
+
+                <div class="alert alert-success" role="alert">
+                  <h4 class="alert-heading">NOTE:</h4>
+                  <p>You can delete no more than 60 minutes of footage at a time and both URLs below must be from within the same hour.</p>
+                  <hr>
+                  <p class="mb-0">If you need to delete more, ask marco@evercam.io</p>
+                </div>
+
                 <form>
                   <div class="form-group">
                     <label>Start URL:</label>
@@ -152,6 +160,7 @@ import momentPlugin from '@fullcalendar/moment';
         endURL: "",
         showCalendar: false,
         status: "",
+        camera_name: "",
         storage_duration: 0,
         interval: 0,
         schedule: null,
@@ -198,7 +207,10 @@ import momentPlugin from '@fullcalendar/moment';
         this.schedule = JSON.stringify(this.crSettings.schedule_for_edit),
         this.api_id = this.crSettings.api_id,
         this.api_key = this.crSettings.api_key,
-        this.exid = this.crSettings.exid
+        this.exid = this.crSettings.exid,
+        this.camera_name = this.crSettings.camera_name,
+        this.startURL = `https://dash.evercam.io/v2/cameras/${this.exid}/recordings/snapshots/`,
+        this.endURL = `https://dash.evercam.io/v2/cameras/${this.exid}/recordings/snapshots/`
         if (this.status === "on-scheduled") {
           this.showCalendar = true
         }
@@ -525,7 +537,9 @@ import momentPlugin from '@fullcalendar/moment';
           api_id: this.api_id,
           api_key: this.api_key,
           from_date: from_date,
-          to_date: to_date
+          to_date: to_date,
+          admin_email: this.$root.user.email,
+          admin_fullname: `${this.$root.user.firstname} ${this.$root.user.lastname}`
         }
 
         this.$http.delete(`https://media.evercam.io/v2/cameras/${this.exid}/recordings/snapshots`, {params: params}).then(response => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-  <div class="add-modal" @click="showExModalEvent()"><button class="btn btn-secondary mb-1" type="button"><i class="fa fa-plus"></i> Add Extractor</button></div>
+  <div class="add-modal" @click="showExModalEvent()"><button class="btn btn-secondary mb-1" type="button"><i class="fa fa-plus"></i> Create Extraction</button></div>
   <div v-if="showExModal">
     <transition name="modal">
       <div class="modal modal-mask" style="display: block">
@@ -18,6 +18,7 @@
                       <option value="-1">Construction + Old Construction</option>
                       <option value="116066">Smart Cities</option>
                       <option value="7011">Garda Shared</option>
+                      <option v-bind:value="this.$root.user.user_id">{{ this.$root.user.firstname }} {{ this.$root.user.lastname }}</option>
                     </select>
                   </div>
                 </div>
@@ -516,7 +517,7 @@ import momentPlugin from '@fullcalendar/moment';
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(async () => {
           const response = await fetch(
-            `/v1/construction_cameras?search=${search}&account=${this.account}`
+            `/v1/extraction_cameras?search=${search}&account=${this.account}`
           );
 
           this.items = await response.json();

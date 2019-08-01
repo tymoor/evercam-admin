@@ -128,15 +128,27 @@ defmodule EvercamAdminWeb.CamerasController do
     end
   end
 
-  def construction_cameras(conn, params) do
+  def extraction_cameras(conn, params) do
     search = if params["search"] in ["", nil], do: "", else: params["search"]
     account = if params["account"] == "-1", do: [13959, 109148], else: [String.to_integer(params["account"])]
-    construction_cameras =
+    owned_cameras =
       Camera
       |> where([cam], cam.owner_id in ^account)
       |> where([cam], like(fragment("lower(?)", cam.name), ^("%#{String.downcase(search)}%")))
       |> preload(:owner)
       |> Evercam.Repo.all
+
+    shared_cameras =
+      Camera
+      |> join(:left, [u], cs in CameraShare)
+      |> where([cam, cs], cs.user_id in ^account)
+      |> where([cam, cs], cam.id == cs.camera_id)
+      |> where([cam], like(fragment("lower(?)", cam.name), ^("%#{String.downcase(search)}%")))
+      |> preload(:owner)
+      |> Evercam.Repo.all
+
+    extraction_cameras =
+      owned_cameras ++ shared_cameras      
       |> Enum.reduce([], fn camera, acc ->
         external_host = Util.deep_get(camera.config, ["external_host"], "")
         http_port = Util.deep_get(camera.config, ["external_http_port"], "")
@@ -153,7 +165,7 @@ defmodule EvercamAdminWeb.CamerasController do
         }
         acc ++ [cam]
       end)
-    json(conn, construction_cameras)
+    json(conn, extraction_cameras)
   end
 
   def onvif_cameras(conn, _params) do

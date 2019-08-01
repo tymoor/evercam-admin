@@ -12,6 +12,16 @@
             <div class="modal-body">
               <form>
                 <div class="form-group row">
+                  <label class="col-sm-4 col-form-label">Account</label>
+                  <div class="col-sm-8">
+                    <select name="Account" v-model="account" class="form-control">
+                      <option value="-1">Construction + Old Construction</option>
+                      <option value="116066">Smart Cities</option>
+                      <option value="7011">Garda Shared</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row">
                   <label class="col-sm-4 col-form-label">Construction Camera</label>
                   <div class="col-sm-8">
                     <cool-select
@@ -245,6 +255,7 @@ import momentPlugin from '@fullcalendar/moment';
         fromDateTime: "",
         toDateTime: "",
         interval: "600",
+        account: "-1",
         extraction: "cloud",
         schedule_type: "working_hours",
         schedule: JSON.stringify({
@@ -505,7 +516,7 @@ import momentPlugin from '@fullcalendar/moment';
         clearTimeout(this.timeoutId);
         this.timeoutId = setTimeout(async () => {
           const response = await fetch(
-            `/v1/construction_cameras?search=${search}`
+            `/v1/construction_cameras?search=${search}&account=${this.account}`
           );
 
           this.items = await response.json();

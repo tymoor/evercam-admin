@@ -130,9 +130,10 @@ defmodule EvercamAdminWeb.CamerasController do
 
   def construction_cameras(conn, params) do
     search = if params["search"] in ["", nil], do: "", else: params["search"]
+    account = if params["account"] == "-1", do: [13959, 109148], else: [String.to_integer(params["account"])]
     construction_cameras =
       Camera
-      |> where([cam], cam.owner_id in [13959, 109148])
+      |> where([cam], cam.owner_id in ^account)
       |> where([cam], like(fragment("lower(?)", cam.name), ^("%#{String.downcase(search)}%")))
       |> preload(:owner)
       |> Evercam.Repo.all

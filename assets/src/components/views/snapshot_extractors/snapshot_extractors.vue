@@ -161,11 +161,11 @@ export default {
     deleteExtraction(event, data) {
       if (window.confirm("Are you sure you want to delete this event?")) {
         if (data.status == 1 || data.status == 0) {
-          this.$http.delete("/v1/snapshot_extractors", {params: {extraction_id: data.id}}).then(response => {
+          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/apps/cloud-recording/extract`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
-              message: "Snapshot Extractor has been added (Cloud)!"
+              message: "Snapshot Extractor has been deleted (Cloud)!"
             });
 
             this.$events.fire('se-added', {})

@@ -558,7 +558,7 @@ import momentPlugin from '@fullcalendar/moment';
               interval: this.interval,
               requestor: this.$root.user.email
             }
-            this.$http.post("/v1/snapshot_extractors", {...params}).then(response => {
+            this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-recording/extract`, {...params}).then(response => {
 
               this.showSuccessMsg({
                 title: "Success",

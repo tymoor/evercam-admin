@@ -636,6 +636,7 @@ import momentPlugin from '@fullcalendar/moment';
         this.selectEventEmitter.emit("set-search", "");
         this.clearCalendar();
         this.showExModal = false;
+        this.account = "-1";
       },
 
       parseCalendar () {

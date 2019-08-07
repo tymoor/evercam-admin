@@ -556,7 +556,9 @@ import momentPlugin from '@fullcalendar/moment';
               to_date: this.toDateTime,
               schedule: this.schedule,
               interval: this.interval,
-              requestor: this.$root.user.email
+              requestor: this.$root.user.email,
+              api_key: this.selected.api_key,
+              api_id: this.selected.api_id
             }
             this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-recording/extract`, {...params}).then(response => {
 

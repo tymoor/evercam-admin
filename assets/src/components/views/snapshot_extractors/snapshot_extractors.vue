@@ -184,7 +184,6 @@ export default {
             });
 
             this.$events.fire('se-added', {})
-            this.clearForm()
           }, error => {
             this.showErrorMsg({
               title: "Error",

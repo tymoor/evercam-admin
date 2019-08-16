@@ -200,7 +200,7 @@
 
       fireFilter: _.debounce((self) => {
         self.$events.fire('user-filter-set', self.allParams)
-      }, 1000),
+      }, 500),
 
       resetUserFilter () {
         this.company_name = ""

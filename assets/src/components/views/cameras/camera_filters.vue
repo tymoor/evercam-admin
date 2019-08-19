@@ -51,6 +51,8 @@
 </style>
 
 <script>
+import _ from "lodash";
+
 export default {
   props: ["selectedCameras"],
   data () {
@@ -76,8 +78,15 @@ export default {
       this.allParams.camera_ip = this.camera_ip
       this.allParams.model = this.model
       this.allParams.vendor = this.vendor
-      this.$events.fire('camera-filter-set', this.allParams)
+
+      let that = this;
+      this.fireFilter(that);
     },
+
+    fireFilter: _.debounce((self) => {
+      self.$events.fire('camera-filter-set', self.allParams)
+    }, 500),
+
     deleteCameras () {
       let self = this
       if (Object.keys(self.selectedCameras).length === 0) {

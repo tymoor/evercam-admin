@@ -56,18 +56,15 @@ defmodule EvercamAdminWeb.VendorModelsController do
     end
 
     total_records = models.num_rows
-    d_length = String.to_integer(params["per_page"])
-    display_length = if d_length < 0, do: total_records, else: d_length
-    display_start = if String.to_integer(params["page"]) <= 1, do: 0, else: (String.to_integer(params["page"]) - 1) * display_length + 1
-    index_e = ((String.to_integer(params["page"]) - 1) * display_length) + display_length
-    index_end = if index_e > total_records, do: total_records - 1, else: index_e
-    last_page = Float.round(total_records / (display_length / 1))
+    per_page = String.to_integer(params["per_page"])
+    current_page = String.to_integer(params["page"])
+    {last_page, display_start, index_end} = Utils.pagination_info(total_records, per_page, current_page)
 
     data =
       case total_records <= 0 do
         true -> []
         _ ->
-          Enum.reduce(display_start..index_end, [], fn i, acc ->
+          Enum.reduce((display_start - 1)..(index_end - 1), [], fn i, acc ->
             model = Enum.at(roles, i)
             vm = %{
               vendor_exid: model[:vendor_exid],
@@ -105,18 +102,7 @@ defmodule EvercamAdminWeb.VendorModelsController do
           end)
       end
 
-    records = %{
-      data: (if total_records < 1, do: [], else: data),
-      total: total_records,
-      per_page: display_length,
-      from: display_start,
-      to: index_end,
-      current_page: String.to_integer(params["page"]),
-      last_page: last_page,
-      next_page_url: (if String.to_integer(params["page"]) == last_page, do: "", else: "/v1/vendor_models?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) + 1}"),
-      prev_page_url: (if String.to_integer(params["page"]) < 1, do: "", else: "/v1/vendor_models?sort=#{params["sort"]}&per_page=#{display_length}&page=#{String.to_integer(params["page"]) - 1}")
-    }
-    json(conn, records)
+    json(conn, Utils.paginator(display_start, index_end, params["sort"], total_records, per_page, current_page, data, "vendor_models", last_page))
   end
 
   def delete(conn, %{"exid" => model_exid} = _params) do

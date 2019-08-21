@@ -80,7 +80,7 @@ defmodule EvercamAdminWeb.SnapmailsController do
       [] -> ""
       cameras ->
         Enum.reduce(cameras, "", fn camera, acc ->
-          acc <> camera
+          acc <> camera <> " "
         end)
     end
   end
@@ -91,7 +91,7 @@ defmodule EvercamAdminWeb.SnapmailsController do
       [] -> ""
       cameras ->
         Enum.reduce(cameras, "", fn camera, acc ->
-          acc <> camera
+          acc <> camera <> " "
         end)
     end
   end

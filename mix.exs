@@ -46,7 +46,8 @@ defmodule EvercamAdmin.MixProject do
       {:calendar, "~> 1.0.0", override: true},
       {:httpoison, "~> 1.5"},
       {:sweet_xml, "~> 0.6.6"},
-      {:sshex, "~> 2.2"}
+      {:sshex, "~> 2.2"},
+      {:telemetry, "~> 0.4.0", override: true}
     ]
   end
 end

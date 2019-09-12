@@ -547,6 +547,10 @@ import momentPlugin from '@fullcalendar/moment';
           this.errors.push("Please at least select a Camera.")
         }
 
+        if (moment(this.fromDateTime).unix() > moment(this.toDateTime).unix()) {
+          this.errors.push("From Date cannot be greater than To Date.") 
+        }
+
         if (Object.keys(this.errors).length === 0) {
 
           if (this.extraction == "cloud") {

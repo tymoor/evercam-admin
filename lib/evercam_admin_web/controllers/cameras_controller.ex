@@ -72,7 +72,7 @@ defmodule EvercamAdminWeb.CamerasController do
             vendor_name: camera[:vendor_name],
             timezone: camera[:timezone],
             is_public: camera[:is_public],
-            is_online: camera[:is_online],
+            status: camera[:status],
             api_key: camera[:api_key],
             api_id: camera[:api_id],
             is_recording: camera[:is_recording],
@@ -456,7 +456,7 @@ defmodule EvercamAdminWeb.CamerasController do
   defp sorting("vendor_name", order), do: "order by vendor_name #{order}"
   defp sorting("timezone", order), do: "order by c.timezone #{order}"
   defp sorting("is_public", order), do: "order by c.is_public #{order}"
-  defp sorting("is_online", order), do: "order by c.is_online #{order}"
+  defp sorting("status", order), do: "order by c.is_online #{order}"
   defp sorting("cloud_recording_storage_duration", order), do: "order by cloud_recording_storage_duration #{order}"
   defp sorting("is_recording", order), do: "order by is_recording #{order}"
   defp sorting("last_polled_at", order), do: "order by c.last_polled_at #{order}"

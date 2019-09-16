@@ -8,6 +8,12 @@ export default [
     titleClass: "camera-checkbox"
   },
   {
+    name: "finished-slot",
+    title: "",
+    titleClass: "camera-finished",
+    dataClass: "center aligned"
+  },
+  {
     name: 'created_at',
     title: 'Created At',
     sortField: 'created_at',
@@ -128,12 +134,12 @@ export default [
     }
   },
   {
-    name: 'is_online',
-    title: 'Online',
-    sortField: 'is_online',
+    name: 'status',
+    title: 'Status',
+    sortField: 'status',
     togglable: true,
     formatter: (value) => {
-      return booleans(value)
+      return project_status(value)
     }
   },
   {
@@ -157,7 +163,7 @@ export default [
   }
 ]
 
-var paymentMethod, booleans;
+var paymentMethod, booleans, project_status;
 
 booleans = (name) => {
   switch (name) {
@@ -167,6 +173,17 @@ booleans = (name) => {
       return "<span class='text-danger'> False </span>"
     default:
       return ""
+  }
+}
+
+project_status = (status) => {
+  switch (status) {
+    case 'online':
+      return "<span class='text-success'> True </span>"
+    case 'offline':
+      return "<span class='text-danger'> False </span>"
+    case 'project_finished':
+      return "<span class='text-info'> Project Finished </span>"
   }
 }
 

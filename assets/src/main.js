@@ -19,6 +19,7 @@ import "popper.js"
 import "bootstrap/dist/js/bootstrap";
 import "@coreui/coreui/dist/js/coreui";
 
+
 Vue.config.productionTip = false
 
 import VueClipboard from 'vue-clipboard2'

@@ -191,7 +191,7 @@ export default {
     },
 
     onClick(data) {
-      if (window.confirm(`Are you sure, you want to finish the project for Camera: ${data.name}?`)) {
+      if (window.confirm(`Are you sure, you want to finish the project for Camera: ${data.name}?\nSnapmail and recording workers will stop for this camera and you will not able to see live view in dashboard as well.\nRecordings are available.`)) {
         axios({
           method: 'patch',
           url: `https://media.evercam.io/v2/cameras/${data.exid}?api_key=${data.api_key}&api_id=${data.api_id}`,

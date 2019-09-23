@@ -11,7 +11,6 @@ export default [
     name: "finished-slot",
     title: "",
     titleClass: "camera-finished",
-    dataClass: "center aligned"
   },
   {
     name: 'created_at',

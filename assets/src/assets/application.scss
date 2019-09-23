@@ -206,6 +206,10 @@ input {
   width: 35px;
 }
 
+.vuetable-body-wrapper .camera-report .camera-finished {
+  width: 35px;
+}
+
 .vuetable-body-wrapper .camera-report .vuetable-th-exid {
   width: 130px;
 }
@@ -279,8 +283,8 @@ input {
   width: 100px;
 }
 
-.vuetable-body-wrapper .camera-report .vuetable-th-is_online {
-  width: 100px;
+.vuetable-body-wrapper .camera-report .vuetable-th-status {
+  width: 110px;
 }
 
 .vuetable-body-wrapper .camera-report .vuetable-th-cloud_recording_storage_duration {

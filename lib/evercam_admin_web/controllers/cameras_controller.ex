@@ -283,6 +283,22 @@ defmodule EvercamAdminWeb.CamerasController do
     json(conn, records)
   end
 
+  def project_finished(conn, params) do
+    cameras = params["cameras"]
+    spawn fn ->
+      Enum.each(cameras, fn camera ->
+        api = "#{Application.get_env(:evercam_admin, :evercam_server)}/v2/cameras/#{camera["exid"]}?api_id=#{camera["api_id"]}&api_key=#{camera["api_key"]}"
+        params = %{
+          status: "project_finished"
+        }
+        headers = ["Accept": "Accept:application/json", "Content-Type": "application/json"]
+        json = Jason.encode!(params)
+        HTTPoison.patch(api, json, headers)
+      end)
+    end
+    json(conn, %{success: true})
+  end
+
   def delete_camera_from_project(conn, params) do
     camera_id = params["camera_id"]
     Camera

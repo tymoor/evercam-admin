@@ -8,11 +8,6 @@ export default [
     titleClass: "camera-checkbox"
   },
   {
-    name: "finished-slot",
-    title: "",
-    titleClass: "camera-finished",
-  },
-  {
     name: 'created_at',
     title: 'Created At',
     sortField: 'created_at',

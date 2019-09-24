@@ -291,9 +291,8 @@ defmodule EvercamAdminWeb.CamerasController do
         params = %{
           status: "project_finished"
         }
-        headers = ["Accept": "Accept:application/json", "Content-Type": "application/json"]
         json = Jason.encode!(params)
-        HTTPoison.patch(api, json, headers)
+        HTTPoison.patch(api, json, [])
       end)
     end
     json(conn, %{success: true})

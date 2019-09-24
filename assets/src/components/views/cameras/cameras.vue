@@ -4,9 +4,36 @@
       <camera-filters :selectedCameras="selectedCameras" />
     </div>
     <div>
-      <button class="btn btn-secondary mb-1 project_finished" type="button" @click="onFinishProject()"><i class="check square outline icon"></i> Finish</button>
+      <button class="btn btn-secondary mb-1 project_finished" type="button" @click="onFinishProject()"><i class="fa fa-check-circle"></i> Status</button>
       <add-to-project :selectedCameras="selectedCameras" />
       <camera-show-hide :vuetable-fields="vuetableFields" />
+    </div>
+
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
+    <div v-if="showModal">
+      <transition name="modal">
+       <div class="modal modal-mask" style="display: block;">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title">
+                Change Cameras Status
+              </h3>
+            </div>
+            <div class="modal-body">
+              <select class="form-control" v-model="cameraStatus">
+                <option value="online">Online</option>
+                <option value="project_finished">Project Finished</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" @click="changeCameraStatus()"> Change </button>
+              <button type="button" class="btn btn-primary" @click="closeChangeCameraStatus()"> Close </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </transition>
     </div>
 
     <v-horizontal-scroll />
@@ -80,6 +107,31 @@
   margin-right: 167px;
 }
 
+.modal-mask {
+   position: fixed;
+   z-index: 9998;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, .5);
+   display: table;
+   transition: opacity .3s ease;
+}
+
+.modal-dialog {
+  width: 15%;
+  max-width: 100%;
+  margin-top: 114.5px;
+}
+
+#api-wait {
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  z-index: 99999;
+}
+
 </style>
 
 <script>
@@ -110,7 +162,10 @@ export default {
       ],
       css: TableWrapper,
       moreParams: {},
-      fields: FieldsDef
+      fields: FieldsDef,
+      showModal: false,
+      cameraStatus: "project_finished",
+      ajaxWait: false
     }
   },
   watch: {
@@ -198,31 +253,45 @@ export default {
         });
       } else {
 
-        if (window.confirm(`Are you sure, you want to finish the project for these cameras?\nSnapmail and recording workers will stop for this camera and you will not able to see live view in dashboard as well.\nRecordings are available.`)) {
-          axios({
-            method: 'post',
-            url: "/v1/project_finished",
-            data: {
-              cameras: this.selectedCameras
-            }
-          }).then(response => {
-            if (response.status == 200) {
-              this.showInfoMsg({
-                title: "Info",
-                message: `Updated status to project finished for these Cameras. This will take a minute to affect.`
-              });
-              this.selectedCameras = []
-              this.$nextTick( () => this.$refs.vuetable.refresh())
-            } else {
-              this.showErrorMsg({
-                title: "Error",
-                message: "Something went wrong."
-              })
-            }
+        this.showModal = true
+      }
+    },
+
+    changeCameraStatus() {
+      this.ajaxWait = true
+      axios({
+        method: 'post',
+        url: "/v1/project_finished",
+        data: {
+          cameras: this.selectedCameras,
+          status: this.cameraStatus
+        }
+      }).then(response => {
+        if (response.status == 200) {
+          this.showInfoMsg({
+            title: "Info",
+            message: `Updated status to project finished for these Cameras. This will take a minute to affect.`
+          });
+          this.selectedCameras = []
+          this.$nextTick( () => this.$refs.vuetable.refresh())
+          this.ajaxWait = false
+          this.showModal = false
+          this.cameraStatus = "project_finished"
+        } else {
+          this.showErrorMsg({
+            title: "Error",
+            message: "Something went wrong."
           })
         }
+      })
+    },
 
-      }
+    closeChangeCameraStatus() {
+      this.showModal = false;
+      this.selectedCameras = []
+      this.ajaxWait = false
+      this.showModal = false
+      this.cameraStatus = "project_finished"
     }
   }
 }

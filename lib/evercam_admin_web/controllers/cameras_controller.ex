@@ -289,10 +289,11 @@ defmodule EvercamAdminWeb.CamerasController do
       Enum.each(cameras, fn camera ->
         api = "#{Application.get_env(:evercam_admin, :evercam_server)}/v2/cameras/#{camera["exid"]}?api_id=#{camera["api_id"]}&api_key=#{camera["api_key"]}"
         params = %{
-          status: "project_finished"
+          status: params["status"]
         }
         json = Jason.encode!(params)
-        HTTPoison.patch(api, json, [])
+        headers = ["Content-Type": "application/json"]
+        HTTPoison.patch(api, json, headers)
       end)
     end
     json(conn, %{success: true})

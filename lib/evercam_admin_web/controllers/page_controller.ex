@@ -46,7 +46,7 @@ defmodule EvercamAdminWeb.PageController do
   defp user?(_), do: true
 
   defp password(password, user) do
-    if Comeonin.Bcrypt.checkpw(password, user.password) do
+    if Bcrypt.verify_pass(password, user.password) do
       true
     else
       {:wrong, "Password"}

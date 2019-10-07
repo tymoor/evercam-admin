@@ -28,7 +28,8 @@ defmodule EvercamAdminWeb.VendorModelsController do
       infrared: params["infrared"],
       varifocal: params["varifocal"],
       sd_card: params["sd_card"],
-      upnp: params["upnp"]
+      upnp: params["upnp"],
+      auth_type: params["auth_type"]
     })
     |> Evercam.Repo.insert_or_update
     |> case do
@@ -96,7 +97,8 @@ defmodule EvercamAdminWeb.VendorModelsController do
               audio_io: model[:audio_io],
               shape: model[:shape],
               resolution: model[:resolution],
-              camera_count: model[:count]
+              camera_count: model[:count],
+              auth_type: model[:auth_type]
             }
             acc ++ [vm]
           end)

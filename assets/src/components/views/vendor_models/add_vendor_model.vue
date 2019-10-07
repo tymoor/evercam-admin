@@ -37,6 +37,15 @@
                       </div>
                     </div>
                     <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Auth Type:</label>
+                      <div class="col-sm-8">
+                        <select id="auth_type" name="auth_type" class="form-control" v-model="auth_type">
+                          <option value="basic">Basic</option>
+                          <option value="digest">Digest</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Name:</label>
                       <div class="col-sm-8">
                         <input type="text" class="form-control" placeholder="Name of the model" v-model="name">
@@ -277,7 +286,8 @@ import jQuery from 'jquery'
         infrared: false,
         varifocal: false,
         sd_card: false,
-        upnp: false
+        upnp: false,
+        auth_type: "basic"
       }
     },
 
@@ -317,7 +327,8 @@ import jQuery from 'jquery'
         this.infrared = vendorModel.infrared,
         this.varifocal = vendorModel.varifocal,
         this.sd_card = vendorModel.sd_card,
-        this.upnp = vendorModel.upnp
+        this.upnp = vendorModel.upnp,
+        this.auth_type = vendorModel.auth_type
       },
 
       fetchVendors () {
@@ -376,7 +387,8 @@ import jQuery from 'jquery'
             infrared: this.infrared,
             varifocal: this.varifocal,
             sd_card: this.sd_card,
-            upnp: this.upnp
+            upnp: this.upnp,
+            auth_type: this.auth_type
           }
           this.$http.post("/v1/vendor_models", {...params}).then(response => {
 
@@ -421,6 +433,7 @@ import jQuery from 'jquery'
         this.varifocal = false,
         this.sd_card = false,
         this.upnp = false,
+        this.auth_type = "basic",
         this.$events.fire("model-added", {})
       }
     }

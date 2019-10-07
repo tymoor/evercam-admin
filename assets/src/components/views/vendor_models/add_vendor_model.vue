@@ -30,27 +30,9 @@
                       <label class="col-sm-4 col-form-label">Channel:</label>
                       <div class="col-sm-8">
                         <select id="channel" name="channel" class="form-control" v-model="channel">
-                          <option value="101" selected="">101</option>
-                          <option value="201">201</option>
-                          <option value="301">301</option>
-                          <option value="401">401</option>
-                          <option value="501">501</option>
-                          <option value="601">601</option>
-                          <option value="701">701</option>
-                          <option value="801">801</option>
-                          <option value="901">901</option>
-                          <option value="1001">1001</option>
-                          <option value="1101">1101</option>
-                          <option value="1201">1201</option>
-                          <option value="1301">101</option>
-                          <option value="1401">201</option>
-                          <option value="1501">301</option>
-                          <option value="1601">401</option>
-                          <option value="1701">501</option>
-                          <option value="1801">601</option>
-                          <option value="1901">701</option>
-                          <option value="2001">801</option>
-                          <option value="13">13</option>
+                          <option v-for="n in 30" :value="(n*100)+1">
+                            {{n}}01
+                          </option>
                         </select>
                       </div>
                     </div>

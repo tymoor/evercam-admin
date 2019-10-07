@@ -72,7 +72,7 @@ defmodule EvercamAdminWeb.VendorModelsController do
               vendor_id: model[:vendor_id],
               vendor_name: model[:vendor_name],
               name: model[:name],
-              channel: model[:channe],
+              channel: model[:channel],
               jpg_url: model[:jpg_url],
               h264_url: model[:h264_url],
               mjpg_url: model[:mjpg_url],

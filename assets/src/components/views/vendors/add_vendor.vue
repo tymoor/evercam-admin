@@ -103,6 +103,7 @@ thumbnail-img {
 
 <script>
 import jQuery from 'jquery'
+import axios from 'axios'
   export default {
     props: ["vendorData"],
     data: () => {
@@ -164,26 +165,30 @@ import jQuery from 'jquery'
 
         if (Object.keys(this.errors).length === 0) {
 
-          let params = {
-            exid: this.exid,
-            name: this.name,
-            known_macs: this.known_macs,
-          }
-          this.$http.post("/v1/vendors", {...params}).then(response => {
+          axios({
+            method: 'post',
+            url: "/v1/vendors",
+            data: {
+              exid: this.exid,
+              name: this.name,
+              known_macs: this.known_macs
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Vendor has been added!"
+              });
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Vendor has been added!"
-            });
-
-            this.clearForm()
-            jQuery('#addModel').modal('hide')
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: error.body.message
-            });
-          });
+              this.clearForm()
+              jQuery('#addModel').modal('hide')
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: error.body.message
+              });
+            }
+          })
         }
       },
       clearForm () {

@@ -92,21 +92,31 @@
 
         if (Object.keys(this.errors).length === 0) {
           this.ajaxWait = true
-          this.$http.patch(`/v1/projects`, {...{project_exid: this.project_exid, project_id: this.project_id, project_name: this.project_name}}).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: `${this.project_name} has been updated as a Project.`
-            });
+          axios({
+            method: 'patch',
+            url: `/v1/projects`,
+            data: {
+              project_exid: this.project_exid, project_id: this.project_id, project_name: this.project_name
+            }
+          }).then(response => {
+            if (response.status == 200) {
 
-            this.$events.fire("hide-update-project", {
-              project_name: this.project_name,
-              project_id: this.project_id,
-            })
-            this.clearForm()
-          }, error => {
-            this.error.push(error.body.message)
-          });
+              this.showSuccessMsg({
+                title: "Success",
+                message: `${this.project_name} has been updated as a Project.`
+              });
+
+              this.$events.fire("hide-update-project", {
+                project_name: this.project_name,
+                project_id: this.project_id,
+              })
+              this.clearForm()
+
+            } else {
+              this.error.push(error.body.message)
+            }
+          })
         }
       },
 

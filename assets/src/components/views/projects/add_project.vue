@@ -176,22 +176,29 @@
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/projects`, {...{owner_id: this.selected.id, project_name: this.project_name}}).then(response => {
+          axios({
+            method: 'post',
+            url: `/v1/projects`,
+            data: {
+              owner_id: this.selected.id, project_name: this.project_name
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: `${this.company_name} has been added as a Project.`
+              });
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: `${this.company_name} has been added as a Project.`
-            });
-
-            this.$events.fire("project-added", {})
-            this.clearForm()
-            jQuery('#addModel').modal('hide')
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: error.body.message
-            });
-          });
+              this.$events.fire("project-added", {})
+              this.clearForm()
+              jQuery('#addModel').modal('hide')
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: error.body.message
+              })
+            }
+          })
         }
       },
       clearForm () {

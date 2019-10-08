@@ -73,6 +73,8 @@
 
 <script>
 import jQuery from 'jquery'
+import axios from "axios"
+
   export default {
     data: () => {
       return {
@@ -91,20 +93,25 @@ import jQuery from 'jquery'
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.patch(`/v1/admins/${this.email}`).then(response => {
-
-            this.showInfoMsg({
-              title: "Info",
-              message: `${this.email} has been added as Admin.`
-            });
-            this.$events.fire("admin-added", {})
-            jQuery('#addModel').modal('hide')
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: error.body.message
-            });
-          });
+          axios({
+            method: 'patch',
+            url: `/v1/admins/${this.email}`,
+            data: {}
+          }).then(response => {
+            if (response.status == 200) {
+              this.showInfoMsg({
+                title: "Info",
+                message: `${this.email} has been added as Admin.`
+              });
+              this.$events.fire("admin-added", {})
+              jQuery('#addModel').modal('hide')
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: error.body.message
+              })
+            }
+          })
         }
       },
       clearForm () {

@@ -81,6 +81,8 @@ import AddAdmin from "./add_admin";
 import AdminFilters from "./admin_filters";
 import AdminShowHide from "./admin_show_hide";
 
+import axios from "axios";
+
 export default {
   components: {
     AddAdmin, AdminFilters, AdminShowHide
@@ -160,17 +162,25 @@ export default {
       switch (action) {
         case "delete-item":
           if (window.confirm("Are you sure you want to delete this admin?")) {
-            this.$http.delete(`/v1/admins/${data.email}`).then(response => {
-              this.showSuccessMsg({
-                title: "Info",
-                message: "Admin has been deleted."
-              });
-            }, error => {
-              this.showErrorMsg({
-                title: "Error",
-                message: "Something went wrong."
-              });
-            });
+
+            axios({
+              method: 'delete',
+              url: `/v1/admins/${data.email}`,
+              data: {
+              }
+            }).then(response => {
+              if (response.status == 200) {
+                this.showSuccessMsg({
+                  title: "Info",
+                  message: "Admin has been deleted."
+                })
+              } else {
+                this.showErrorMsg({
+                  title: "Error",
+                  message: "Something went wrong."
+                })
+              }
+            })
             this.$nextTick( () => this.$refs.vuetable.refresh())
           }
         default:

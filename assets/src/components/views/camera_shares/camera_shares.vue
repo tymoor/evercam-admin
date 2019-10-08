@@ -145,35 +145,48 @@ export default {
     onShareDelete(data) {
       if (window.confirm("Are you sure you want to delete this share?")) {
         if (data.exid === "Deleted") {
-          this.$http.delete(`/v1/camera_shares/${data.share_id}`).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Camera Share has been deleted!"
-            });
+          axios({
+            method: 'delete',
+            url: `/v1/camera_shares/${data.share_id}`,
+            data: {
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Camera Share has been deleted!"
+              })
+              this.$nextTick( () => this.$refs.vuetable.refresh())
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              })
+            }
+          })
 
-            this.$nextTick( () => this.$refs.vuetable.refresh())
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-          });
         } else {
-          this.$http.delete(`https://media.evercam.io/v2/cameras/${data.exid}?api_id=${data.sharer_api_id}&api_key=${data.sharer_api_key}&email=${data.sharee_email}`).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Camera Share has been deleted!"
-            });
-
-            this.$nextTick( () => this.$refs.vuetable.refresh())
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-          });
+          axios({
+            method: 'delete',
+            url: `https://media.evercam.io/v2/cameras/${data.exid}?api_id=${data.sharer_api_id}&api_key=${data.sharer_api_key}&email=${data.sharee_email}`,
+            data: {
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Camera Share has been deleted!"
+              })
+              this.$nextTick( () => this.$refs.vuetable.refresh())
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              })
+            }
+          })
         }
       }
     }

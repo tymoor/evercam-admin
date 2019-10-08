@@ -200,13 +200,14 @@ import jQuery from 'jquery'
             this.ajaxWait = true;
             this.forCameras.forEach((camera) => {
 
-            axios({
-              method: 'post',
-              url: `${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`,
-              data: {
-              }
-            }).then(response => {
-              console.log(response)
+              axios({
+                method: 'post',
+                url: `${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`,
+                data: {
+                }
+              }).then(response => {
+                console.log(response)
+              })
             })
             this.$events.fire("close-dup-cameras", false)
             this.$router.go()

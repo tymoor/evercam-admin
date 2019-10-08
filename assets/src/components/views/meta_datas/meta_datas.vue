@@ -156,15 +156,23 @@ export default {
     },
 
     syncStatMetaData() {
-      this.$http.get(`/v1/sync_stat_metadata`).then(response => {
-        this.$nextTick(() => {
-          if (this.$refs.vuetable) {
-            this.$refs.vuetable.refresh();
-          }
-        });
-      }, error => {
-        console.log("something went wrong.")
-      });
+
+      axios({
+        method: 'get',
+        url: `/v1/sync_stat_metadata`,
+        data: {
+        }
+      }).then(response => {
+        if (response.status == 200) {
+          this.$nextTick(() => {
+            if (this.$refs.vuetable) {
+              this.$refs.vuetable.refresh();
+            }
+          })
+        } else {
+          console.log("something went wrong.")
+        }
+      })
     }
   }
 }

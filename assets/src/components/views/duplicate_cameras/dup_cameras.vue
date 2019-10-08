@@ -202,7 +202,7 @@ import axios from "axios";
             this.forCameras.forEach((camera) => {
 
               axios({
-                method: 'post',
+                method: 'delete',
                 url: `${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`,
                 data: {
                 }

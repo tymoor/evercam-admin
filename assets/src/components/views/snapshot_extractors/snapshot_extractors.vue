@@ -34,7 +34,7 @@
             <span v-if='props.rowData.status != 2 && props.rowData.status != 12' @click="deleteExtraction($event, props.rowData)"> <i class="trash alternate outline icon"></i> </span>
           </div>
           <div slot="extraction-status" slot-scope="props">
-            <span @click="onActionClick($event, props.rowData)" class="fa fa-hourglass-start status-pointer"></span>
+            <span v-if='props.rowData.status != 2 && props.rowData.status != 12' @click="onActionClick($event, props.rowData)" class="fa fa-hourglass-start status-pointer"></span>
           </div>
         </vuetable>
       </div>

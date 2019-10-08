@@ -99,6 +99,7 @@
 <script>
   import { CoolSelect, EventEmitter } from "vue-cool-select";
   import jQuery from 'jquery'
+  import axios from "axios";
 
   export default {
     props: ["selectedCameras"],

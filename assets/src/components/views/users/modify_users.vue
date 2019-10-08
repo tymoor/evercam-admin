@@ -69,6 +69,7 @@
 </style>
 
 <script>
+import axios from "axios";
   export default {
     props: ["usersModify"],
     data: () => {
@@ -88,11 +89,19 @@
         this.$events.fire("close-user-modify", false)
       },
       fetchCountries () {
-        this.$http.get("/v1/countries").then(response => {
-          this.countries = response.body.countries;
-        }, error => {
-          console.error(error);
-        });
+
+        axios({
+          method: 'get',
+          url: `/v1/countries`,
+          data: {
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.countries = response.data.countries;
+          } else {
+            console.error(error);
+          }
+        })
       },
       saveAndHideUserModify () {
         const params = {

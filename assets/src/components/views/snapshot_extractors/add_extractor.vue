@@ -229,6 +229,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import momentPlugin from '@fullcalendar/moment';
+import axios from "axios";
 
   export default {
     components: {

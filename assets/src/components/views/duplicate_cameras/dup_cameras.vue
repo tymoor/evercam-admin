@@ -115,6 +115,7 @@ modal-dialog-1 {
 
 <script>
 import jQuery from 'jquery'
+import axios from "axios";
 
   export default {
     props: ["duplicateCameras", "showModal"],

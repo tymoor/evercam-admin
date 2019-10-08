@@ -67,7 +67,8 @@
 import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import CameraShareFilters from "./camera_share_filters";
-import CameraShareShowHide from "./camera_shares_show_hide"
+import CameraShareShowHide from "./camera_shares_show_hide";
+import axios from "axios";
 
 export default {
   components: {

@@ -71,6 +71,7 @@ import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import MetaDataFilters from "./meta_datas_filters";
 import MetaDataShowHide from "./meta_datas_show_hide";
+import axios from "axios";
 
 export default {
   components: {

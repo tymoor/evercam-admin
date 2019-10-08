@@ -102,6 +102,7 @@
 import jQuery from 'jquery'
 import TableWrapper from "./TableWrapper.js";
 import CamerasListFieldDef from "./CamerasListFieldDef.js";
+import axios from "axios";
 
   export default {
     props: ["showCamerasList", "projectData"],

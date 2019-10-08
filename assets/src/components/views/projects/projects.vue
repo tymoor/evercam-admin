@@ -73,6 +73,7 @@
   import UpdateProject from "./update_project";
   import AddProject from "./add_project";
   import CamerasList from "./CamerasList";
+  import axios from "axios";
 
   export default {
     components: {

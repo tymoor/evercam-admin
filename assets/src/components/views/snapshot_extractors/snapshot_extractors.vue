@@ -178,35 +178,51 @@ export default {
     deleteExtraction(event, data) {
       if (window.confirm("Are you sure you want to delete this event?")) {
         if (data.status == 1 || data.status == 0) {
-          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/apps/cloud-extractions`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Snapshot Extractor has been deleted (Cloud)!"
-            });
+          axios({
+            method: 'delete',
+            url: `${this.$root.api_url}/v2/cameras/${data.exid}/apps/cloud-extractions`,
+            data: {
+              extraction_id: data.id, api_id: data.api_id, api_key: data.api_key
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Snapshot Extractor has been deleted (Cloud)!"
+              })
 
-            this.$events.fire('se-added', {})
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong!"
-            });
-          });
+              this.$events.fire('se-added', {})
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+            }
+          })
         } else {
-          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/nvr/snapshots/extract`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Snapshot Extractor has been deleted (Local)!"
-            });
+          axios({
+            method: 'delete',
+            url: `${this.$root.api_url}/v2/cameras/${data.exid}/nvr/snapshots/extract`,
+            data: {
+              extraction_id: data.id, api_id: data.api_id, api_key: data.api_key
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Snapshot Extractor has been deleted (Local)!"
+              })
 
-            this.$events.fire('se-added', {})
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong!"
-            });
-          });
+              this.$events.fire('se-added', {})
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+            }
+          })
         }
       }
     },

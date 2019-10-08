@@ -172,22 +172,29 @@
             this.invalidate_urls.push(`/${camera.exid}/invalidate/cache?api_id=${camera.api_id}&api_key=${camera.api_key}`);
             this.camera_exids.push(camera.exid);
           });
-          this.$http.post(`/v1/add_to_project`, {...{owner_id: this.$root.user.user_id, project_name: this.selected.name, project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")}}).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: `Camera(s) added to Project ${this.selected.name}.`
-            });
-
-            this.$events.fire("hide-add-to-project", {});
-            jQuery('#addModel').modal('hide');
-            this.clearForm();
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: error.body.message
-            });
-          });
+          axios({
+            method: 'post',
+            url: `/v1/add_to_project`,
+            data: {
+              owner_id: this.$root.user.user_id, project_name: this.selected.name, project_id: this.selected.id, camera_exids: this.camera_exids.join(","), invalidate_urls: this.invalidate_urls.join(",")
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: `Camera(s) added to Project ${this.selected.name}.`
+              })
+              this.$events.fire("hide-add-to-project", {});
+              jQuery('#addModel').modal('hide');
+              this.clearForm();
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: error.body.message
+              })
+            }
+          })
         }
       },
 

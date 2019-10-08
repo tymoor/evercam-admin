@@ -8,6 +8,10 @@
       <add-extractor />
     </div>
 
+    <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
+
+    <extraction-status :results="results" :showModal="extractionStatusModal" />
+
     <v-horizontal-scroll />
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -28,6 +32,9 @@
         >
           <div slot="delete-extraction" slot-scope="props">
             <span v-if='props.rowData.status != 2 && props.rowData.status != 12' @click="deleteExtraction($event, props.rowData)"> <i class="trash alternate outline icon"></i> </span>
+          </div>
+          <div slot="extraction-status" slot-scope="props">
+            <span @click="onActionClick($event, props.rowData)" class="fa fa-hourglass-start status-pointer"></span>
           </div>
         </vuetable>
       </div>
@@ -64,6 +71,9 @@
   margin-top: -2px;
 }
 
+.status-pointer {
+  cursor: pointer;
+}
 </style>
 
 <script>
@@ -71,11 +81,14 @@ import FieldsDef from "./FieldsDef.js";
 import TableWrapper from "./TableWrapper.js";
 import AddExtractor from "./add_extractor";
 import SEFilters from "./se_filters";
-import SEShowHide from "./se_show_hide"
+import SEShowHide from "./se_show_hide";
+import ExtractionStatus from "./extraction_status";
+
+import axios from "axios";
 
 export default {
   components: {
-    AddExtractor, SEFilters, SEShowHide
+    AddExtractor, SEFilters, SEShowHide, ExtractionStatus
   },
   data: () => {
     return {
@@ -92,7 +105,10 @@ export default {
       css: TableWrapper,
       moreParams: {},
       fields: FieldsDef,
-      vendorData: {}
+      vendorData: {},
+      ajaxWait: false,
+      results: null,
+      extractionStatusModal: false
     }
   },
   watch: {
@@ -122,6 +138,7 @@ export default {
     });
     this.$events.$on('se-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('se-added', e => this.onSEAdded(e))
+    this.$events.$on('close-extraction-status-modal', eventData => this.onCloseModal(eventData))
   },
 
   methods: {
@@ -161,7 +178,7 @@ export default {
     deleteExtraction(event, data) {
       if (window.confirm("Are you sure you want to delete this event?")) {
         if (data.status == 1 || data.status == 0) {
-          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/apps/cloud-recording/extract`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
+          this.$http.delete(`${this.$root.api_url}/v2/cameras/${data.exid}/apps/cloud-extractions`, {params: {extraction_id: data.id, api_id: data.api_id, api_key: data.api_key}}).then(response => {
 
             this.showSuccessMsg({
               title: "Success",
@@ -192,6 +209,34 @@ export default {
           });
         }
       }
+    },
+
+    onActionClick(e, extraction) {
+      this.ajaxWait = true
+      axios.get(`${this.$root.api_url}/v2/cameras/${extraction.exid}/apps/cloud-extractions`, {
+        params: {
+          api_key: extraction.api_key,
+          api_id: extraction.api_id,
+          extraction_id: extraction.id
+        }
+      }).then(response => {
+        this.ajaxWait = false;
+        if (Object.keys(response.data).length === 0) {
+          this.showErrorMsg({
+            title: "Error",
+            message: "Something went wrong!"
+          });
+        } else {
+          this.ajaxWait = false
+          this.results = {results: response.data, name: extraction.camera}
+          this.extractionStatusModal = true
+        }
+      })
+    },
+
+    onCloseModal(modal) {
+      this.results = null
+      this.extractionStatusModal = false
     }
   }
 }

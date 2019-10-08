@@ -564,7 +564,7 @@ import momentPlugin from '@fullcalendar/moment';
               api_key: this.selected.api_key,
               api_id: this.selected.api_id
             }
-            this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-recording/extract`, {...params}).then(response => {
+            this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-extractions`, {...params}).then(response => {
 
               this.showSuccessMsg({
                 title: "Success",

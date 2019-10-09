@@ -192,7 +192,7 @@
             } else {
               this.showErrorMsg({
                 title: "Error",
-                message: error.body.message
+                message: response.data.message
               })
             }
           })

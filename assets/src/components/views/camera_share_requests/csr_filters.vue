@@ -51,7 +51,7 @@
 </style>
 
 <script>
-import VueNotifications from "vue-notifications";
+import axios from "axios"
 
 export default {
   props: ["selectedCSR"],
@@ -94,20 +94,27 @@ export default {
           }
         });
         if (window.confirm("Are you sure you want to delete this event?")) {
-          this.$http.delete(`/v1/camera_share_requests`, {params: {ids: ids}}).then(response => {
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Camera Share Request(s) has been deleted!"
-            });
-
-            this.$events.fire("csr-deleted", {})
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-          });
+          axios({
+            method: 'delete',
+            url: `/v1/camera_share_requests`,
+            data: {
+              ids: ids
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Camera Share Request(s) has been deleted!"
+              })
+              this.$events.fire("csr-deleted", {})
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              })
+            }
+          })
         }
       }
     }

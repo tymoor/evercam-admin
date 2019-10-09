@@ -79,6 +79,7 @@ import TableWrapper from "./TableWrapper.js";
 import AddVendor from "./add_vendor";
 import VendorFilters from "./vendor_filters";
 import VendorShowHide from "./vendor_show_hide";
+import axios from 'axios'
 
 export default {
   components: {
@@ -159,17 +160,25 @@ export default {
     onActionClicked(action, data) {
       if (action == "delete-item") {
         if (window.confirm("Are you sure you want to delete this vendor?")) {
-          this.$http.delete(`/v1/vendors/${data.exid}`).then(response => {
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Vendor has been deleted."
-            });
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-          });
+
+          axios({
+            method: 'delete',
+            url: `/v1/vendors/${data.exid}`,
+            data: {
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Vendor has been deleted."
+              });
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              });
+            }
+          })
           this.$nextTick( () => this.$refs.vuetable.refresh())
         } 
       }

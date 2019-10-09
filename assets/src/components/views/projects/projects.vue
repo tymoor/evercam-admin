@@ -73,6 +73,7 @@
   import UpdateProject from "./update_project";
   import AddProject from "./add_project";
   import CamerasList from "./CamerasList";
+  import axios from "axios";
 
   export default {
     components: {
@@ -150,20 +151,29 @@
       deleteProject(e, data) {
         if (window.confirm("Are you sure to delete this project?\nIt will also remove reference of this project from cameras.")) {
           this.ajaxWait = true
-          this.$http.delete(`/v1/projects`, {params: {project_exid: data.exid}}).then(response => {
-            this.$nextTick( () => this.$refs.vuetable.refresh())
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Project has been deleted."
-            });
-            this.ajaxWait = false
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-            this.ajaxWait = false
-          });
+
+          axios({
+            method: 'delete',
+            url: `/v1/projects`,
+            data: {
+              project_exid: data.exid
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.$nextTick( () => this.$refs.vuetable.refresh())
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Project has been deleted."
+              });
+              this.ajaxWait = false
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              });
+              this.ajaxWait = false
+            }
+          })
         }
       },
 

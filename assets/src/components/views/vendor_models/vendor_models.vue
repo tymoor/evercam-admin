@@ -81,6 +81,7 @@ import TableWrapper from "./TableWrapper.js";
 import AddVendorModel from "./add_vendor_model";
 import VendorModelFilters from "./vendor_model_filters"
 import VendorModelShowHide from "./vendor_model_show_hide"
+import axios from "axios"
 
 export default {
   components: {
@@ -169,17 +170,25 @@ export default {
     onActionClicked(action, data) {
       if (action == "delete-item") {
         if (window.confirm("Are you sure you want to delete this model?")) {
-          this.$http.delete(`/v1/vendor_models/${data.exid}`).then(response => {
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Model has been deleted."
-            });
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-          });
+
+          axios({
+            method: 'delete',
+            url: `/v1/vendor_models/${data.exid}`,
+            data: {
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Model has been deleted."
+              });
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              });
+            }
+          })
           this.$nextTick( () => this.$refs.vuetable.refresh())
         }
       }

@@ -174,20 +174,29 @@ export default {
 
         if (emails != "") {
           console.log(emails)
-          this.$http.post("/v1/add_company_to_users", {...{emails: emails}}).then(response => {
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Users have been updated on Intercom!"
-            });
-            this.removeUpdateUsers(emails)
-            this.ajaxWait = false
-          }, error => {
-            this.ajaxWait = false
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong!"
-            });
-          });
+
+          axios({
+            method: 'post',
+            url: "/v1/add_company_to_users",
+            data: {
+              emails: emails
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Users have been updated on Intercom!"
+              });
+              this.removeUpdateUsers(emails)
+              this.ajaxWait = false
+            } else {
+              this.ajaxWait = false
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+            }
+          })
         }
       }
     },

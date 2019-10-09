@@ -580,7 +580,7 @@ import axios from "axios";
                 api_id: this.selected.api_id
               }
             }).then(response => {
-              if (response.status == 200) {
+              if (response.status == 201) {
                 this.showSuccessMsg({
                   title: "Success",
                   message: "Snapshot Extractor has been added (Cloud)!"
@@ -613,7 +613,7 @@ import axios from "axios";
                 api_id: this.selected.api_id
               }
             }).then(response => {
-              if (response.status == 200) {
+              if (response.status == 201) {
                 this.showSuccessMsg({
                   title: "Success",
                   message: "Snapshot Extractor has been added (Local)!"

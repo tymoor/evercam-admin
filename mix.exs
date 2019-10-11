@@ -19,7 +19,7 @@ defmodule EvercamAdmin.MixProject do
   def application do
     [
       mod: {EvercamAdmin.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :poison]
     ]
   end
 
@@ -48,7 +48,8 @@ defmodule EvercamAdmin.MixProject do
       {:httpoison, "~> 1.5"},
       {:sweet_xml, "~> 0.6.6"},
       {:sshex, "~> 2.2"},
-      {:telemetry, "~> 0.4.0", override: true}
+      {:telemetry, "~> 0.4.0", override: true},
+      {:poison, "~> 3.1.0", override: true}
     ]
   end
 end

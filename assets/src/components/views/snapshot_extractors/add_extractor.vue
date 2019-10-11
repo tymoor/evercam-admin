@@ -229,6 +229,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import momentPlugin from '@fullcalendar/moment';
+import axios from "axios";
 
   export default {
     components: {
@@ -564,49 +565,69 @@ import momentPlugin from '@fullcalendar/moment';
               api_key: this.selected.api_key,
               api_id: this.selected.api_id
             }
-            this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-recording/extract`, {...params}).then(response => {
 
-              this.showSuccessMsg({
-                title: "Success",
-                message: "Snapshot Extractor has been added (Cloud)!"
-              });
+            axios({
+              method: 'post',
+              url: `${this.$root.api_url}/v2/cameras/${this.selected.exid}/apps/cloud-extractions`,
+              data: {
+                camera_id: this.selected.camera_id,
+                from_date: this.fromDateTime,
+                to_date: this.toDateTime,
+                schedule: this.schedule,
+                interval: this.interval,
+                requestor: this.$root.user.email,
+                api_key: this.selected.api_key,
+                api_id: this.selected.api_id
+              }
+            }).then(response => {
+              if (response.status == 201) {
+                this.showSuccessMsg({
+                  title: "Success",
+                  message: "Snapshot Extractor has been added (Cloud)!"
+                });
 
-              this.$events.fire('se-added', {})
-              this.clearForm()
-            }, error => {
-              this.showErrorMsg({
-                title: "Error",
-                message: "Something went wrong!"
-              });
-            });
+                this.$events.fire('se-added', {})
+                this.clearForm()
+              } else {
+                this.showErrorMsg({
+                  title: "Error",
+                  message: "Something went wrong!"
+                })
+              }
+            })
           } else {
-            let params = {
-              start_date: moment(this.fromDateTime).format(),
-              end_date: moment(this.toDateTime).format(),
-              schedule: this.schedule,
-              interval: this.interval,
-              create_mp4: this.create_mp4,
-              inject_to_cr: this.inject_to_cr,
-              jpegs_to_dropbox: this.jpegs_to_dropbox,
-              requester: this.$root.user.email,
-              api_key: this.selected.api_key,
-              api_id: this.selected.api_id
-            }
-            this.$http.post(`${this.$root.api_url}/v2/cameras/${this.selected.exid}/nvr/snapshots/extract`, {...params}).then(response => {
 
-              this.showSuccessMsg({
-                title: "Success",
-                message: "Snapshot Extractor has been added (Local)!"
-              });
+            axios({
+              method: 'post',
+              url: `${this.$root.api_url}/v2/cameras/${this.selected.exid}/nvr/snapshots/extract`,
+              data: {
+                start_date: moment(this.fromDateTime).format(),
+                end_date: moment(this.toDateTime).format(),
+                schedule: this.schedule,
+                interval: this.interval,
+                create_mp4: this.create_mp4,
+                inject_to_cr: this.inject_to_cr,
+                jpegs_to_dropbox: this.jpegs_to_dropbox,
+                requester: this.$root.user.email,
+                api_key: this.selected.api_key,
+                api_id: this.selected.api_id
+              }
+            }).then(response => {
+              if (response.status == 201) {
+                this.showSuccessMsg({
+                  title: "Success",
+                  message: "Snapshot Extractor has been added (Local)!"
+                });
 
-              this.$events.fire('se-added', {})
-              this.clearForm()
-            }, error => {
-              this.showErrorMsg({
-                title: "Error",
-                message: "Something went wrong!"
-              });
-            });
+                this.$events.fire('se-added', {})
+                this.clearForm()
+              } else {
+                this.showErrorMsg({
+                  title: "Error",
+                  message: "Something went wrong!"
+                })
+              }
+            })
           }
         }
       },

@@ -92,6 +92,7 @@
 
 <script>
 import jQuery from 'jquery'
+import axios from "axios";
   export default {
     data: () => {
       return {
@@ -158,22 +159,29 @@ import jQuery from 'jquery'
 
         if (Object.keys(this.errors).length === 0) {
 
-          this.$http.post(`/v1/intercom_companies`, {...{linkedIn_URL: this.linkedIn_URL, company_exid: this.company_exid, company_name: this.company_name, add_users: true}}).then(response => {
+          axios({
+            method: 'post',
+            url: `/v1/intercom_companies`,
+            data: {
+              linkedIn_URL: this.linkedIn_URL, company_exid: this.company_exid, company_name: this.company_name, add_users: true
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: `${this.company_name} has been added as a Company.`
+              })
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: `${this.company_name} has been added as a Company.`
-            });
-
-            this.$events.fire("ic-added", {})
-            this.clearForm()
-            jQuery('#addModel').modal('hide')
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: error.body.message
-            });
-          });
+              this.$events.fire("ic-added", {})
+              this.clearForm()
+              jQuery('#addModel').modal('hide')
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: response.data.message
+              })
+            }
+          })
         }
       },
       clearForm () {

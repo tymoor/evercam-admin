@@ -155,20 +155,29 @@ export default {
     deleteCompany(e, data) {
       if (window.confirm("Are you sure to delete this company?\nIt will also remove reference of this company from it's users.")) {
         this.ajaxWait = true
-        this.$http.delete(`/v1/intercom_companies`, {params: {company_exid: data.exid}}).then(response => {
-          this.$nextTick( () => this.$refs.vuetable.refresh())
-          this.showSuccessMsg({
-            title: "Success",
-            message: "Company has been deleted."
-          });
-          this.ajaxWait = false
-        }, error => {
-          this.showErrorMsg({
-            title: "Error",
-            message: "Something went wrong."
-          });
-          this.ajaxWait = false
-        });
+
+        axios({
+          method: 'delete',
+          url: `/v1/intercom_companies`,
+          data: {
+            company_exid: data.exid
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.$nextTick( () => this.$refs.vuetable.refresh())
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Company has been deleted."
+            });
+            this.ajaxWait = false
+          } else {
+            this.showErrorMsg({
+              title: "Error",
+              message: "Something went wrong."
+            });
+            this.ajaxWait = false
+          }
+        })
       }
     },
 

@@ -30,27 +30,18 @@
                       <label class="col-sm-4 col-form-label">Channel:</label>
                       <div class="col-sm-8">
                         <select id="channel" name="channel" class="form-control" v-model="channel">
-                          <option value="101" selected="">101</option>
-                          <option value="201">201</option>
-                          <option value="301">301</option>
-                          <option value="401">401</option>
-                          <option value="501">501</option>
-                          <option value="601">601</option>
-                          <option value="701">701</option>
-                          <option value="801">801</option>
-                          <option value="901">901</option>
-                          <option value="1001">1001</option>
-                          <option value="1101">1101</option>
-                          <option value="1201">1201</option>
-                          <option value="1301">101</option>
-                          <option value="1401">201</option>
-                          <option value="1501">301</option>
-                          <option value="1601">401</option>
-                          <option value="1701">501</option>
-                          <option value="1801">601</option>
-                          <option value="1901">701</option>
-                          <option value="2001">801</option>
-                          <option value="13">13</option>
+                          <option v-for="n in 30" :value="(n*100)+1">
+                            {{n}}01
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label class="col-sm-4 col-form-label">Auth Type:</label>
+                      <div class="col-sm-8">
+                        <select id="auth_type" name="auth_type" class="form-control" v-model="auth_type">
+                          <option value="basic">Basic</option>
+                          <option value="digest">Digest</option>
                         </select>
                       </div>
                     </div>
@@ -266,6 +257,7 @@ thumbnail-img {
 
 <script>
 import jQuery from 'jquery'
+import axios from "axios"
   export default {
     props: ["vendorModelData"],
     data: () => {
@@ -295,7 +287,8 @@ import jQuery from 'jquery'
         infrared: false,
         varifocal: false,
         sd_card: false,
-        upnp: false
+        upnp: false,
+        auth_type: "basic"
       }
     },
 
@@ -335,7 +328,8 @@ import jQuery from 'jquery'
         this.infrared = vendorModel.infrared,
         this.varifocal = vendorModel.varifocal,
         this.sd_card = vendorModel.sd_card,
-        this.upnp = vendorModel.upnp
+        this.upnp = vendorModel.upnp,
+        this.auth_type = vendorModel.auth_type
       },
 
       fetchVendors () {
@@ -368,49 +362,53 @@ import jQuery from 'jquery'
         }
 
         if (Object.keys(this.errors).length === 0) {
-          console.log("hit me")
 
-          let params = {
-            model_exid: this.model_exid,
-            vendor: this.vendor,
-            channel: this.channel,
-            name: this.name,
-            jpg_url: this.jpg_url,
-            mjpg_url: this.mjpg_ur,
-            mpeg4_url: this.mpeg4_url,
-            mobile_url: this.mobile_url,
-            h264_url: this.h264_url,
-            lowres_url: this.lowres_url,
-            audio_url: this.audio_url,
-            username: this.username,
-            password: this.password,
-            resolution: this.resolution,
-            poe: this.poe,
-            wifi: this.wifi,
-            onvif: this.onvif,
-            pisa: this.pisa,
-            audio_io: this.audio_io,
-            ptz: this.ptz,
-            infrared: this.infrared,
-            varifocal: this.varifocal,
-            sd_card: this.sd_card,
-            upnp: this.upnp
-          }
-          this.$http.post("/v1/vendor_models", {...params}).then(response => {
+          axios({
+            method: 'post',
+            url: "/v1/vendor_models",
+            data: {
+              model_exid: this.model_exid,
+              vendor: this.vendor,
+              channel: this.channel,
+              name: this.name,
+              jpg_url: this.jpg_url,
+              mjpg_url: this.mjpg_ur,
+              mpeg4_url: this.mpeg4_url,
+              mobile_url: this.mobile_url,
+              h264_url: this.h264_url,
+              lowres_url: this.lowres_url,
+              audio_url: this.audio_url,
+              username: this.username,
+              password: this.password,
+              resolution: this.resolution,
+              poe: this.poe,
+              wifi: this.wifi,
+              onvif: this.onvif,
+              pisa: this.pisa,
+              audio_io: this.audio_io,
+              ptz: this.ptz,
+              infrared: this.infrared,
+              varifocal: this.varifocal,
+              sd_card: this.sd_card,
+              upnp: this.upnp,
+              auth_type: this.auth_type
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Model has been added!"
+              });
 
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Model has been added!"
-            });
-
-            jQuery('#addModel').modal('hide')
-            this.clearForm()
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong!"
-            });
-          });
+              jQuery('#addModel').modal('hide')
+              this.clearForm()
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              });
+            }
+          })
         }
       },
       clearForm () {
@@ -439,6 +437,7 @@ import jQuery from 'jquery'
         this.varifocal = false,
         this.sd_card = false,
         this.upnp = false,
+        this.auth_type = "basic",
         this.$events.fire("model-added", {})
       }
     }

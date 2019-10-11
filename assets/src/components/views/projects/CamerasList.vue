@@ -102,6 +102,7 @@
 import jQuery from 'jquery'
 import TableWrapper from "./TableWrapper.js";
 import CamerasListFieldDef from "./CamerasListFieldDef.js";
+import axios from "axios";
 
   export default {
     props: ["showCamerasList", "projectData"],
@@ -151,20 +152,29 @@ import CamerasListFieldDef from "./CamerasListFieldDef.js";
       deleteCameraFromProject(e, data) {
         if (window.confirm("Are you sure to delete camera from project?")) {
           this.ajaxWait = true
-          this.$http.delete(`/v1/camera_from_project`, {params: {camera_id: data.id}}).then(response => {
-            this.$nextTick( () => this.$refs.vuetable.refresh())
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Camera deletedfrom project."
-            });
-            this.ajaxWait = false
-          }, error => {
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong."
-            });
-            this.ajaxWait = false
-          });
+
+          axios({
+            method: 'delete',
+            url: `/v1/camera_from_project`,
+            data: {
+              camera_id: data.id
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.$nextTick( () => this.$refs.vuetable.refresh())
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Camera deleted from project."
+              });
+              this.ajaxWait = false
+            } else {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong."
+              });
+              this.ajaxWait = false
+            }
+          })
         }
       }
     }

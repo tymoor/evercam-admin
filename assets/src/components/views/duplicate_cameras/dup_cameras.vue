@@ -115,6 +115,7 @@ modal-dialog-1 {
 
 <script>
 import jQuery from 'jquery'
+import axios from "axios";
 
   export default {
     props: ["duplicateCameras", "showModal"],
@@ -154,30 +155,34 @@ import jQuery from 'jquery'
             sharee_cameras: this.forCameras
           }
 
-          this.$http.post(`/v1/camera_shares`, {...params}).then(response => {
+          axios({
+            method: 'post',
+            url: `/v1/camera_shares`,
+            data: {
+              super_camera: this.superCamera,
+              sharee_cameras: this.forCameras
+            }
+          }).then(response => {
+            if (response.status == 200) {
+              this.ajaxWait = false;
+              this.$events.fire("close-dup-cameras", false)
+              this.superCamera = ""
+              this.forCameras = []
 
-            this.ajaxWait = false;
-            this.$events.fire("close-dup-cameras", false)
-            this.superCamera = ""
-            this.forCameras = []
-
-            this.showSuccessMsg({
-              title: "Success",
-              message: "Cameras has been merged!"
-            });
-            this.$router.go()
-
-          }, error => {
-            this.ajaxWait = false;
-            this.$events.fire("close-dup-cameras", false)
-            this.showErrorMsg({
-              title: "Error",
-              message: "Something went wrong!"
-            });
-          });
-
-         console.log(sharee_emails)
-
+              this.showSuccessMsg({
+                title: "Success",
+                message: "Cameras has been merged!"
+              })
+              this.$router.go()
+            } else {
+              this.ajaxWait = false;
+              this.$events.fire("close-dup-cameras", false)
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+            }
+          })
          // do merge operations
         }
       },
@@ -195,12 +200,16 @@ import jQuery from 'jquery'
           if (window.confirm("Are you sure you want to delete this event?")) {
             this.ajaxWait = true;
             this.forCameras.forEach((camera) => {
-              this.$http.delete(`${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`).then(response => {
-                console.log(response.body)
-              }, error => {
-                console.log(error)
-              });
-            });
+
+              axios({
+                method: 'delete',
+                url: `${this.$root.api_url}/v2/cameras/${camera.exid}?api_id=${camera.api_id}&api_key=${camera.api_key}`,
+                data: {
+                }
+              }).then(response => {
+                console.log(response)
+              })
+            })
             this.$events.fire("close-dup-cameras", false)
             this.$router.go()
           }

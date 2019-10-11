@@ -533,27 +533,31 @@ import momentPlugin from '@fullcalendar/moment';
         let from_date = moment(start).unix() - 1;
         let to_date = moment(end).unix();
 
-        let params = {
-          api_id: this.api_id,
-          api_key: this.api_key,
-          from_date: from_date,
-          to_date: to_date,
-          admin_email: this.$root.user.email,
-          admin_fullname: `${this.$root.user.firstname} ${this.$root.user.lastname}`,
-          image_count: this.imageCount
-        }
-
-        this.$http.delete(`https://media.evercam.io/v2/cameras/${this.exid}/recordings/snapshots`, {params: params}).then(response => {
-          this.showSuccessMsg({
-            title: "Success",
-            message: "Deletion Process has been started."
-          });
-        }, error => {
-          this.showErrorMsg({
-            title: "Error",
-            message: "Something went wrong."
-          });
-        });
+        axios({
+          method: 'delete',
+          url: `https://media.evercam.io/v2/cameras/${this.exid}/recordings/snapshots`,
+          data: {
+            api_id: this.api_id,
+            api_key: this.api_key,
+            from_date: from_date,
+            to_date: to_date,
+            admin_email: this.$root.user.email,
+            admin_fullname: `${this.$root.user.firstname} ${this.$root.user.lastname}`,
+            image_count: this.imageCount
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Deletion Process has been started."
+            })
+          } else {
+            this.showErrorMsg({
+              title: "Error",
+              message: "Something went wrong."
+            })
+          }
+        })
       }
     }
   }

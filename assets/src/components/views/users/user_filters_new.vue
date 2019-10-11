@@ -136,6 +136,7 @@
 <script>
   import Modal from './modify_users';
   import _ from "lodash";
+  import axios from "axios";
 
   export default {
     components: {
@@ -242,20 +243,30 @@
           }
         });
 
-        this.$http.patch("/v1/update_multiple_users", {...params, ...{ids: ids}}).then(response => {
-          this.usersModify = false
-          this.$events.fire("user-modify-refresh", true)
-          this.showSuccessMsg({
-            title: "Success",
-            message: "Users have been updated!"
-          });
-        }, error => {
-          this.showErrorMsg({
-            title: "Error",
-            message: "Something went wrong!"
-          });
-          this.usersModify = true
-        });
+        axios({
+          method: 'patch',
+          url: `/v1/update_multiple_users`,
+          data: {
+            ids: ids,
+            country: params.country,
+            payment_type: params.payment_type
+          }
+        }).then(response => {
+          if (response.status == 200) {
+            this.usersModify = false
+            this.$events.fire("user-modify-refresh", true)
+            this.showSuccessMsg({
+              title: "Success",
+              message: "Users have been updated!"
+            })
+          } else {
+            this.showErrorMsg({
+              title: "Error",
+              message: "Something went wrong!"
+            });
+            this.usersModify = true
+          }
+        })
       },
       deleteUsers () {
         let self = this
@@ -268,11 +279,19 @@
           if (window.confirm("Are you sure you want to delete this event?")) {
             console.log(self.selectedUsers)
             self.selectedUsers.forEach((user) => {
-              this.$http.delete(`${this.$root.api_url}/v1/users/${user.email}?api_id=${user.api_id}&api_key=${user.api_key}`).then(response => {
-                console.log(response.body)
-              }, error => {
-                console.log(error)
-              });
+
+              axios({
+                method: 'delete',
+                url: `${this.$root.api_url}/v1/users/${user.email}?api_id=${user.api_id}&api_key=${user.api_key}`,
+                data: {
+                }
+              }).then(response => {
+                if (response.status == 200) {
+                  console.log(response.data)
+                } else {
+                  console.log(error)
+                }
+              })
             });
             this.$events.fire("user-modify-refresh", true)
           }

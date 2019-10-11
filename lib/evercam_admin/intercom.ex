@@ -30,7 +30,7 @@ defmodule Intercom do
     headers = ["Authorization": "Bearer #{@intercom_token}", "Accept": "Accept:application/json"]
     response = HTTPoison.get(url, headers) |> elem(1)
     case response.status_code do
-      200 -> {:ok, response.body |> Poison.decode!}
+      200 -> {:ok, response.body |> Jason.decode!}
       _ -> {:error, response}
     end
   end
@@ -46,7 +46,7 @@ defmodule Intercom do
     }
 
     json =
-      case Poison.encode(company_changeset) do
+      case Jason.encode(company_changeset) do
         {:ok, json} -> json
         _ -> nil
       end

@@ -109,13 +109,13 @@ defmodule EvercamAdminWeb.IntercomController do
 
         case Intercom.get_user(email) do
           {:ok, response} ->
-            intercom_user = response.body |> Poison.decode!
+            intercom_user = response.body |> Jason.decode!
             Logger.info "Adding company for email: #{email}, intercom_id: #{intercom_user["id"]}, company_id: #{company_id}"
             intercom_new_user = %{
               id: intercom_user["id"],
               companies: [%{company_id: company_id}]
             }
-            |> Poison.encode!
+            |> Jason.encode!
             HTTPoison.post(@intercom_url <> "/users", intercom_new_user, headers)
           _ -> ""
         end

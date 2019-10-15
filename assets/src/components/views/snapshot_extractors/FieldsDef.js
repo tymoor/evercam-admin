@@ -48,6 +48,7 @@ export default [
     name: 'status',
     title: 'Status',
     togglable: true,
+    sortField: 'status',
     formatter: (value) => {
       return statusCheck(value)
     }
@@ -102,6 +103,10 @@ statusCheck = (status) => {
     case 11:
       return "Processing"
     case 12:
+      return "Completed"
+    case 21:
+      return "Processing"
+    case 22:
       return "Completed"
     default:
       return ""

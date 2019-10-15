@@ -93,8 +93,14 @@ defmodule EvercamAdminWeb.SnapshotExtractorsController do
   defp sorting("from_date", order), do: "order by se.from_date #{order}"
   defp sorting("to_date", order), do: "order by se.to_date #{order}"
   defp sorting("interval", order), do: "order by se.interval #{order}"
-  defp sorting("status", order), do: "order by se.status #{order}"
-  defp sorting("nature", order), do: "order by se.status #{order}"
+  defp sorting("status", order) do
+    "order by case
+        when se.status in (2, 12, 22) then 1
+        when se.status in (1, 11, 21) then 2
+        else 3
+      end #{order}
+    "
+  end
   defp sorting("requestor", order), do: "order by se.requestor #{order}"
   defp sorting("created_at", order), do: "order by se.created_at #{order}"
 end

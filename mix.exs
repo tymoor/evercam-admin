@@ -49,7 +49,7 @@ defmodule EvercamAdmin.MixProject do
       {:sweet_xml, "~> 0.6.6"},
       {:sshex, "~> 2.2"},
       {:telemetry, "~> 0.4.0", override: true},
-      {:poison, "~> 3.1.0", override: true}
+      {:poison, "~> 4.0.1", override: true}
     ]
   end
 end

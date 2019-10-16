@@ -1,5 +1,11 @@
 export default [
   {
+    name: "clone-extraction",
+    title: "",
+    titleClass: "center aligned",
+    dataClass: "center aligned clone-extraction"
+  },
+  {
     name: "extraction-status",
     title: "",
     titleClass: "center aligned",

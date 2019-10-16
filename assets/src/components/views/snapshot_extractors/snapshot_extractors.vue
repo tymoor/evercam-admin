@@ -5,7 +5,7 @@
     </div>
     <div>
       <SE-show-hide :vuetable-fields="vuetableFields" />
-      <add-extractor />
+      <add-extractor :cloneData="cloneData"/>
     </div>
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -30,6 +30,9 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
+          <div slot="clone-extraction" slot-scope="props">
+            <span @click="onCloneExtraction($event, props.rowData)"> <i class="fa fa-clone"></i> </span>
+          </div>
           <div slot="delete-extraction" slot-scope="props">
             <span v-if='props.rowData.status != 2 && props.rowData.status != 12' @click="deleteExtraction($event, props.rowData)"> <i class="trash alternate outline icon"></i> </span>
           </div>
@@ -108,7 +111,9 @@ export default {
       vendorData: {},
       ajaxWait: false,
       results: null,
-      extractionStatusModal: false
+      extractionStatusModal: false,
+      cloneData: null,
+      showCloneModal: false
     }
   },
   watch: {
@@ -138,10 +143,15 @@ export default {
     });
     this.$events.$on('se-filter-set', eventData => this.onFilterSet(eventData))
     this.$events.$on('se-added', e => this.onSEAdded(e))
+    this.$events.$on('se-cloned', e => this.onSECloned(e))
     this.$events.$on('close-extraction-status-modal', eventData => this.onCloseModal(eventData))
   },
 
   methods: {
+
+    onSECloned(e) {
+      this.cloneData =  null;
+    },
 
     onSEAdded(e) {
       this.$nextTick( () => this.$refs.vuetable.refresh())
@@ -227,6 +237,10 @@ export default {
     onCloseModal(modal) {
       this.results = null
       this.extractionStatusModal = false
+    },
+
+    onCloneExtraction(e, data) {
+      this.cloneData = data
     }
   }
 }

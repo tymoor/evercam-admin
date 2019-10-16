@@ -23,10 +23,11 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label class="col-sm-4 col-form-label">Construction Camera</label>
+                  <label class="col-sm-4 col-form-label">Camera</label>
                   <div class="col-sm-8">
                     <cool-select
                       v-model="selected"
+                      ref="select"
                       :items="items"
                       :loading="loading"
                       item-text="name"
@@ -105,7 +106,7 @@
                   <div class="col-sm-8">
                     <select name="Interval" v-model="jpegs_to_dropbox" class="form-control">
                       <option value="true">True</option>
-                      <option value="false">false</option>
+                      <option value="false">False</option>
                     </select>
                   </div>
                 </div>
@@ -230,8 +231,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import momentPlugin from '@fullcalendar/moment';
 import axios from "axios";
+import _ from "lodash"
 
   export default {
+    props: ["cloneData"],
     components: {
       CoolSelect, DatePicker
     },
@@ -318,6 +321,15 @@ import axios from "axios";
         } else {
           this.showLocalOptions = false
         }
+      },
+
+      cloneData() {
+        if (this.cloneData != null) {
+          this.updateModalData(this.cloneData);
+          console.log("Clone data has been updated")
+        } else {
+          console.log("Clone data is null")
+        }
       }
     },
 
@@ -368,6 +380,10 @@ import axios from "axios";
         console.log("detosyred")
         this.destroyCalendar()
       }
+    },
+
+    mounted() {
+      this.$events.$on('cloud-extraction', eventData => this.cloneExtraction(eventData))
     },
 
     methods: {
@@ -587,6 +603,7 @@ import axios from "axios";
                 });
 
                 this.$events.fire('se-added', {})
+                this.$events.fire('se-cloned', {})
                 this.clearForm()
               } else {
                 this.showErrorMsg({
@@ -594,7 +611,12 @@ import axios from "axios";
                   message: "Something went wrong!"
                 })
               }
-            })
+            }).catch(error => {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+           })
           } else {
 
             axios({
@@ -627,7 +649,12 @@ import axios from "axios";
                   message: "Something went wrong!"
                 })
               }
-            })
+            }).catch(error => {
+              this.showErrorMsg({
+                title: "Error",
+                message: "Something went wrong!"
+              })
+           })
           }
         }
       },
@@ -662,6 +689,7 @@ import axios from "axios";
         this.clearCalendar();
         this.showExModal = false;
         this.account = "-1";
+        this.$events.fire('se-cloned', {})
       },
 
       parseCalendar () {
@@ -697,6 +725,76 @@ import axios from "axios";
           let removeEvent = this.calendar.getEventById( findingID )
           removeEvent.remove();
         });
+      },
+
+      updateModalData(data) {
+        console.log(data)
+        if (data.camera_owner == `${this.$root.user.user_id}`) {
+          this.account = `${this.$root.user.user_id}`
+        } else if (data.camera_owner == "116066" || data.camera_owner == "7011") {
+          this.account = `${data.camera_owner}`
+        } else if (data.camera_owner == "13959" || data.camera_owner == "109148") {
+          this.account = "-1"
+        } else {
+          this.account = `${this.$root.user.user_id}`
+        }
+
+        this.selected = {
+          camera_id: data.camera_id,
+          exid: data.exid,
+          api_key: data.api_key,
+          api_id: data.api_id 
+        }
+
+        this.$nextTick(() => {
+          this.$refs.select.setSearchData(data.camera)
+        })
+
+        this.fromDateTime = moment(new Date(data.from_date)).format('YYYY-MM-DD HH:mm:ss')
+        this.toDateTime = moment(new Date(data.to_date)).format('YYYY-MM-DD HH:mm:ss')
+
+        this.interval = `${data.interval}`
+
+        if (data.status < 5) {
+          this.extraction = "cloud"
+        } else {
+          this.extraction = "local"
+          this.jpegs_to_dropbox =  data.jpegs_to_dropbox
+          this.inject_to_cr = data.inject_to_cr
+          this.create_mp4 = data.create_mp4
+        }
+
+        let workingHours = {
+          "Monday": ["08:00-18:00"],
+          "Tuesday": ["08:00-18:00"],
+          "Wednesday": ["08:00-18:00"],
+          "Thursday": ["08:00-18:00"],
+          "Friday": ["08:00-18:00"],
+          "Saturday": [],
+          "Sunday": []
+        }
+        let fullSchedule = {
+          "Monday": ["00:00-23:59"],
+          "Tuesday": ["00:00-23:59"],
+          "Wednesday": ["00:00-23:59"],
+          "Thursday": ["00:00-23:59"],
+          "Friday": ["00:00-23:59"],
+          "Saturday": ["00:00-23:59"],
+          "Sunday": ["00:00-23:59"]
+        }
+
+        if (_.isEqual(JSON.parse(data.schedule), fullSchedule)) {
+          this.schedule_type = "continuous";
+          this.schedule = data.schedule
+        } else if(_.isEqual(JSON.parse(data.schedule), workingHours)) {
+          this.schedule_type = "working_hours"
+          this.schedule = data.schedule
+        } else {
+          this.schedule_type = "on_schedule"
+          this.schedule = data.schedule
+        }
+
+        this.showExModal = true
       }
     }
   }

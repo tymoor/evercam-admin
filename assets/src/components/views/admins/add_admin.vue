@@ -108,9 +108,14 @@ import axios from "axios"
             } else {
               this.showErrorMsg({
                 title: "Error",
-                message: response.data.message
+                message: "Something went wrong."
               })
             }
+          }).catch(err => {
+            this.showErrorMsg({
+              title: "Error",
+              message: err.response.data.message
+            })
           })
         }
       },

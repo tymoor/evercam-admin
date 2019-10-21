@@ -10,6 +10,11 @@ export default [
     togglable: true
   },
   {
+    name: "external_host",
+    title: "IP",
+    togglable: true
+  },
+  {
     name: 'model',
     title: 'Model',
     togglable: true

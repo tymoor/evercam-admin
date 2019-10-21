@@ -27,7 +27,8 @@ defmodule EvercamAdminWeb.NvrsController do
               exid: camera[:exid],
               name: camera[:name],
               api_key: camera[:api_key],
-              api_id: camera[:api_id]
+              api_id: camera[:api_id],
+              external_host: camera[:config]["external_host"]
             }
             acc ++ [c]
           end)

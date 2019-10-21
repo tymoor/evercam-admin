@@ -3,6 +3,9 @@
     <div class="overflow-forms">
       <construction-filters />
     </div>
+    <div>
+      <con-show-hide :vuetable-fields="vuetableFields" />
+    </div>
     <v-horizontal-scroll />
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -76,10 +79,11 @@ import Jquery from "jquery";
 import axios from "axios";
 import _ from "lodash";
 import ConstructionFilters from "./construction_filters";
+import ConShowHide from "./con_show_hide.vue";
 
 export default {
   components: {
-    ConstructionFilters
+    ConstructionFilters, ConShowHide
   },
   data: () => {
     return {

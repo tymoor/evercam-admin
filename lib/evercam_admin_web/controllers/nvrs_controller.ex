@@ -1,11 +1,13 @@
 defmodule EvercamAdminWeb.NvrsController do
   use EvercamAdminWeb, :controller
 
-  def index(conn, _params) do
+  def index(conn, params) do
+    owner_id = params["owner_id"]
+    append_query = if owner_id == "-1", do: "owner_id not in (109148, 13959)", else: "owner_id=#{owner_id}" 
     query = "select c.*, u.api_id, u.api_key
             from cameras as c
             inner JOIN users u on c.owner_id = u.id
-            where owner_id=13959 order by c.name asc"
+            where #{append_query} order by c.name asc"
 
     cameras = Ecto.Adapters.SQL.query!(Evercam.Repo, query, [])
     cols = Enum.map cameras.columns, &(String.to_atom(&1))

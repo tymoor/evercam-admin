@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="overflow-forms">
+      <construction-filters />
+    </div>
     <v-horizontal-scroll />
 
     <img v-if="ajaxWait" id="api-wait" src="./loading.gif" />
@@ -45,6 +48,7 @@
 }
 
 .overflow-forms {
+  overflow: hidden;
   width: 85%;
 }
 
@@ -71,8 +75,12 @@ import TableWrapper from "./TableWrapper.js";
 import Jquery from "jquery";
 import axios from "axios";
 import _ from "lodash";
+import ConstructionFilters from "./construction_filters";
 
 export default {
+  components: {
+    ConstructionFilters
+  },
   data: () => {
     return {
       loading: "",
@@ -114,11 +122,8 @@ export default {
       this.setScrollBar()
     });
     this.ajaxWait = true,
-    axios.get("/v1/nvrs").then(response => {
-      this.data = response.data.data;
-      this.ajaxWait = false;
-      this.filtered = response.data.data;
-    });
+    this.getNvrData("owner_id=13959")
+    this.$events.$on('construction-filter-set', eventData => this.onFilterSet(eventData))
   },
 
   updated() {
@@ -127,6 +132,21 @@ export default {
   },
 
   methods: {
+
+    onFilterSet(params) {
+      this.ajaxWait = true
+      window.stop()
+      this.clearAllData(this.data)
+      this.getNvrData(params.account)
+    },
+
+    getNvrData(params) {
+      axios.get(`/v1/nvrs?${params}`).then(response => {
+        this.data = response.data.data;
+        this.ajaxWait = false;
+        this.filtered = response.data.data;
+      });
+    },
 
     appendOtherData(data) {
 
@@ -155,6 +175,13 @@ export default {
             let bitrate = nvrData.stream_info.bitrate || ""
             let video_encoding = nvrData.stream_info.video_encoding || ""
             let hdd_info = nvrData.hdd_info || ""
+            let time_mode = nvrData.time_info.time_mode || ""
+            let local_time = nvrData.time_info.local_time || ""
+            let timezone = nvrData.time_info.timezone || ""
+            let addressing_format_type = nvrData.ntp_server_info.addressing_format_type || ""
+            let host_name = nvrData.ntp_server_info.host_name || ""
+            let port_no = nvrData.ntp_server_info.port_no || ""
+            let synchronize_interval = nvrData.ntp_server_info.synchronize_interval || ""
             let nvrStatus = (Object.keys(nvrData.device_info).length > 0) ? "Online" : "Offline"
             let hdd_name = ""
             let hdd_capacity = ""
@@ -173,21 +200,28 @@ export default {
 
             // list to update
             Jquery(allTableRows[i + 1]).find('.vuetable-td-model').text(`${model}`)
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-device').text(`${device}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-mac_address').text(`${mac_address}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-firmware').text(`${firmware_version}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-resolution').text(`${resolution}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-bitrate_type').text(`${bitrate_type}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-video_quality').text(`${video_quality}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-fps').text(`${frame_rate}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-max_bitrate').text(`${bitrate}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-encoding').text(`${video_encoding}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_name').html(`${hdd_name}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_capacity').html(`${hdd_capacity}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-hd_free_space').html(`${free_space}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-status').html(`${status}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-property').html(`${property}`) 
-            Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(`${nvrStatus}`) 
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-device').text(`${device}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-mac_address').text(`${mac_address}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-firmware').text(`${firmware_version}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-resolution').text(`${resolution}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-bitrate_type').text(`${bitrate_type}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-video_quality').text(`${video_quality}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-fps').text(`${frame_rate}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-max_bitrate').text(`${bitrate}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-encoding').text(`${video_encoding}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_name').html(`${hdd_name}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_capacity').html(`${hdd_capacity}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-hd_free_space').html(`${free_space}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-status').html(`${status}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-property').html(`${property}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(`${nvrStatus}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-time_mode').text(`${time_mode}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-local_time').text(`${local_time}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-timezone').text(`${timezone}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-addressing_format_type').text(`${addressing_format_type}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-host_name').text(`${host_name}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-port_no').text(`${port_no}`)
+            Jquery(allTableRows[i + 1]).find('.vuetable-td-synchronize_interval').text(`${synchronize_interval}`)
 
           }).catch(error => {
             Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(`Offline`) 
@@ -197,14 +231,39 @@ export default {
       }
     },
 
-    onFilterSet (filter) {
-      this.filtered = this.data.filter(d => {
-        for (let name in d) {
-          if (d[name].toLowerCase().indexOf(filter.search.toLowerCase()) > -1) {
-            return d;
-          }
-        }
-      })
+    clearAllData(data) {
+      NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+      HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
+
+      let allTableRows = document.getElementsByTagName("table")[0].rows;
+
+      if (allTableRows.length > 3) {
+        data.forEach((camera, i) => {
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-model').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-device').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-mac_address').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-firmware').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-resolution').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-bitrate_type').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-video_quality').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-fps').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-max_bitrate').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-encoding').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_name').html(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-hdd_capacity').html(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-hd_free_space').html(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-status').html(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-property').html(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-nvr_status').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-time_mode').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-local_time').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-timezone').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-addressing_format_type').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-host_name').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-port_no').text(``)
+          Jquery(allTableRows[i + 1]).find('.vuetable-td-synchronize_interval').text(``)
+        })
+      }
     },
 
     onPaginationData(paginationData) {

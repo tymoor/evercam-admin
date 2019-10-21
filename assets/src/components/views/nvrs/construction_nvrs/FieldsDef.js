@@ -89,5 +89,47 @@ export default [
     title: 'NVR Status',
     sortField: 'nvr_status',
     togglable: true
+  },
+  {
+    name: 'time_mode',
+    title: 'Time Mode',
+    sortField: 'time_mode',
+    togglable: true
+  },
+  {
+    name: 'local_time',
+    title: 'Local Time',
+    sortField: 'local_time',
+    togglable: true
+  },
+  {
+    name: 'timezone',
+    title: 'Timezone',
+    sortField: 'timezone',
+    togglable: true
+  },
+  {
+    name: 'addressing_format_type',
+    title: 'NTP Addressing Format Type',
+    sortField: 'addressing_format_type',
+    togglable: true
+  },
+  {
+    name: 'host_name',
+    title: 'NTP Host Name',
+    sortField: 'host_name',
+    togglable: true
+  },
+  {
+    name: 'port_no',
+    title: 'NTP Port No',
+    sortField: 'port_no',
+    togglable: true
+  },
+  {
+    name: 'synchronize_interval',
+    title: 'NTP Synchronize Interval',
+    sortField: 'synchronize_interval',
+    togglable: true
   }
 ]

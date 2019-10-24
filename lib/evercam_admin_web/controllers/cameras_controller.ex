@@ -84,7 +84,7 @@ defmodule EvercamAdminWeb.CamerasController do
             external_rtsp_port: camera[:config]["external_rtsp_port"],
             username: camera[:config]["auth"]["basic"]["username"],
             password: camera[:config]["auth"]["basic"]["password"],
-            camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:fullname]} <i class='fa fa-external-link'></i></a>",
+            camera_link: "<a href='https://dash.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank'>#{camera[:fullname]} <i class='fa fa-external-link'></i></a> | <a href='https://dash2.evercam.io/v2/cameras/#{camera[:exid]}?api_id=#{camera[:api_id]}&api_key=#{camera[:api_key]}' target='_blank' style='color: orange'><i class='fa fa-external-link'></i></a>",
             created_at: (if camera[:created_at], do: Calendar.Strftime.strftime!(camera[:created_at], "%A, %d %b %Y %l:%M %p"), else: ""),
             last_polled_at: (if camera[:last_polled_at], do: Calendar.Strftime.strftime!(camera[:last_polled_at], "%A, %d %b %Y %l:%M %p"), else: ""),
             last_online_at: (if camera[:last_online_at], do: Calendar.Strftime.strftime!(camera[:last_online_at], "%A, %d %b %Y %l:%M %p"), else: "")

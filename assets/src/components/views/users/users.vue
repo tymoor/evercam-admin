@@ -31,9 +31,18 @@
           @vuetable:loaded="hideLoader"
           :css="css.table"
         >
-        <div slot="checkbox-slot" slot-scope="props">
-          <input type="checkbox" :value="props.rowData" v-model="selectedUsers" />
-        </div>
+
+          <template slot="tableHeader">
+            <vuetable-row-header></vuetable-row-header>
+            <row-filter
+              :visible="filterRowVisible"
+              @vuetable:header-event="onRowHeaderEvent"
+            ></row-filter>
+          </template>
+
+          <div slot="checkbox-slot" slot-scope="props">
+            <input type="checkbox" :value="props.rowData" v-model="selectedUsers" />
+          </div>
         </vuetable>
       </div>
       <div class="vuetable-pagination ui bottom segment grid">
@@ -82,9 +91,13 @@ import TableWrapper from "./TableWrapper.js";
 import UserFiltersNew from "./user_filters_new";
 import UserShowHide from "./users_show_hide";
 
+import RowFilter from "./RowFilter.vue";
+import RowEventHandler from "./RowEventHandler.js";
+import VuetableRowHeader from "vuetable-2/src/components/VuetableRowHeader.vue";
+
 export default {
   components: {
-    UserFiltersNew, UserShowHide
+    UserFiltersNew, UserShowHide, RowFilter, VuetableRowHeader
   },
   data: () => {
     return {
@@ -102,7 +115,8 @@ export default {
       css: TableWrapper,
       moreParams: {},
       fields: FieldsDef,
-      showAdvanceFilters: false
+      showAdvanceFilters: false,
+      filterRowVisible: true
     }
   },
   watch: {
@@ -191,6 +205,20 @@ export default {
 
     hideLoader() {
       this.loading = "";
+    },
+
+    onRowHeaderEvent(type, payload) {
+      console.log("onRowHeaderEvent:", type, payload);
+      let newObj = payload.reduce(function(acc, curr) {
+
+        acc[curr.key] = curr.value;
+        return acc;
+      }, {})
+
+      this.moreParams = newObj;
+      console.log(this.moreParams);
+
+      this.$nextTick( () => this.$refs.vuetable.refresh())
     }
   }
 }

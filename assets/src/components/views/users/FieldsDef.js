@@ -26,8 +26,9 @@ export default [
   {
     name: 'name_link',
     title: 'Name',
-    sortField: 'name',
-    togglable: true
+    sortField: 'fullname',
+    togglable: true,
+    filterable: true
   },
   {
     name: 'social',
@@ -38,7 +39,8 @@ export default [
     name: 'email',
     title: 'Email',
     sortField: 'email',
-    togglable: true
+    togglable: true,
+    filterable: true
   },
   {
     name: 'api_id',
@@ -59,6 +61,7 @@ export default [
     title: "Company",
     sortField: 'company_name',
     togglable: true,
+    filterable: true
   },
   {
     name: 'total_cameras',

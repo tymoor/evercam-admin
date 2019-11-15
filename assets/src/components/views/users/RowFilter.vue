@@ -23,10 +23,17 @@
 
 <script>
 import VuetableColGutter from "vuetable-2/src/components/VuetableColGutter";
+import _ from "lodash";
 
 export default {
   components: {
     VuetableColGutter
+  },
+
+  data: () => {
+    return {
+      filters: []
+    }
   },
 
   props: {
@@ -55,16 +62,19 @@ export default {
     isFilterable: field => field.visible && field.filterable,
 
     setFilter(field) {
-      let filters = [];
 
       this.tableFields
         .filter(field => this.isFilterable(field) && field.filter !== "")
         .map(field =>
-          filters.push({ key: field.sortField, value: field.filter })
+          this.filters.push({ key: field.sortField, value: field.filter })
         );
+      let that = this;
+      this.fireFilter(that);
+    },
 
-      this.$emit(this.vuetable.eventPrefix + "header-event", "filter", filters);
-    }
+    fireFilter: _.debounce((self) => {
+      self.$emit(self.vuetable.eventPrefix + "header-event", "filter", self.filters);
+    }, 500),
   }
 };
 </script>

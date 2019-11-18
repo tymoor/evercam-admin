@@ -1,79 +1,19 @@
 <template>
   <div>
-    <div class="row user-filters_css">
+    <div class="row user-filters_css margin-left-1">
       <div class="col-sm-5 col-md-6">
         <form>
           <div class="form-row">
-            <div class="col-0.5 search-label">
-              <label class="control-label">Search :</label>
+<!--             <div class="col-0.5 label-top">
+              <label class="control-label">Remembrance Camera</label>
             </div>
-            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
-              <input type="text" v-model="company_name" @keyup="userFilterGlobal" class="form-control" placeholder="Company">
-            </div>
-            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
-              <input type="text" v-model="fullname" @keyup="userFilterGlobal" class="form-control" placeholder="Fullname">
-            </div>
-            <div class="col-2 col-xs-2 col-sm-2 col-md-2">
-              <input type="text" v-model="email" @keyup="userFilterGlobal" class="form-control" placeholder="Email">
-            </div>
-            <div class="col-0.5 label-top" v-show="showAdvanced">
-              <label class="control-label">Cameras Owned <</label>
-            </div>
-            <div class="col-1" v-show="showAdvanced">
-              <input type="text" v-on:keypress="isNumber($event)" v-model="cameras_owned" @keyup="userFilterGlobal" class="form-control" placeholder="Cameras Owned <">
-            </div>
-            <div class="col-0.5 label-top" v-show="showAdvanced">
-              <label class="control-label">Cameras Shared <</label>
-            </div>
-            <div class="col-1" v-show="showAdvanced">
-              <input type="text" v-on:keypress="isNumber($event)" v-model="camera_shares" @keyup="userFilterGlobal" class="form-control" placeholder="Cameras Shared <">
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0" v-show="showAdvanced">
-        <form class="form-inline">
-            <div class="form-group">
-              <label for="inputState">Type :&nbsp;</label>
-              <select id="inputState" v-model="payment_method" @change="userFilterGlobal" class="form-control">
-                <option value="" selected>All</option>
-                <option value="0">Stripe</option>
-                <option value="1">Custom</option>
-                <option value="2">Construction</option>
-                <option value="3">Gardai</option>
-                <option value="4">Smart Cities</option>
-                <option value="5">Unknown</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="inputState">Last Login :&nbsp;</label>
-              <select id="inputState" v-model="last_login_at_boolean" @change="userFilterGlobal" class="form-control">
-                <option value="true">True</option>
-                <option value="false">False</option>
-                <option value="whatever" selected="selected">Whatever</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="inputState">Remembrance Camera :&nbsp;</label>
+            <div class="col-1.5">
               <select id="inputState" v-model="include_erc" @change="userFilterGlobal" class="form-control">
                 <option value="true">True</option>
                 <option value="false">False</option>
                 <option value="whatever" selected="selected">Whatever</option>
               </select>
-            </div>
-        </form>
-      </div>
-    </div>
-    <div class="row user-filters_css margin-left-1" v-show="showAdvanced">
-      <div class="col-sm-5 col-md-6">
-        <form>
-          <div class="form-row">
-            <div class="col-0.5 label-top">
-              <label class="control-label">Total Cameras</label>
-            </div>
-            <div class="col-1">
-              <input type="text" v-on:keypress="isNumber($event)" v-model="total_cameras" @keyup="userFilterGlobal" class="form-control" placeholder="Total Cameras">
-            </div>
+            </div> -->
             <div class="col-0.5 label-top">
               <label class="control-label">Created Date Older than</label>
             </div>
@@ -86,15 +26,16 @@
             <div class="col-1">
               <input type="text" v-model="last_login_at_date" @keyup="userFilterGlobal" class="form-control" placeholder="MTs" v-on:keypress="isNumber($event)">
             </div>
+            <div class="col-1.5">
+              <button type="button" v-on:click="onModifyClick" class="btn btn-primary">Modify</button>
+            </div>
+            <div class="col-1.5">
+              <button type="button" @click="deleteUsers" class="btn btn-danger">Delete</button>
+            </div>
           </div>
         </form>
       </div>
-      <div class="col-sm-5 col-sm-offset-2 col-md-6 col-md-offset-0">
-        <button type="button" v-on:click="onModifyClick" class="btn btn-primary btn-right-margin">Modify</button>
-        <modal :usersModify="usersModify" />
-        <button type="button" @click="deleteUsers" class="btn btn-danger btn-right-margin">Delete</button>
-        <button type="button" @click="resetUserFilter" class="btn btn-primary btn-right-margin">Clear Filter</button>
-      </div>
+      <modal :usersModify="usersModify" />
     </div>
   </div>
 </template>

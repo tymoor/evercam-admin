@@ -5,12 +5,12 @@
     </div>
     <div>
       <user-show-hide :vuetable-fields="vuetableFields" />
-      <div class="advance-filters">
+<!--       <div class="advance-filters">
         <button class="btn btn-secondary mb-1" type="button" @click="toggleAdvanceFilters()">
           <i class="fa fa-filter"></i>
           Advanced
         </button>
-      </div>
+      </div> -->
     </div>
 
     <v-horizontal-scroll />
@@ -79,7 +79,7 @@
 
 .advance-filters {
   float: right;
-  margin-top: -26px;
+  margin-top: -4px;
   margin-right: 7px;
   position: relative;
 }
@@ -215,9 +215,7 @@ export default {
         return acc;
       }, {})
 
-      this.moreParams = newObj;
-      console.log(this.moreParams);
-
+      this.moreParams = newObj
       this.$nextTick( () => this.$refs.vuetable.refresh())
     }
   }

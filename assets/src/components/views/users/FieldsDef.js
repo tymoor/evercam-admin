@@ -14,7 +14,19 @@ export default [
     togglable: true,
     formatter: (value) => {
       return paymentMethod(value)
-    }
+    },
+    filterable: true,
+    filterType: "select",
+    filterName: "payment_method",
+    selectOptions: [
+      {value: "", name: "All", selected: "true"},
+      {value: "0", name: "Stripe"},
+      {value: "1", name: "Custom"},
+      {value: "2", name: "Construction"},
+      {value: "3", name: "Gardai"},
+      {value: "4", name: "Smart Cities"},
+      {value: "5", name: "Unknown"},
+    ]
   },
   {
     name: 'username',
@@ -28,7 +40,9 @@ export default [
     title: 'Name',
     sortField: 'fullname',
     togglable: true,
-    filterable: true
+    filterable: true,
+    filterType: "text",
+    filterName: "fullname"
   },
   {
     name: 'social',
@@ -40,7 +54,9 @@ export default [
     title: 'Email',
     sortField: 'email',
     togglable: true,
-    filterable: true
+    filterable: true,
+    filterType: "text",
+    filterName: "email"
   },
   {
     name: 'api_id',
@@ -61,25 +77,36 @@ export default [
     title: "Company",
     sortField: 'company_name',
     togglable: true,
-    filterable: true
+    filterable: true,
+    filterType: "text",
+    filterName: "company_name"
   },
   {
     name: 'total_cameras',
     title: 'Total Cams',
     sortField: 'total_cameras',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "text",
+    filterName: "total_cameras"
   },
   {
     name: 'cameras_owned',
     title: '# Owned',
     sortField: 'cameras_owned',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "text",
+    filterName: "cameras_owned"
   },
   {
     name: 'camera_shares',
     title: '# Shared',
     sortField: 'camera_shares',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "text",
+    filterName: "camera_shares"
   },
   {
     name: 'snapmail_count',
@@ -103,7 +130,15 @@ export default [
     name: 'last_login_at',
     title: 'Last Login At',
     sortField: 'last_login_at',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "select",
+    filterName: "last_login_at_boolean",
+    selectOptions: [
+      {value: "true", name: "True"},
+      {value: "false", name: "False"},
+      {value: "whatever", name: "Whatever", selected: "true"}
+    ]
   },
   {
     name: 'referral_url',

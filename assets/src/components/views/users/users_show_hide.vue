@@ -32,7 +32,7 @@
 <style scoped>
 .show-hide-modal {
   float: right;
-  margin-top: -26px;
+  margin-top: -34px;
   margin-right: 13px;
   position: relative;
 }

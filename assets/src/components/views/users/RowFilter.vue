@@ -1,7 +1,18 @@
 <template>
   <tr v-if="visible" class="vuetable-row-filter">
     <template v-for="(field, fieldIndex) in tableFields">
-      <template v-if="isFilterable(field)">
+      <template v-if="isFilterSelect(field)">
+        <th :key="fieldIndex"
+          :style="{width: field.width}"
+        >
+          <select class="form-control is-required" autocomplete="off" v-model="field.filter" @change="setFilter(field)">
+            <option v-for="option in field.selectOptions" v-bind:value="option.value" :selected="option.selected === true">
+              {{ option.name }}
+            </option>
+          </select>
+        </th>
+      </template>
+      <template v-else-if="isFilterText(field)">
         <th :key="fieldIndex"
           :style="{width: field.width}"
         >
@@ -23,10 +34,17 @@
 
 <script>
 import VuetableColGutter from "vuetable-2/src/components/VuetableColGutter";
+import _ from "lodash";
 
 export default {
   components: {
     VuetableColGutter
+  },
+
+  data: () => {
+    return {
+      filters: []
+    }
   },
 
   props: {
@@ -53,18 +71,23 @@ export default {
 
   methods: {
     isFilterable: field => field.visible && field.filterable,
+    isFilterText: field => field.visible && field.filterable && field.filterType == "text",
+    isFilterSelect: field => field.visible && field.filterable && field.filterType == "select",
 
     setFilter(field) {
-      let filters = [];
 
       this.tableFields
-        .filter(field => this.isFilterable(field) && field.filter !== "")
+        .filter(field => this.isFilterable(field))
         .map(field =>
-          filters.push({ key: field.sortField, value: field.filter })
+          this.filters.push({ key: field.filterName, value: field.filter })
         );
+      let that = this;
+      this.fireFilter(that);
+    },
 
-      this.$emit(this.vuetable.eventPrefix + "header-event", "filter", filters);
-    }
+    fireFilter: _.debounce((self) => {
+      self.$emit(self.vuetable.eventPrefix + "header-event", "filter", self.filters)
+    }, 500),
   }
 };
 </script>

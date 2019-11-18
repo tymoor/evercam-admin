@@ -155,6 +155,8 @@ defmodule EvercamAdminWeb.UsersController do
     cond do
       params["company_name"] != "" && params["company_name"] != nil ->
         "where lower(company_name) like lower('%#{params["company_name"]}%')"
+      params["country"] != "" && params["country"] != nil ->
+        "where lower(country) like lower('%#{params["country"]}%')"
       params["total_cameras"] != "" && params["total_cameras"] != nil -> "where (cameras_owned + camera_shares) = #{params["total_cameras"]}"
       params["cameras_owned"] != "" && params["camera_shares"] != "" && params["cameras_owned"] != nil && params["camera_shares"] != nil && params["include_erc"] != "" && params["include_erc"] == "true" ->
         "where cameras_owned < #{params["cameras_owned"]} and camera_shares < #{params["camera_shares"]} and share_id > 0"

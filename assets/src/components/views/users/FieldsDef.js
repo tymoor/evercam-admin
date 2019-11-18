@@ -118,7 +118,10 @@ export default [
     name: 'country',
     title: 'Country',
     sortField: 'country',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "text",
+    filterName: "country"
   },
   {
     name: 'created_at',

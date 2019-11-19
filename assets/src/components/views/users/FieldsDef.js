@@ -112,7 +112,10 @@ export default [
     name: 'snapmail_count',
     title: 'Snapmail Count',
     sortField: 'snapmail_count',
-    togglable: true
+    togglable: true,
+    filterable: true,
+    filterType: "text",
+    filterName: "snapmail_count"
   },
   {
     name: 'country',
@@ -134,14 +137,6 @@ export default [
     title: 'Last Login At',
     sortField: 'last_login_at',
     togglable: true,
-    filterable: true,
-    filterType: "select",
-    filterName: "last_login_at_boolean",
-    selectOptions: [
-      {value: "true", name: "True"},
-      {value: "false", name: "False"},
-      {value: "whatever", name: "Whatever", selected: "true"}
-    ]
   },
   {
     name: 'referral_url',

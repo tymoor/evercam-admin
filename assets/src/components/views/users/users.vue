@@ -5,14 +5,6 @@
     </div>
     <div>
       <user-show-hide :vuetable-fields="vuetableFields" />
-<!--       <div class="advance-filters">
-        <button class="btn btn-secondary mb-1" type="button" @click="toggleAdvanceFilters()">
-          <i class="fa fa-filter"></i>
-          Advanced
-        </button>
-      </div> -->
-    </div>
-
     <v-horizontal-scroll />
 
     <div id="table-wrapper" :class="['vuetable-wrapper ui basic segment', loading]">
@@ -41,7 +33,7 @@
           </template>
 
           <div slot="checkbox-slot" slot-scope="props">
-            <input type="checkbox" :value="props.rowData" v-model="selectedUsers" />
+            <input type="checkbox" :value="props.rowData" v-model="selectedUsers"/>
           </div>
         </vuetable>
       </div>
@@ -115,8 +107,7 @@ export default {
       css: TableWrapper,
       moreParams: {},
       fields: FieldsDef,
-      showAdvanceFilters: false,
-      filterRowVisible: true
+      showAdvanceFilters: false
     }
   },
   watch: {
@@ -220,4 +211,5 @@ export default {
     }
   }
 }
+
 </script>

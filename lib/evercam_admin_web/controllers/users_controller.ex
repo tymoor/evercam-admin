@@ -152,38 +152,18 @@ defmodule EvercamAdminWeb.UsersController do
   end
 
   defp decide_condition2(params) do
-    cond do
-      params["company_name"] != "" && params["company_name"] != nil ->
-        "where lower(company_name) like lower('%#{params["company_name"]}%')"
-      params["country"] != "" && params["country"] != nil ->
-        "where lower(country) like lower('%#{params["country"]}%')"
-      params["total_cameras"] != "" && params["total_cameras"] != nil -> "where (cameras_owned + camera_shares) = #{params["total_cameras"]}"
-      params["cameras_owned"] != "" && params["camera_shares"] != "" && params["cameras_owned"] != nil && params["camera_shares"] != nil && params["include_erc"] != "" && params["include_erc"] == "true" ->
-        "where cameras_owned < #{params["cameras_owned"]} and camera_shares < #{params["camera_shares"]} and share_id > 0"
-      params["cameras_owned"] != "" && params["camera_shares"] != "" && params["include_erc"] != "" && params["cameras_owned"] != nil && params["camera_shares"] != nil && params["include_erc"] != nil && params["include_erc"] == "false" ->
-        "where cameras_owned < #{params["cameras_owned"]} and camera_shares < #{params["camera_shares"]} and share_id = 0"
-      params["camera_shares"] != "" && params["include_erc"] != "" && params["camera_shares"] != nil && params["include_erc"] != nil && params["include_erc"] == "false" ->
-        "where camera_shares < #{params["camera_shares"]} and share_id = 0"
-      params["camera_shares"] != "" && params["include_erc"] != "" && params["camera_shares"] != nil && params["include_erc"] != nil && params["include_erc"] == "true" ->
-        "where camera_shares < #{params["camera_shares"]} and share_id > 0"
-      params["cameras_owned"] != "" && params["include_erc"] != "" && params["cameras_owned"] != nil && params["include_erc"] != nil && params["include_erc"] == "false" ->
-        "where cameras_owned < #{params["cameras_owned"]} and share_id = 0"
-      params["cameras_owned"] != "" && params["include_erc"] != "" && params["cameras_owned"] != nil && params["include_erc"] != nil && params["include_erc"] == "true" ->
-        "where cameras_owned < #{params["cameras_owned"]} and share_id > 0"
-      params["cameras_owned"] != "" && params["camera_shares"] != "" && params["cameras_owned"] != nil && params["camera_shares"] != nil ->
-        "where cameras_owned < #{params["cameras_owned"]} and camera_shares < #{params["camera_shares"]}"
-      params["camera_shares"] != "" && params["camera_shares"] != nil ->
-        "where camera_shares < #{params["camera_shares"]}"
-      params["cameras_owned"] != "" && params["cameras_owned"] != nil ->
-        "where cameras_owned < #{params["cameras_owned"]}"
-      params["include_erc"] != "" && params["include_erc"] == "false" ->
-        "where share_id = 0"
-      params["include_erc"] != "" && params["include_erc"] == "true" ->
-        "where share_id > 0"
-      params["include_erc"] != "" && params["include_erc"] == "whatever" ->
-        ""
-      true -> ""
-    end
+    Enum.reduce(params, "where 1=1", fn param, condition = _acc ->
+      {name, value} = param
+      cond do
+        name == "company_name" && value != "" -> condition <> " and lower(company_name) like lower('%#{value}%')"
+        name == "country" && value != "" -> condition <> " and lower(country) like lower('%#{value}%')"
+        name == "snapmail_count" && value != "" -> condition <> " and snapmail_count = #{params["snapmail_count"]}"
+        name == "total_cameras" && value != "" -> condition <> " and (cameras_owned + camera_shares) = #{params["total_cameras"]}"
+        name == "cameras_owned" && value != "" -> condition <> " and cameras_owned = #{params["cameras_owned"]}"
+        name == "camera_shares" && value != "" -> condition <> " and camera_shares = #{params["camera_shares"]} and share_id = 0"
+        true -> condition
+      end
+    end)
   end
 
   defp not_empty_params(name, param, conn) do
